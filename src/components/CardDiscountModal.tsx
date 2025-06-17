@@ -1,0 +1,366 @@
+import React, { useState, useEffect } from "react";
+import { FaCreditCard, FaClock, FaPercent, FaCheckCircle } from "react-icons/fa";
+import { BsLightningChargeFill } from "react-icons/bs";
+import FormattedPrice from "./FormattedPrice";
+import { StoreProduct } from "../../type";
+
+interface CardDiscountModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  products: StoreProduct[];
+  totalAmount: number;
+  onRequestSent: (requestId: string) => void;
+}
+
+interface AvailableCard {
+  id: string;
+  cardholderEmail: string;
+  bankName: string;
+  cardType: string;
+  categories: string[];
+  discountPercentage: number;
+  isOnline: boolean;
+  lastFourDigits: string;
+}
+
+interface PaymentRequest {
+  id: string;
+  orderId: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  productDetails: {
+    title: string;
+    category: string;
+    quantity: number;
+  }[];
+  orderAmount: number;
+  discountAmount: number;
+  commissionAmount: number;
+  totalPayable: number;
+  cardId: string;
+  cardholderEmail: string;
+  expiryTime: Date;
+  status: 'pending' | 'accepted' | 'expired' | 'completed';
+  createdAt: Date;
+  requestType: 'immediate' | 'scheduled';
+}
+
+const COMMISSION_RATE = 0.02;
+
+const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
+  isOpen,
+  onClose,
+  products,
+  totalAmount,
+  onRequestSent
+}) => {
+  const [step, setStep] = useState<'choose' | 'immediate' | 'scheduled' | 'confirm'>('choose');
+  const [requestType, setRequestType] = useState<'immediate' | 'scheduled' | null>(null);
+  const [availableCards, setAvailableCards] = useState<AvailableCard[]>([]);
+  const [selectedCard, setSelectedCard] = useState<AvailableCard | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [requestSent, setRequestSent] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadAvailableCards();
+    }
+  }, [isOpen, products]);
+
+  const loadAvailableCards = () => {
+    const allCardholders: AvailableCard[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('cardholder_')) {
+        const cardholderData = JSON.parse(localStorage.getItem(key) || '{}');
+        if (cardholderData.cards) {
+          cardholderData.cards.forEach((card: any) => {
+            const productCategories = [...new Set(products.map(p => p.category))];
+            const hasMatchingCategory = card.categories.some((cat: string) =>
+              productCategories.includes(cat)
+            );
+            if (hasMatchingCategory && card.isActive) {
+              allCardholders.push({
+                ...card,
+                cardholderEmail: key.replace('cardholder_', ''),
+                isOnline: cardholderData.isOnline || false
+              });
+            }
+          });
+        }
+      }
+    }
+    allCardholders.sort((a, b) => b.discountPercentage - a.discountPercentage);
+    setAvailableCards(allCardholders);
+  };
+
+  const calculateDiscountAmount = (card: AvailableCard) => {
+    const matchingProducts = products.filter(p => card.categories.includes(p.category));
+    const matchingAmount = matchingProducts.reduce((sum, p) => sum + (p.price * p.quantity), 0);
+    return (matchingAmount * card.discountPercentage) / 100;
+  };
+
+  const handleCardSelection = (card: AvailableCard) => {
+    setSelectedCard(card);
+    setStep('confirm');
+  };
+
+  const sendPaymentRequest = async (type: 'immediate' | 'scheduled') => {
+    if (!selectedCard) return;
+
+    setIsLoading(true);
+
+    const discountAmount = calculateDiscountAmount(selectedCard);
+    const commissionAmount = discountAmount * COMMISSION_RATE;
+    const totalPayable = totalAmount - discountAmount;
+
+    const request: PaymentRequest = {
+      id: `REQ_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      orderId: `ORD_${Date.now()}`,
+      userId: 'current_user_id',
+      userName: 'User Name',
+      userEmail: 'user@email.com',
+      productDetails: products.map(p => ({
+        title: p.title,
+        category: p.category,
+        quantity: p.quantity
+      })),
+      orderAmount: totalAmount,
+      discountAmount,
+      commissionAmount,
+      totalPayable,
+      cardId: selectedCard.id,
+      cardholderEmail: selectedCard.cardholderEmail,
+      expiryTime: new Date(Date.now() + (type === 'immediate' ? 5 * 60000 : 30 * 60000)),
+      status: 'pending',
+      createdAt: new Date(),
+      requestType: type
+    };
+
+    const existingRequests = JSON.parse(localStorage.getItem('paymentRequests') || '[]');
+    existingRequests.push(request);
+    localStorage.setItem('paymentRequests', JSON.stringify(existingRequests));
+
+    console.log('Email notification sent to cardholder:', selectedCard.cardholderEmail);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setRequestSent(true);
+      onRequestSent(request.id);
+      setTimeout(() => {
+        onClose();
+        setStep('choose');
+        setSelectedCard(null);
+        setRequestSent(false);
+        setRequestType(null);
+      }, 3000);
+    }, 1500);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="bg-amazon_blue text-white p-4 rounded-t-lg">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold flex items-center space-x-2">
+              <FaCreditCard />
+              <span>Card Discounts Available!</span>
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-white hover:text-gray-200 text-2xl"
+            >
+              ×
+            </button>
+          </div>
+          <p className="text-sm mt-2 text-gray-200">
+            Save money by using card-specific discounts through our peer-to-peer matching
+          </p>
+        </div>
+
+        <div className="p-6">
+          {step === 'choose' && (
+            <div>
+              <h3 className="text-lg font-semibold mb-4">How would you like to proceed?</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={() => { setStep('immediate'); setRequestType('immediate'); }}
+                  className="border-2 border-gray-200 rounded-lg p-6 hover:border-amazon_blue hover:shadow-lg transition-all text-left"
+                >
+                  <div className="flex items-center space-x-3 mb-3">
+                    <BsLightningChargeFill className="text-3xl text-yellow-500" />
+                    <h4 className="font-semibold text-lg">Find Available Card Now</h4>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Connect instantly with online cardholders for immediate payment processing
+                  </p>
+                  <p className="text-xs text-green-600 mt-2">
+                    ✓ Faster processing • ✓ Real-time matching
+                  </p>
+                </button>
+
+                <button
+                  onClick={() => { setStep('scheduled'); setRequestType('scheduled'); }}
+                  className="border-2 border-gray-200 rounded-lg p-6 hover:border-amazon_blue hover:shadow-lg transition-all text-left"
+                >
+                  <div className="flex items-center space-x-3 mb-3">
+                    <FaClock className="text-3xl text-blue-500" />
+                    <h4 className="font-semibold text-lg">Submit Request for Later</h4>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Your request will be sent to all active cardholders for flexible processing
+                  </p>
+                  <p className="text-xs text-blue-600 mt-2">
+                    ✓ More options • ✓ 30 min validity
+                  </p>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {(step === 'immediate' || step === 'scheduled') && !requestSent && (
+            <div>
+              <h3 className="text-lg font-semibold mb-4">
+                {step === 'immediate' ? 'Available Cards (Online Now)' : 'All Available Cards'}
+              </h3>
+
+              {availableCards.length > 0 ? (
+                <div className="space-y-3">
+                  {availableCards
+                    .filter(card => step === 'scheduled' || card.isOnline)
+                    .slice(0, 5)
+                    .map(card => {
+                      const discountAmount = calculateDiscountAmount(card);
+                      const savings = discountAmount - (discountAmount * COMMISSION_RATE);
+                      return (
+                        <div
+                          key={card.id}
+                          className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+                          onClick={() => handleCardSelection(card)}
+                        >
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center space-x-4">
+                              <FaCreditCard className="text-2xl text-gray-600" />
+                              <div>
+                                <p className="font-semibold">{card.bankName}</p>
+                                <p className="text-sm text-gray-600">
+                                  •••• {card.lastFourDigits} ({card.cardType})
+                                  {card.isOnline && (
+                                    <span className="ml-2 text-green-600">● Online</span>
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="text-right">
+                              <div className="flex items-center space-x-1 text-green-600 font-semibold">
+                                <FaPercent className="text-sm" />
+                                <span>{card.discountPercentage}% OFF</span>
+                              </div>
+                              <p className="text-sm text-gray-600">
+                                Save <FormattedPrice amount={savings} />
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="mt-3 flex items-center justify-between text-sm">
+                            <span className="text-gray-600">
+                              Categories: {card.categories.join(', ')}
+                            </span>
+                            <button className="text-amazon_blue hover:underline">
+                              Select →
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <FaCreditCard className="text-5xl text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-600">No cards available at the moment</p>
+                  <p className="text-sm text-gray-500 mt-2">Please try again later</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {step === 'confirm' && selectedCard && !requestSent && requestType && (
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Confirm Payment Request</h3>
+
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <p className="font-semibold mb-2">Selected Card:</p>
+                <div className="flex items-center space-x-3">
+                  <FaCreditCard className="text-xl text-gray-600" />
+                  <div>
+                    <p className="font-medium">{selectedCard.bankName}</p>
+                    <p className="text-sm text-gray-600">
+                      •••• {selectedCard.lastFourDigits} • {selectedCard.discountPercentage}% discount
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 mb-6">
+                <div className="flex justify-between">
+                  <span>Order Amount:</span>
+                  <span><FormattedPrice amount={totalAmount} /></span>
+                </div>
+                <div className="flex justify-between text-green-600">
+                  <span>Card Discount:</span>
+                  <span>-<FormattedPrice amount={calculateDiscountAmount(selectedCard)} /></span>
+                </div>
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Service Fee (2%):</span>
+                  <span><FormattedPrice amount={calculateDiscountAmount(selectedCard) * COMMISSION_RATE} /></span>
+                </div>
+                <hr />
+                <div className="flex justify-between font-semibold text-lg">
+                  <span>Your Total Savings:</span>
+                  <span className="text-green-600">
+                    <FormattedPrice amount={calculateDiscountAmount(selectedCard) - (calculateDiscountAmount(selectedCard) * COMMISSION_RATE)} />
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                <p className="text-sm text-yellow-800">
+                  <strong>How it works:</strong> You'll pay the full order amount to Amazon now.
+                  The cardholder will complete the payment using their card, and you'll receive
+                  the discount amount back after verification.
+                </p>
+              </div>
+
+              <button
+                onClick={() => sendPaymentRequest(requestType)}
+                disabled={isLoading}
+                className="w-full bg-amazon_yellow text-black py-3 rounded-md hover:bg-yellow-500 font-semibold disabled:opacity-50"
+              >
+                {isLoading ? 'Sending Request...' : 'Confirm & Send Request'}
+              </button>
+            </div>
+          )}
+
+          {requestSent && (
+            <div className="text-center py-8">
+              <FaCheckCircle className="text-6xl text-green-500 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Request Sent Successfully!</h3>
+              <p className="text-gray-600 mb-4">
+                The cardholder has been notified. You'll receive a confirmation once they accept.
+              </p>
+              <p className="text-sm text-gray-500">
+                This window will close automatically...
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CardDiscountModal;

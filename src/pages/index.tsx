@@ -1,9 +1,9 @@
-
 import HeaderBottom from "@/components/header/HeaderBottom";
 import Header from "@/components/header/Header"
 import Footer from "@/components/Footer";
 import Banner from "@/components/Banner";
 import Products from "@/components/Products";
+import CardholderToast from "@/components/CardholderToast";
 import {ProductProps} from "../../type"
 
 interface Props{
@@ -14,6 +14,7 @@ export default function Home({productData}: Props) {
   console.log(productData);
   return (
     <main>
+      <CardholderToast />
       
       <div className="max-w-screen-2xl mx-auto">
         <Banner/>

@@ -5,8 +5,9 @@ import FormattedPrice from "@/components/FormattedPrice";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { FaLock, FaChevronDown, FaEdit } from "react-icons/fa";
+import { FaLock, FaChevronDown, FaEdit, FaCreditCard, FaPercent } from "react-icons/fa";
 import { BsCheckCircleFill } from "react-icons/bs";
+import CardDiscountModal from "@/components/CardDiscountModal";
 
 interface DeliveryAddress {
   name: string;
@@ -35,13 +36,16 @@ const CheckoutPage = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [deliveryCharges, setDeliveryCharges] = useState(0);
   const [promotionDiscount, setPromotionDiscount] = useState(59);
+  const [cardDiscount, setCardDiscount] = useState(0);
   const [step, setStep] = useState(1); // 1: Address, 2: Payment, 3: Review
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
   const [promoCode, setPromoCode] = useState("");
+  const [showCardDiscountModal, setShowCardDiscountModal] = useState(false);
+  const [activeCardRequest, setActiveCardRequest] = useState<string | null>(null);
   
   const [deliveryAddress, setDeliveryAddress] = useState<DeliveryAddress>({
-    name: userInfo?.name ,
+    name: userInfo?.name || "",
     addressLine1: "",
     addressLine2: "",
     city: "New Delhi",
@@ -110,7 +114,27 @@ const CheckoutPage = () => {
     
     // Set delivery charges based on total amount
     setDeliveryCharges(amount > 500 ? 0 : 59);
+    
+    // Check for active card discount requests
+    checkActiveCardRequests();
   }, [productData, session, userInfo, router]);
+
+  const checkActiveCardRequests = () => {
+    const requests = localStorage.getItem('paymentRequests');
+    if (requests) {
+      const parsedRequests = JSON.parse(requests);
+      const userRequests = parsedRequests.filter((req: any) => 
+        req.userEmail === session?.user?.email && 
+        req.status === 'accepted'
+      );
+      
+      if (userRequests.length > 0) {
+        const latestRequest = userRequests[userRequests.length - 1];
+        setActiveCardRequest(latestRequest.id);
+        setCardDiscount(latestRequest.discountAmount);
+      }
+    }
+  };
 
   const handleAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,18 +150,26 @@ const CheckoutPage = () => {
   const handlePlaceOrder = async () => {
     if (!selectedPaymentMethod) return;
     
-    // Here you would integrate with your payment processing
-    // For now, we'll simulate the order placement
     try {
       const orderData = {
         items: productData,
         deliveryAddress,
         paymentMethod: selectedPaymentMethod,
-        totalAmount: totalAmount + deliveryCharges - promotionDiscount,
+        totalAmount: totalAmount + deliveryCharges - promotionDiscount - cardDiscount,
+        cardDiscountRequestId: activeCardRequest,
         userEmail: session?.user?.email
       };
       
       console.log('Order placed:', orderData);
+      
+      // Update card request status if used
+      if (activeCardRequest) {
+        const requests = JSON.parse(localStorage.getItem('paymentRequests') || '[]');
+        const updatedRequests = requests.map((req: any) => 
+          req.id === activeCardRequest ? { ...req, status: 'completed' } : req
+        );
+        localStorage.setItem('paymentRequests', JSON.stringify(updatedRequests));
+      }
       
       // Redirect to success page or order confirmation
       router.push('/order-success');
@@ -148,7 +180,6 @@ const CheckoutPage = () => {
   };
 
   const applyPromoCode = () => {
-    // Simulate promo code application
     if (promoCode.toLowerCase() === 'save10') {
       setPromotionDiscount(promotionDiscount + 100);
       setPromoCode("");
@@ -156,6 +187,11 @@ const CheckoutPage = () => {
     } else {
       alert('Invalid promo code');
     }
+  };
+
+  const handleCardDiscountRequest = (requestId: string) => {
+    setActiveCardRequest(requestId);
+    alert('Payment request sent! We\'ll notify you once a cardholder accepts.');
   };
 
   if (!session || !userInfo) {
@@ -195,6 +231,45 @@ const CheckoutPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
+            
+            {/* Card Discount Banner */}
+            {!activeCardRequest && (
+              <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4 border border-blue-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <FaCreditCard className="text-2xl text-blue-600" />
+                    <div>
+                      <p className="font-semibold text-gray-800">Looking for card discounts?</p>
+                      <p className="text-sm text-gray-600">Save up to 10% with card-specific offers!</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowCardDiscountModal(true)}
+                    className="bg-amazon_blue text-white px-4 py-2 rounded-md hover:bg-amazon_yellow hover:text-black transition-colors flex items-center space-x-2"
+                  >
+                    <FaPercent />
+                    <span>Check Offers</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Active Card Request Notification */}
+            {activeCardRequest && (
+              <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <BsCheckCircleFill className="text-2xl text-green-600" />
+                    <div>
+                      <p className="font-semibold text-gray-800">Card discount applied!</p>
+                      <p className="text-sm text-gray-600">
+                        You're saving <FormattedPrice amount={cardDiscount} /> on this order
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             
             {/* Delivery Address Section */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -465,10 +540,16 @@ const CheckoutPage = () => {
                     <span>-<FormattedPrice amount={promotionDiscount} /></span>
                   </div>
                 )}
+                {cardDiscount > 0 && (
+                  <div className="flex justify-between text-green-600">
+                    <span>Card Discount:</span>
+                    <span>-<FormattedPrice amount={cardDiscount} /></span>
+                  </div>
+                )}
                 <hr className="my-2" />
                 <div className="flex justify-between font-bold text-lg text-red-600">
                   <span>Order Total:</span>
-                  <span><FormattedPrice amount={totalAmount + deliveryCharges - promotionDiscount} /></span>
+                  <span><FormattedPrice amount={totalAmount + deliveryCharges - promotionDiscount - cardDiscount} /></span>
                 </div>
               </div>
 
@@ -479,10 +560,27 @@ const CheckoutPage = () => {
                   </p>
                 </div>
               )}
+
+              {cardDiscount > 0 && (
+                <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                  <p className="text-sm text-blue-700">
+                    💳 Card discount applied! You're saving <FormattedPrice amount={cardDiscount} />
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Card Discount Modal */}
+      <CardDiscountModal
+        isOpen={showCardDiscountModal}
+        onClose={() => setShowCardDiscountModal(false)}
+        products={productData}
+        totalAmount={totalAmount}
+        onRequestSent={handleCardDiscountRequest}
+      />
     </div>
   );
 };

@@ -4,11 +4,12 @@ import cartIcon from "../../images/cart.png";
 import { BiCaretDown } from "react-icons/bi";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SlLocationPin } from "react-icons/sl";
+import { FaCreditCard } from "react-icons/fa";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { stateProps } from "../../../type";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addUser } from "@/store/nextSlice";
 import { SessionProvider } from "next-auth/react";
 
@@ -16,18 +17,25 @@ const Header = () => {
     const { data: session } = useSession();
     const {productData,favoriteData, userInfo} = useSelector(
         (state:stateProps)=>state.next);
-        const dispatch = useDispatch()
-        console.log(userInfo)
+    const dispatch = useDispatch()
+    const [isCardholder, setIsCardholder] = useState(false);
+    
+    console.log(userInfo)
+    
     useEffect(()=>{
         if(session){
             dispatch(addUser({
                 name:session?.user?.name,
                 email:session?.user?.email,
                 image:session?.user?.image,
-
-
             })
         );
+        
+        // Check if user is a cardholder
+        const cardholderData = localStorage.getItem(`cardholder_${session?.user?.email}`);
+        if (cardholderData) {
+            setIsCardholder(true);
+        }
         }
     },[session]);
         
@@ -73,6 +81,21 @@ const Header = () => {
                     <BiCaretDown/></span></p>
             </div>
             }
+            
+            {/* Cardholder Dashboard Link */}
+            {isCardholder && (
+                <Link href="/cardholder-dashboard" className="text-xs text-gray-100 flex flex-col justify-center px-2 border
+                border-transparent hover:border-white cursor-pointer duration-300 h-[70%] relative">
+                    <div className="flex items-center gap-1">
+                        <FaCreditCard className="text-yellow-400" />
+                        <div>
+                            <p className="text-yellow-400">Cardholder</p>
+                            <p className="text-white font-bold">Dashboard</p>
+                        </div>
+                    </div>
+                </Link>
+            )}
+            
             {/* favorite */}
             <div className="text-xs text-gray-100 flex flex-col justify-center px-2 border
             border-transparent hover:border-white cursor-pointer duration-300 h-[70%] relative">

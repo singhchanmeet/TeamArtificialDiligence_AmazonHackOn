@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaCreditCard, FaClock, FaPercent, FaCheckCircle } from "react-icons/fa";
+import { FaCreditCard, FaClock, FaPercent, FaCheckCircle, FaArrowLeft } from "react-icons/fa";
 import { BsLightningChargeFill } from "react-icons/bs";
 import FormattedPrice from "./FormattedPrice";
 import { StoreProduct } from "../../type";
+import { useSession } from "next-auth/react";
 
 interface CardDiscountModalProps {
   isOpen: boolean;
@@ -23,30 +24,7 @@ interface AvailableCard {
   lastFourDigits: string;
 }
 
-interface PaymentRequest {
-  id: string;
-  orderId: string;
-  userId: string;
-  userName: string;
-  userEmail: string;
-  productDetails: {
-    title: string;
-    category: string;
-    quantity: number;
-  }[];
-  orderAmount: number;
-  discountAmount: number;
-  commissionAmount: number;
-  totalPayable: number;
-  cardId: string;
-  cardholderEmail: string;
-  expiryTime: Date;
-  status: 'pending' | 'accepted' | 'expired' | 'completed';
-  createdAt: Date;
-  requestType: 'immediate' | 'scheduled';
-}
-
-const COMMISSION_RATE = 0.02;
+const COMMISSION_RATE = 0.05; // 5% commission for cardholders
 
 const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
   isOpen,
@@ -55,47 +33,47 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
   totalAmount,
   onRequestSent
 }) => {
+  const { data: session } = useSession();
   const [step, setStep] = useState<'choose' | 'immediate' | 'scheduled' | 'confirm'>('choose');
-  const [requestType, setRequestType] = useState<'immediate' | 'scheduled' | null>(null);
   const [availableCards, setAvailableCards] = useState<AvailableCard[]>([]);
   const [selectedCard, setSelectedCard] = useState<AvailableCard | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
+  const [previousStep, setPreviousStep] = useState<'choose' | 'immediate' | 'scheduled' | null>(null);
 
   useEffect(() => {
     if (isOpen) {
-      loadAvailableCards();
+      loadAvailableCards(step === 'immediate' ? 'immediate' : 'scheduled');
     }
-  }, [isOpen, products]);
+  }, [isOpen, step, products]);
 
-  const loadAvailableCards = () => {
-    const allCardholders: AvailableCard[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith('cardholder_')) {
-        const cardholderData = JSON.parse(localStorage.getItem(key) || '{}');
-        if (cardholderData.cards) {
-          cardholderData.cards.forEach((card: any) => {
-            const productCategories = [...new Set(products.map(p => p.category))];
-            const hasMatchingCategory = card.categories.some((cat: string) =>
-              productCategories.includes(cat)
-            );
-            if (hasMatchingCategory && card.isActive) {
-              allCardholders.push({
-                ...card,
-                cardholderEmail: key.replace('cardholder_', ''),
-                isOnline: cardholderData.isOnline || false
-              });
-            }
-          });
-        }
+  const loadAvailableCards = async (requestType: 'immediate' | 'scheduled') => {
+    try {
+      const categories = [...new Set(products.map(p => p.category))];
+      
+      const response = await fetch('/api/cardholder/available-cards', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ categories, requestType })
+      });
+
+      if (response.ok) {
+        const cards = await response.json();
+        setAvailableCards(cards);
+      } else {
+        console.error('Failed to fetch available cards');
+        setAvailableCards([]);
       }
+    } catch (error) {
+      console.error('Error loading available cards:', error);
+      setAvailableCards([]);
     }
-    allCardholders.sort((a, b) => b.discountPercentage - a.discountPercentage);
-    setAvailableCards(allCardholders);
   };
 
   const calculateDiscountAmount = (card: AvailableCard) => {
+    // Calculate discount based on matching categories
     const matchingProducts = products.filter(p => card.categories.includes(p.category));
     const matchingAmount = matchingProducts.reduce((sum, p) => sum + (p.price * p.quantity), 0);
     return (matchingAmount * card.discountPercentage) / 100;
@@ -103,59 +81,66 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
 
   const handleCardSelection = (card: AvailableCard) => {
     setSelectedCard(card);
+    setPreviousStep(step as 'immediate' | 'scheduled');
     setStep('confirm');
   };
 
-  const sendPaymentRequest = async (type: 'immediate' | 'scheduled') => {
-    if (!selectedCard) return;
+  const handleBack = () => {
+    if (step === 'confirm' && previousStep) {
+      setStep(previousStep);
+      setSelectedCard(null);
+    } else if (step === 'immediate' || step === 'scheduled') {
+      setStep('choose');
+    }
+  };
 
+  const sendPaymentRequest = async (requestType: 'immediate' | 'scheduled') => {
+    if (!selectedCard || !session) return;
+    
     setIsLoading(true);
-
+    
     const discountAmount = calculateDiscountAmount(selectedCard);
     const commissionAmount = discountAmount * COMMISSION_RATE;
-    const totalPayable = totalAmount - discountAmount;
+    
+    try {
+      const response = await fetch('/api/payment-request/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          selectedCard,
+          products,
+          totalAmount,
+          discountAmount,
+          commissionAmount,
+          requestType
+        })
+      });
 
-    const request: PaymentRequest = {
-      id: `REQ_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      orderId: `ORD_${Date.now()}`,
-      userId: 'current_user_id',
-      userName: 'User Name',
-      userEmail: 'user@email.com',
-      productDetails: products.map(p => ({
-        title: p.title,
-        category: p.category,
-        quantity: p.quantity
-      })),
-      orderAmount: totalAmount,
-      discountAmount,
-      commissionAmount,
-      totalPayable,
-      cardId: selectedCard.id,
-      cardholderEmail: selectedCard.cardholderEmail,
-      expiryTime: new Date(Date.now() + (type === 'immediate' ? 5 * 60000 : 30 * 60000)),
-      status: 'pending',
-      createdAt: new Date(),
-      requestType: type
-    };
-
-    const existingRequests = JSON.parse(localStorage.getItem('paymentRequests') || '[]');
-    existingRequests.push(request);
-    localStorage.setItem('paymentRequests', JSON.stringify(existingRequests));
-
-    console.log('Email notification sent to cardholder:', selectedCard.cardholderEmail);
-
-    setTimeout(() => {
+      if (response.ok) {
+        const data = await response.json();
+        setRequestSent(true);
+        onRequestSent(data.paymentRequest.requestId);
+        
+        // Close modal after 10 seconds
+        setTimeout(() => {
+          onClose();
+          setStep('choose');
+          setSelectedCard(null);
+          setRequestSent(false);
+          setPreviousStep(null);
+        }, 10000);
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error sending payment request:', error);
+      alert('Failed to send payment request. Please try again.');
+    } finally {
       setIsLoading(false);
-      setRequestSent(true);
-      onRequestSent(request.id);
-      setTimeout(() => {
-        onClose();
-        setStep('choose');
-        setSelectedCard(null);
-        setRequestSent(false);
-        setRequestType(null);
-      }, 3000);
-    }, 1500);
+    }
   };
 
   if (!isOpen) return null;
@@ -163,12 +148,23 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        {/* Header */}
         <div className="bg-amazon_blue text-white p-4 rounded-t-lg">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold flex items-center space-x-2">
-              <FaCreditCard />
-              <span>Card Discounts Available!</span>
-            </h2>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              {(step === 'immediate' || step === 'scheduled' || step === 'confirm') && !requestSent && (
+                <button
+                  onClick={handleBack}
+                  className="text-white hover:text-gray-200 p-1 rounded hover:bg-white/20 transition-colors"
+                >
+                  <FaArrowLeft className="text-xl" />
+                </button>
+              )}
+              <h2 className="text-xl font-semibold flex items-center space-x-2">
+                <FaCreditCard />
+                <span>Card Discounts Available!</span>
+              </h2>
+            </div>
             <button
               onClick={onClose}
               className="text-white hover:text-gray-200 text-2xl"
@@ -176,18 +172,19 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
               ×
             </button>
           </div>
-          <p className="text-sm mt-2 text-gray-200">
+          <p className="text-sm mt-2 text-gray-200 ml-10">
             Save money by using card-specific discounts through our peer-to-peer matching
           </p>
         </div>
 
+        {/* Content */}
         <div className="p-6">
           {step === 'choose' && (
             <div>
               <h3 className="text-lg font-semibold mb-4">How would you like to proceed?</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button
-                  onClick={() => { setStep('immediate'); setRequestType('immediate'); }}
+                  onClick={() => setStep('immediate')}
                   className="border-2 border-gray-200 rounded-lg p-6 hover:border-amazon_blue hover:shadow-lg transition-all text-left"
                 >
                   <div className="flex items-center space-x-3 mb-3">
@@ -201,9 +198,9 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                     ✓ Faster processing • ✓ Real-time matching
                   </p>
                 </button>
-
+                
                 <button
-                  onClick={() => { setStep('scheduled'); setRequestType('scheduled'); }}
+                  onClick={() => setStep('scheduled')}
                   className="border-2 border-gray-200 rounded-lg p-6 hover:border-amazon_blue hover:shadow-lg transition-all text-left"
                 >
                   <div className="flex items-center space-x-3 mb-3">
@@ -226,7 +223,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
               <h3 className="text-lg font-semibold mb-4">
                 {step === 'immediate' ? 'Available Cards (Online Now)' : 'All Available Cards'}
               </h3>
-
+              
               {availableCards.length > 0 ? (
                 <div className="space-y-3">
                   {availableCards
@@ -235,6 +232,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                     .map(card => {
                       const discountAmount = calculateDiscountAmount(card);
                       const savings = discountAmount - (discountAmount * COMMISSION_RATE);
+                      
                       return (
                         <div
                           key={card.id}
@@ -254,7 +252,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                                 </p>
                               </div>
                             </div>
-
+                            
                             <div className="text-right">
                               <div className="flex items-center space-x-1 text-green-600 font-semibold">
                                 <FaPercent className="text-sm" />
@@ -265,7 +263,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                               </p>
                             </div>
                           </div>
-
+                          
                           <div className="mt-3 flex items-center justify-between text-sm">
                             <span className="text-gray-600">
                               Categories: {card.categories.join(', ')}
@@ -288,10 +286,10 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
             </div>
           )}
 
-          {step === 'confirm' && selectedCard && !requestSent && requestType && (
+          {step === 'confirm' && selectedCard && !requestSent && (
             <div>
               <h3 className="text-lg font-semibold mb-4">Confirm Payment Request</h3>
-
+              
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
                 <p className="font-semibold mb-2">Selected Card:</p>
                 <div className="flex items-center space-x-3">
@@ -304,7 +302,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                   </div>
                 </div>
               </div>
-
+              
               <div className="space-y-2 mb-6">
                 <div className="flex justify-between">
                   <span>Order Amount:</span>
@@ -326,17 +324,17 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                   </span>
                 </div>
               </div>
-
+              
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                 <p className="text-sm text-yellow-800">
-                  <strong>How it works:</strong> You'll pay the full order amount to Amazon now.
-                  The cardholder will complete the payment using their card, and you'll receive
+                  <strong>How it works:</strong> You'll pay the full order amount to Amazon now. 
+                  The cardholder will complete the payment using their card, and you'll receive 
                   the discount amount back after verification.
                 </p>
               </div>
-
+              
               <button
-                onClick={() => sendPaymentRequest(requestType)}
+                onClick={() => sendPaymentRequest(previousStep as 'immediate' | 'scheduled')}
                 disabled={isLoading}
                 className="w-full bg-amazon_yellow text-black py-3 rounded-md hover:bg-yellow-500 font-semibold disabled:opacity-50"
               >

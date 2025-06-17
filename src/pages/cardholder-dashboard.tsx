@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FaCreditCard, FaPlus, FaTrash, FaClock, FaCheckCircle } from "react-icons/fa";
 import { BsLightningChargeFill } from "react-icons/bs";
@@ -19,7 +19,8 @@ interface RegisteredCard {
 }
 
 interface PaymentRequest {
-  id: string;
+  _id: string;
+  requestId: string;
   orderId: string;
   userId: string;
   userName: string;
@@ -33,8 +34,21 @@ interface PaymentRequest {
   commissionAmount: number;
   totalPayable: number;
   expiryTime: Date;
-  status: 'pending' | 'accepted' | 'expired' | 'completed';
+  status: string;
   createdAt: Date;
+}
+
+interface CardholderData {
+  _id: string;
+  userId: string;
+  name: string;
+  cards: RegisteredCard[];
+  isOnline: boolean;
+  earnings: {
+    total: number;
+    thisMonth: number;
+    pending: number;
+  };
 }
 
 const CATEGORIES = [
@@ -45,18 +59,14 @@ const CATEGORIES = [
 ];
 
 const CardholderDashboard = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'cards' | 'requests' | 'earnings'>('cards');
   const [showAddCard, setShowAddCard] = useState(false);
-  const [registeredCards, setRegisteredCards] = useState<RegisteredCard[]>([]);
+  const [cardholderData, setCardholderData] = useState<CardholderData | null>(null);
   const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
   const [isOnline, setIsOnline] = useState(true);
-  const [earnings, setEarnings] = useState({
-    total: 0,
-    thisMonth: 0,
-    pending: 0
-  });
+  const [loading, setLoading] = useState(true);
 
   // New card form state
   const [newCard, setNewCard] = useState({
@@ -69,53 +79,55 @@ const CardholderDashboard = () => {
   });
 
   useEffect(() => {
+    if (status === "loading") return;
+    
     if (!session) {
-      router.push('/signin');
+      signIn();
       return;
     }
-    // Load saved data from localStorage
-    loadCardholderData();
-    // Start polling for new requests
-    const interval = setInterval(loadPaymentRequests, 5000);
-    return () => clearInterval(interval);
-  }, [session]);
+    
+    fetchCardholderData();
+  }, [session, status]);
 
-  const loadCardholderData = () => {
-    const savedCards = localStorage.getItem('registeredCards');
-    if (savedCards) {
-      setRegisteredCards(JSON.parse(savedCards));
+  useEffect(() => {
+    if (cardholderData) {
+      // Start polling for new requests every 5 seconds
+      const interval = setInterval(fetchPaymentRequests, 5000);
+      return () => clearInterval(interval);
     }
-    const savedEarnings = localStorage.getItem('cardholderEarnings');
-    if (savedEarnings) {
-      setEarnings(JSON.parse(savedEarnings));
-    }
-  };
+  }, [cardholderData]);
 
-  const loadPaymentRequests = () => {
-    const allRequests = localStorage.getItem('paymentRequests');
-    if (allRequests) {
-      const requests = JSON.parse(allRequests) as PaymentRequest[];
-      // Filter requests for this cardholder's cards
-      const myCardIds = registeredCards.map(card => card.id);
-      const myRequests = requests.filter(req => 
-        req.status === 'pending' && 
-        new Date(req.expiryTime) > new Date()
-      );
-      setPaymentRequests(myRequests);
+  const fetchCardholderData = async () => {
+    try {
+      const response = await fetch('/api/cardholder/profile');
+      if (response.ok) {
+        const data = await response.json();
+        setCardholderData(data);
+        setIsOnline(data.isOnline);
+      } else if (response.status === 404) {
+        // User is not a cardholder yet
+        setCardholderData(null);
+      }
+    } catch (error) {
+      console.error('Error fetching cardholder data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const simulateTokenization = (cardNumber: string): string => {
-    // Simulate RBI compliant tokenization
-    const token = `TKN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    console.log('Card tokenized:', { 
-      original: cardNumber.replace(/\d(?=\d{4})/g, '*'),
-      token 
-    });
-    return token;
+  const fetchPaymentRequests = async () => {
+    try {
+      const response = await fetch('/api/payment-request/list?role=cardholder');
+      if (response.ok) {
+        const data = await response.json();
+        setPaymentRequests(data);
+      }
+    } catch (error) {
+      console.error('Error fetching payment requests:', error);
+    }
   };
 
-  const handleAddCard = (e: React.FormEvent) => {
+  const handleAddCard = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (newCard.cardNumber.length !== 16) {
@@ -123,49 +135,84 @@ const CardholderDashboard = () => {
       return;
     }
 
-    const tokenId = simulateTokenization(newCard.cardNumber);
-    const cardData: RegisteredCard = {
-      id: `CARD_${Date.now()}`,
-      lastFourDigits: newCard.cardNumber.slice(-4),
-      cardType: newCard.cardType,
-      bankName: newCard.bankName,
-      categories: newCard.categories,
-      discountPercentage: newCard.discountPercentage,
-      monthlyLimit: newCard.monthlyLimit,
-      currentMonthSpent: 0,
-      tokenId,
-      isActive: true
-    };
+    try {
+      const response = await fetch('/api/cardholder/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ card: newCard })
+      });
 
-    const updatedCards = [...registeredCards, cardData];
-    setRegisteredCards(updatedCards);
-    localStorage.setItem('registeredCards', JSON.stringify(updatedCards));
-    
-    // Store cardholder info
-    const cardholderInfo = {
-      userId: session?.user?.email,
-      cards: updatedCards,
-      isOnline,
-      registeredAt: new Date()
-    };
-    localStorage.setItem(`cardholder_${session?.user?.email}`, JSON.stringify(cardholderInfo));
-
-    // Reset form
-    setNewCard({
-      cardNumber: '',
-      cardType: 'credit',
-      bankName: '',
-      categories: [],
-      discountPercentage: 5,
-      monthlyLimit: 50000
-    });
-    setShowAddCard(false);
+      if (response.ok) {
+        const data = await response.json();
+        setCardholderData(data.cardholder);
+        
+        // Reset form
+        setNewCard({
+          cardNumber: '',
+          cardType: 'credit',
+          bankName: '',
+          categories: [],
+          discountPercentage: 5,
+          monthlyLimit: 50000
+        });
+        setShowAddCard(false);
+        alert('Card registered successfully!');
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error adding card:', error);
+      alert('Failed to add card. Please try again.');
+    }
   };
 
-  const handleDeleteCard = (cardId: string) => {
-    const updatedCards = registeredCards.filter(card => card.id !== cardId);
-    setRegisteredCards(updatedCards);
-    localStorage.setItem('registeredCards', JSON.stringify(updatedCards));
+  const handleDeleteCard = async (cardId: string) => {
+    if (!confirm('Are you sure you want to delete this card?')) return;
+
+    try {
+      const response = await fetch('/api/cardholder/delete-card', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cardId })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCardholderData(data.cardholder);
+        alert('Card deleted successfully!');
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error deleting card:', error);
+      alert('Failed to delete card. Please try again.');
+    }
+  };
+
+  const handleOnlineToggle = async () => {
+    try {
+      const response = await fetch('/api/cardholder/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ isOnline: !isOnline })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCardholderData(data);
+        setIsOnline(!isOnline);
+      }
+    } catch (error) {
+      console.error('Error updating online status:', error);
+    }
   };
 
   const handleCategoryToggle = (category: string) => {
@@ -182,24 +229,27 @@ const CardholderDashboard = () => {
     const confirmed = confirm(`Accept payment request for ₹${request.totalPayable}?\n\nYou will earn ₹${request.commissionAmount} commission.`);
     
     if (confirmed) {
-      // Update request status
-      const allRequests = JSON.parse(localStorage.getItem('paymentRequests') || '[]');
-      const updatedRequests = allRequests.map((req: PaymentRequest) => 
-        req.id === request.id ? { ...req, status: 'accepted' } : req
-      );
-      localStorage.setItem('paymentRequests', JSON.stringify(updatedRequests));
+      try {
+        const response = await fetch('/api/payment-request/accept', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ requestId: request.requestId })
+        });
 
-      // Update earnings
-      const newEarnings = {
-        total: earnings.total + request.commissionAmount,
-        thisMonth: earnings.thisMonth + request.commissionAmount,
-        pending: earnings.pending + request.commissionAmount
-      };
-      setEarnings(newEarnings);
-      localStorage.setItem('cardholderEarnings', JSON.stringify(newEarnings));
-
-      alert('Payment request accepted! Commission will be credited after order completion.');
-      loadPaymentRequests();
+        if (response.ok) {
+          alert('Payment request accepted! Commission will be credited after order completion.');
+          fetchPaymentRequests();
+          fetchCardholderData();
+        } else {
+          const error = await response.json();
+          alert(`Error: ${error.error}`);
+        }
+      } catch (error) {
+        console.error('Error accepting request:', error);
+        alert('Failed to accept request. Please try again.');
+      }
     }
   };
 
@@ -216,8 +266,30 @@ const CardholderDashboard = () => {
     return `${minutes}m ${seconds}s`;
   };
 
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amazon_blue mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!session) {
-    return <div>Loading...</div>;
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amazon_blue mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -234,7 +306,7 @@ const CardholderDashboard = () => {
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-600">Status:</span>
                 <button
-                  onClick={() => setIsOnline(!isOnline)}
+                  onClick={handleOnlineToggle}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                     isOnline 
                       ? 'bg-green-100 text-green-800' 
@@ -248,26 +320,28 @@ const CardholderDashboard = () => {
           </div>
 
           {/* Earnings Summary */}
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            <div className="bg-blue-50 rounded-lg p-4">
-              <p className="text-sm text-blue-600">Total Earnings</p>
-              <p className="text-2xl font-bold text-blue-800">
-                <FormattedPrice amount={earnings.total} />
-              </p>
+          {cardholderData && (
+            <div className="grid grid-cols-3 gap-4 mt-6">
+              <div className="bg-blue-50 rounded-lg p-4">
+                <p className="text-sm text-blue-600">Total Earnings</p>
+                <p className="text-2xl font-bold text-blue-800">
+                  <FormattedPrice amount={cardholderData.earnings.total} />
+                </p>
+              </div>
+              <div className="bg-green-50 rounded-lg p-4">
+                <p className="text-sm text-green-600">This Month</p>
+                <p className="text-2xl font-bold text-green-800">
+                  <FormattedPrice amount={cardholderData.earnings.thisMonth} />
+                </p>
+              </div>
+              <div className="bg-yellow-50 rounded-lg p-4">
+                <p className="text-sm text-yellow-600">Pending</p>
+                <p className="text-2xl font-bold text-yellow-800">
+                  <FormattedPrice amount={cardholderData.earnings.pending} />
+                </p>
+              </div>
             </div>
-            <div className="bg-green-50 rounded-lg p-4">
-              <p className="text-sm text-green-600">This Month</p>
-              <p className="text-2xl font-bold text-green-800">
-                <FormattedPrice amount={earnings.thisMonth} />
-              </p>
-            </div>
-            <div className="bg-yellow-50 rounded-lg p-4">
-              <p className="text-sm text-yellow-600">Pending</p>
-              <p className="text-2xl font-bold text-yellow-800">
-                <FormattedPrice amount={earnings.pending} />
-              </p>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Tabs */}
@@ -328,7 +402,7 @@ const CardholderDashboard = () => {
 
               {/* Cards List */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {registeredCards.map(card => (
+                {cardholderData?.cards.map(card => (
                   <div key={card.id} className="border rounded-lg p-4 relative">
                     <div className="flex justify-between items-start mb-3">
                       <div className="flex items-center space-x-3">
@@ -383,7 +457,7 @@ const CardholderDashboard = () => {
                 ))}
               </div>
 
-              {registeredCards.length === 0 && (
+              {(!cardholderData || cardholderData.cards.length === 0) && (
                 <div className="text-center py-12">
                   <FaCreditCard className="text-6xl text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-600">No cards registered yet</p>
@@ -400,7 +474,7 @@ const CardholderDashboard = () => {
               {paymentRequests.length > 0 ? (
                 <div className="space-y-4">
                   {paymentRequests.map(request => (
-                    <div key={request.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div key={request._id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-2">

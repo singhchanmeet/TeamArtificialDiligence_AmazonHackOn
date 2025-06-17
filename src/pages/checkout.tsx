@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { StoreProduct, stateProps } from "../../type";
 import FormattedPrice from "@/components/FormattedPrice";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FaLock, FaChevronDown, FaEdit, FaCreditCard, FaPercent } from "react-icons/fa";
 import { BsCheckCircleFill } from "react-icons/bs";
 import CardDiscountModal from "@/components/CardDiscountModal";
+import { resetCart } from "@/store/nextSlice";
 
 interface DeliveryAddress {
   name: string;
@@ -30,8 +31,9 @@ interface PaymentMethod {
 
 const CheckoutPage = () => {
   const { productData, userInfo } = useSelector((state: stateProps) => state.next);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
+  const dispatch = useDispatch();
   
   const [totalAmount, setTotalAmount] = useState(0);
   const [deliveryCharges, setDeliveryCharges] = useState(0);
@@ -43,6 +45,7 @@ const CheckoutPage = () => {
   const [promoCode, setPromoCode] = useState("");
   const [showCardDiscountModal, setShowCardDiscountModal] = useState(false);
   const [activeCardRequest, setActiveCardRequest] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   
   const [deliveryAddress, setDeliveryAddress] = useState<DeliveryAddress>({
     name: userInfo?.name || "",
@@ -96,8 +99,10 @@ const CheckoutPage = () => {
   ];
 
   useEffect(() => {
+    if (status === "loading") return;
+    
     if (!session || !userInfo) {
-      router.push('/signin');
+      signIn();
       return;
     }
 
@@ -117,22 +122,22 @@ const CheckoutPage = () => {
     
     // Check for active card discount requests
     checkActiveCardRequests();
-  }, [productData, session, userInfo, router]);
+  }, [productData, session, userInfo, router, status]);
 
-  const checkActiveCardRequests = () => {
-    const requests = localStorage.getItem('paymentRequests');
-    if (requests) {
-      const parsedRequests = JSON.parse(requests);
-      const userRequests = parsedRequests.filter((req: any) => 
-        req.userEmail === session?.user?.email && 
-        req.status === 'accepted'
-      );
-      
-      if (userRequests.length > 0) {
-        const latestRequest = userRequests[userRequests.length - 1];
-        setActiveCardRequest(latestRequest.id);
-        setCardDiscount(latestRequest.discountAmount);
+  const checkActiveCardRequests = async () => {
+    if (!session?.user?.email) return;
+
+    try {
+      const response = await fetch(`/api/payment-request/check-status?userEmail=${session.user.email}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.acceptedRequest) {
+          setActiveCardRequest(data.acceptedRequest.requestId);
+          setCardDiscount(data.acceptedRequest.discountAmount);
+        }
       }
+    } catch (error) {
+      console.error('Error checking card requests:', error);
     }
   };
 
@@ -148,34 +153,48 @@ const CheckoutPage = () => {
   };
 
   const handlePlaceOrder = async () => {
-    if (!selectedPaymentMethod) return;
+    if (!selectedPaymentMethod || isProcessing) return;
+    
+    setIsProcessing(true);
     
     try {
       const orderData = {
         items: productData,
         deliveryAddress,
         paymentMethod: selectedPaymentMethod,
-        totalAmount: totalAmount + deliveryCharges - promotionDiscount - cardDiscount,
-        cardDiscountRequestId: activeCardRequest,
-        userEmail: session?.user?.email
+        totalAmount,
+        deliveryCharges,
+        promotionDiscount,
+        cardDiscount,
+        cardDiscountRequestId: activeCardRequest
       };
       
-      console.log('Order placed:', orderData);
-      
-      // Update card request status if used
-      if (activeCardRequest) {
-        const requests = JSON.parse(localStorage.getItem('paymentRequests') || '[]');
-        const updatedRequests = requests.map((req: any) => 
-          req.id === activeCardRequest ? { ...req, status: 'completed' } : req
-        );
-        localStorage.setItem('paymentRequests', JSON.stringify(updatedRequests));
+      const response = await fetch('/api/order/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Order created:', data.order);
+        
+        // Clear cart
+        dispatch(resetCart());
+        
+        // Redirect to success page
+        router.push(`/order-success?orderId=${data.order.orderId}`);
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
       }
-      
-      // Redirect to success page or order confirmation
-      router.push('/order-success');
     } catch (error) {
       console.error('Error placing order:', error);
       alert('Error placing order. Please try again.');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -191,11 +210,16 @@ const CheckoutPage = () => {
 
   const handleCardDiscountRequest = (requestId: string) => {
     setActiveCardRequest(requestId);
-    alert('Payment request sent! We\'ll notify you once a cardholder accepts.');
+    // Re-check for accepted requests after a short delay
+    setTimeout(checkActiveCardRequests, 2000);
   };
 
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
   if (!session || !userInfo) {
-    return <div>Redirecting to login...</div>;
+    return null;
   }
 
   if (productData.length === 0) {
@@ -502,9 +526,10 @@ const CheckoutPage = () => {
                 <div className="mt-6">
                   <button
                     onClick={handlePlaceOrder}
-                    className="w-full py-3 bg-amazon_yellow text-black rounded-md hover:bg-yellow-500 font-semibold text-lg"
+                    disabled={isProcessing}
+                    className="w-full py-3 bg-amazon_yellow text-black rounded-md hover:bg-yellow-500 font-semibold text-lg disabled:opacity-50"
                   >
-                    Place your order
+                    {isProcessing ? 'Processing...' : 'Place your order'}
                   </button>
                   <p className="text-xs text-gray-600 mt-2">
                     By placing your order, you agree to Amazon's privacy notice and conditions of use.

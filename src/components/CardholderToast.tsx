@@ -1,91 +1,67 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { FaCreditCard, FaTimes } from "react-icons/fa";
+import { FaCreditCard } from "react-icons/fa";
 import { BsArrowRight, BsCashCoin } from "react-icons/bs";
+import { HiSpeakerphone } from "react-icons/hi";
 
 const CardholderToast = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    // Check if user has already dismissed or is already a cardholder
-    const dismissed = localStorage.getItem('cardholderToastDismissed');
-    const isCardholder = localStorage.getItem('registeredCards');
-    
-    if (!dismissed && !isCardholder) {
-      // Show toast after 3 seconds
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 3000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  const handleDismiss = () => {
-    setIsVisible(false);
-    setIsDismissed(true);
-    localStorage.setItem('cardholderToastDismissed', 'true');
-  };
 
   const handleRegisterClick = () => {
     router.push('/cardholder-dashboard');
   };
 
-  if (!isVisible || isDismissed) return null;
-
   return (
-    <div className="fixed top-4 right-4 z-50 animate-slide-in-right">
-      <div className="bg-gradient-to-r from-amazon_blue to-blue-700 text-white rounded-lg shadow-xl p-4 max-w-md">
-        <button
-          onClick={handleDismiss}
-          className="absolute top-2 right-2 text-white hover:text-gray-200"
-        >
-          <FaTimes />
-        </button>
-        
-        <div className="flex items-start space-x-3">
-          <div className="flex-shrink-0">
-            <div className="bg-white rounded-full p-2">
-              <FaCreditCard className="text-2xl text-amazon_blue" />
+    <div className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 shadow-lg">
+      <div className="max-w-screen-2xl mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="animate-pulse">
+              <HiSpeakerphone className="text-3xl text-white" />
+            </div>
+            
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <FaCreditCard className="text-2xl text-white" />
+                <div>
+                  <h3 className="font-bold text-white text-lg">
+                    💰 Earn with Your Cards!
+                  </h3>
+                  <p className="text-sm text-white/90">
+                    Register as a cardholder and earn commissions by helping others save
+                  </p>
+                </div>
+              </div>
+              
+              <div className="hidden md:flex items-center space-x-2 text-white">
+                <BsCashCoin className="text-2xl" />
+                <span className="font-semibold">Earn 2% commission on every transaction</span>
+              </div>
             </div>
           </div>
           
-          <div className="flex-1">
-            <h3 className="font-bold text-lg mb-1 flex items-center space-x-2">
-              <span>Latest - Earn with Your Cards!</span>
-              <BsCashCoin className="text-yellow-400" />
-            </h3>
-            <p className="text-sm text-gray-200 mb-3">
-              Register as a cardholder and earn commissions by helping others save on their purchases.
-            </p>
-            
-            <button
-              onClick={handleRegisterClick}
-              className="bg-amazon_yellow text-black px-4 py-2 rounded-md hover:bg-yellow-500 font-semibold text-sm inline-flex items-center space-x-2 transition-colors"
-            >
-              <span>Start Earning Now</span>
-              <BsArrowRight />
-            </button>
-          </div>
+          <button
+            onClick={handleRegisterClick}
+            className="bg-white text-black px-6 py-2 rounded-full hover:bg-gray-100 font-bold text-sm inline-flex items-center space-x-2 transition-all transform hover:scale-105 shadow-md"
+          >
+            <span>Start Earning Now</span>
+            <BsArrowRight className="animate-bounce-x" />
+          </button>
         </div>
       </div>
       
       <style jsx>{`
-        @keyframes slide-in-right {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
+        @keyframes bounce-x {
+          0%, 100% {
             transform: translateX(0);
-            opacity: 1;
+          }
+          50% {
+            transform: translateX(4px);
           }
         }
         
-        .animate-slide-in-right {
-          animation: slide-in-right 0.5s ease-out;
+        .animate-bounce-x {
+          animation: bounce-x 1s ease-in-out infinite;
         }
       `}</style>
     </div>

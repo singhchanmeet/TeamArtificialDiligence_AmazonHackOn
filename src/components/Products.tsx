@@ -60,7 +60,7 @@ const Products = ({productData} : any) =>{
                             <p className="text-base font-medium">{title}</p>
                             <p className="flex items-center">
                                 <span className="text-amazon_blue font-bold">
-                                    <FormattedPrice amount={price*10}/>
+                                    <FormattedPrice amount={price}/>
                                 </span>
                             </p>
                             <p className="text-xs text-gray-600 text-justify">

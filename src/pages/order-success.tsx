@@ -4,7 +4,7 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { resetCart } from "@/store/nextSlice"; // Adjust the import path according to your store structure
+import { resetCart } from "@/store/nextSlice"; 
 
 const OrderSuccessPage = () => {
     const router = useRouter();

@@ -14,7 +14,10 @@ export default function Home({productData}: Props) {
   console.log(productData);
   return (
     <main>
-      <CardholderToast />
+      {/* Cardholder Toast positioned right after header */}
+      <div className="sticky top-20 z-40">
+        <CardholderToast />
+      </div>
       
       <div className="max-w-screen-2xl mx-auto">
         <Banner/>
@@ -27,9 +30,14 @@ export default function Home({productData}: Props) {
   );
 }
 
-
 export const getServerSideProps = async() =>{
   const res = await fetch("https://fakestoreapi.com/products")
   const productData = await res.json();
+
+  // Multiply price of each product by 80 since the original price is in USD
+  productData.forEach((product: any) => {
+    product.price = Math.floor(product.price * 80)
+  });
+
   return {props: {productData}};
 }

@@ -11,7 +11,6 @@ import { stateProps } from "../../../type";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { addUser } from "@/store/nextSlice";
-import { SessionProvider } from "next-auth/react";
 
 const Header = () => {
     const { data: session } = useSession();
@@ -31,13 +30,26 @@ const Header = () => {
             })
         );
         
-        // Check if user is a cardholder
-        const cardholderData = localStorage.getItem(`cardholder_${session?.user?.email}`);
-        if (cardholderData) {
-            setIsCardholder(true);
-        }
+        // Check if user is a cardholder from the database
+        checkCardholderStatus();
         }
     },[session]);
+    
+    const checkCardholderStatus = async () => {
+        if (!session?.user?.email) return;
+        
+        try {
+            const response = await fetch('/api/cardholder/profile');
+            if (response.ok) {
+                setIsCardholder(true);
+            } else {
+                setIsCardholder(false);
+            }
+        } catch (error) {
+            console.error('Error checking cardholder status:', error);
+            setIsCardholder(false);
+        }
+    };
         
     return (
     <div className="w-full h-20 bg-amazon_blue text-lightText sticky top-0 z-50"> 

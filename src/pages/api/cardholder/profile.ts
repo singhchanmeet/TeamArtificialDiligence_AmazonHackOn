@@ -4,6 +4,7 @@ import dbConnect from '../../../lib/mongodb';
 import Cardholder from '../../../models/Cardholder';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { expireOldRequests } from '../../../utils/expireOldRequests';
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,6 +15,9 @@ export default async function handler(
   if (!session) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
+
+  // Clean up old requests before processing the profile request
+  await expireOldRequests();
 
   await dbConnect();
 

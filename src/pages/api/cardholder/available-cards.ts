@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import Cardholder from '../../../models/Cardholder';
+import { expireOldRequests } from '../../../utils/expireOldRequests';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,6 +12,9 @@ export default async function handler(
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
+  // Clean up old requests before processing the available cards request
+  await expireOldRequests();
 
   await dbConnect();
 

@@ -8,10 +8,14 @@ import dbConnect from '../../../lib/mongodb';
 import Cardholder from '../../../models/Cardholder';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { expireOldRequests } from '../../../utils/expireOldRequests';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).json({ error: 'Unauthorized' });
+
+  // Clean up old requests before processing the heartbeat
+  await expireOldRequests();
 
   await dbConnect();
 

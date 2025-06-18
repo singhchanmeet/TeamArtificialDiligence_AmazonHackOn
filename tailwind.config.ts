@@ -22,13 +22,19 @@ const config: Config = {
         amazon_blue: "#131921",
         amazon_light: "#232F3E",
         amazon_yellow: "#febd69",
+        amazon_button: "#FFD814",
         lightText: "#ccc",
       },
       fontFamily: {
         bodyFont: ["Poppins", "sans-serif"],
       },
+      boxShadow: {
+        amazonCard: "0 0 14px 0 rgba(15,17,17,.15)",
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 };
 export default config;

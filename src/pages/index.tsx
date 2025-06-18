@@ -4,7 +4,9 @@ import Footer from "@/components/Footer";
 import Banner from "@/components/Banner";
 import Products from "@/components/Products";
 import CardholderToast from "@/components/CardholderToast";
-import {ProductProps} from "../../type"
+import {ProductProps} from "../../type";
+import path from "path";
+import { promises as fs } from "fs";
 
 interface Props{
   productData: ProductProps;
@@ -30,14 +32,26 @@ export default function Home({productData}: Props) {
   );
 }
 
-export const getServerSideProps = async() =>{
-  const res = await fetch("https://fakestoreapi.com/products")
-  const productData = await res.json();
+export const getServerSideProps = async () => {
+  let productData = [];
 
-  // Multiply price of each product by 80 since the original price is in USD
+  try {
+    const res = await fetch("https://fakestoreapi.com/products");
+    if (!res.ok) throw new Error("Failed to fetch");
+
+    productData = await res.json();
+  } catch (error) {
+    console.error("Error fetching from API, using fallback data:", error);
+
+    const filePath = path.join(process.cwd(), "src", "data", "fallbackData.json");
+    const fallbackData = await fs.readFile(filePath, "utf-8");
+    productData = JSON.parse(fallbackData);
+  }
+
+  // Convert price from USD to INR and round to integer
   productData.forEach((product: any) => {
-    product.price = Math.floor(product.price * 80)
+    product.price = Math.floor(product.price * 80);
   });
 
-  return {props: {productData}};
-}
+  return { props: { productData } };
+};

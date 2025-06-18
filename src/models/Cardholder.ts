@@ -19,6 +19,7 @@ const CardholderSchema = new mongoose.Schema({
   name: { type: String, required: true },
   cards: [CardSchema],
   isOnline: { type: Boolean, default: false },
+  lastActiveAt: { type: Date, default: Date.now },
   earnings: {
     total: { type: Number, default: 0 },
     thisMonth: { type: Number, default: 0 },

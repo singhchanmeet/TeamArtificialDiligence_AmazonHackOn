@@ -1,4 +1,4 @@
-// /api/payment-request/list - List requests for users/cardholders
+// /api/payment-request/expired - Fetches expired requests
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import PaymentRequest from '../../../models/PaymentRequest';
@@ -23,29 +23,31 @@ export default async function handler(
   await dbConnect();
 
   try {
-    const { role } = req.query; // 'cardholder' or 'user'
+    const { role } = req.query;
     
     let query: any = {};
     
     if (role === 'cardholder') {
-      // Get requests for this cardholder
+      // Get expired requests for this cardholder
       query = {
         cardholderEmail: session.user?.email,
-        status: 'pending',
-        // expiryTime: { $gt: new Date() }
+        status: 'expired'
       };
     } else {
-      // Get requests created by this user
+      // Get expired requests created by this user
       query = {
-        userEmail: session.user?.email
+        userEmail: session.user?.email,
+        status: 'expired'
       };
     }
     
-    const requests = await PaymentRequest.find(query).sort({ createdAt: -1 });
+    const requests = await PaymentRequest.find(query)
+      .sort({ expiryTime: -1 })
+      .limit(50); // Limit to last 50 expired requests
     
     res.status(200).json(requests);
   } catch (error) {
-    console.error('Error fetching payment requests:', error);
-    res.status(500).json({ error: 'Failed to fetch payment requests' });
+    console.error('Error fetching expired requests:', error);
+    res.status(500).json({ error: 'Failed to fetch expired requests' });
   }
 }

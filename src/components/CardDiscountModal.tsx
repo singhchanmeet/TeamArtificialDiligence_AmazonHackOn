@@ -40,6 +40,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
   const [previousStep, setPreviousStep] = useState<'choose' | 'immediate' | 'scheduled' | null>(null);
+  const [loadingReload, setLoadingReload] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -47,18 +48,15 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
     }
   }, [isOpen, step, products]);
 
-  const loadAvailableCards = async (requestType: 'immediate' | 'scheduled') => {
+  const loadAvailableCards = async (requestType: 'immediate' | 'scheduled', isManualReload = false) => {
+    if (isManualReload) setLoadingReload(true);
     try {
       const categories = [...new Set(products.map(p => p.category))];
-      
       const response = await fetch('/api/cardholder/available-cards', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ categories, requestType })
       });
-
       if (response.ok) {
         const cards = await response.json();
         setAvailableCards(cards);
@@ -69,6 +67,8 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
     } catch (error) {
       console.error('Error loading available cards:', error);
       setAvailableCards([]);
+    } finally {
+      if (isManualReload) setLoadingReload(false);
     }
   };
 
@@ -223,6 +223,29 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
               <h3 className="text-lg font-semibold mb-4">
                 {step === 'immediate' ? 'Available Cards (Online Now)' : 'All Available Cards'}
               </h3>
+
+              <button
+                  onClick={() => loadAvailableCards(step, true)}
+                  className="text-sm text-amazon_blue hover:underline flex items-center space-x-1"
+                  disabled={loadingReload}
+                >
+                  {loadingReload ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4 text-amazon_blue" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      <span>Reloading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5 9a9 9 0 0114.5-5.5M19 15a9 9 0 01-14.5 5.5" />
+                      </svg>
+                      <span>Reload</span>
+                    </>
+                  )}
+                </button>
               
               {availableCards.length > 0 ? (
                 <div className="space-y-3">

@@ -48,7 +48,8 @@ export default async function handler(
           userId: userEmail,
           name: session.user?.name || '',
           cards: [cardData],
-          isOnline: true
+          isOnline: true,
+          lastActiveAt: new Date(),
         });
       }
       

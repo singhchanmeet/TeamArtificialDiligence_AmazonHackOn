@@ -1,4 +1,4 @@
-// /api/payment-request/list - List requests for users/cardholders
+// /api/payment-request/history - Fetches earnings history
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import PaymentRequest from '../../../models/PaymentRequest';
@@ -23,29 +23,31 @@ export default async function handler(
   await dbConnect();
 
   try {
-    const { role } = req.query; // 'cardholder' or 'user'
+    const { role } = req.query;
     
     let query: any = {};
     
     if (role === 'cardholder') {
-      // Get requests for this cardholder
+      // Get accepted and completed requests for this cardholder
       query = {
         cardholderEmail: session.user?.email,
-        status: 'pending',
-        // expiryTime: { $gt: new Date() }
+        status: { $in: ['accepted', 'completed'] }
       };
     } else {
-      // Get requests created by this user
+      // Get all completed transactions for this user
       query = {
-        userEmail: session.user?.email
+        userEmail: session.user?.email,
+        status: 'completed'
       };
     }
     
-    const requests = await PaymentRequest.find(query).sort({ createdAt: -1 });
+    const requests = await PaymentRequest.find(query)
+      .sort({ completedAt: -1, acceptedAt: -1, createdAt: -1 })
+      .limit(100); // Limit to last 100 transactions
     
     res.status(200).json(requests);
   } catch (error) {
-    console.error('Error fetching payment requests:', error);
-    res.status(500).json({ error: 'Failed to fetch payment requests' });
+    console.error('Error fetching earnings history:', error);
+    res.status(500).json({ error: 'Failed to fetch earnings history' });
   }
 }

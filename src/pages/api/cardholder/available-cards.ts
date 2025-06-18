@@ -16,20 +16,28 @@ export default async function handler(
 
   try {
     const { categories, requestType } = req.body;
-    
-    // Find all cardholders with matching categories
-    const query = requestType === 'immediate' 
-      ? { isOnline: true, 'cards.categories': { $in: categories }, 'cards.isActive': true }
-      : { 'cards.categories': { $in: categories }, 'cards.isActive': true };
-    
+
+    const THIRTY_SECONDS_AGO = new Date(Date.now() - 30 * 1000);
+
+    // Build base query
+    let query: any = {
+      'cards.categories': { $in: categories },
+      'cards.isActive': true,
+    };
+
+    // If it's an "immediate" request, only include truly live cardholders
+    if (requestType === 'immediate') {
+      query.lastActiveAt = { $gte: THIRTY_SECONDS_AGO };
+    }
+
     const cardholders = await Cardholder.find(query);
-    
-    // Extract and format available cards
+
     const availableCards = [];
-    
+
     cardholders.forEach(cardholder => {
       cardholder.cards.forEach(card => {
-        if (card.isActive && card.categories.some(cat => categories.includes(cat))) {
+        const categoryMatch = card.categories.some(cat => categories.includes(cat));
+        if (card.isActive && categoryMatch) {
           availableCards.push({
             id: card.id,
             cardholderEmail: cardholder.userId,
@@ -37,16 +45,16 @@ export default async function handler(
             cardType: card.cardType,
             categories: card.categories,
             discountPercentage: card.discountPercentage,
-            isOnline: cardholder.isOnline,
+            isOnline: requestType === 'immediate', // for UI labeling
             lastFourDigits: card.lastFourDigits
           });
         }
       });
     });
-    
+
     // Sort by discount percentage (highest first)
     availableCards.sort((a, b) => b.discountPercentage - a.discountPercentage);
-    
+
     res.status(200).json(availableCards);
   } catch (error) {
     console.error('Error fetching available cards:', error);

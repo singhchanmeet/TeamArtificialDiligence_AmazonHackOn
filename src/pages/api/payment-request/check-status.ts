@@ -1,4 +1,4 @@
-// /api/payment-request/check-status - Check for accepted requests
+// /api/payment-request/check-status - Check for accepted requests by order ID
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import PaymentRequest from '../../../models/PaymentRequest';
@@ -15,15 +15,15 @@ export default async function handler(
   await dbConnect();
 
   try {
-    const { userEmail } = req.query;
+    const { orderId } = req.query;
     
-    if (!userEmail) {
-      return res.status(400).json({ error: 'User email is required' });
+    if (!orderId) {
+      return res.status(400).json({ error: 'Order ID is required' });
     }
     
-    // Find accepted payment requests for this user
+    // Find accepted payment requests for this order ID
     const acceptedRequest = await PaymentRequest.findOne({
-      userEmail,
+      orderId,
       status: 'accepted'
     }).sort({ acceptedAt: -1 });
     

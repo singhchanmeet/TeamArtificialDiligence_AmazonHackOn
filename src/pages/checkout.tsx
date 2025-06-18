@@ -46,6 +46,11 @@ const CheckoutPage = () => {
   const [showCardDiscountModal, setShowCardDiscountModal] = useState(false);
   const [activeCardRequest, setActiveCardRequest] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
+  const [checkingCardStatus, setCheckingCardStatus] = useState(false);
+  const [waitingForPaymentRequest, setWaitingForPaymentRequest] = useState(false);
+  const [activeRequestId, setActiveRequestId] = useState<string | null>(null);
+  const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
   
   const [deliveryAddress, setDeliveryAddress] = useState<DeliveryAddress>({
     name: userInfo?.name || "",
@@ -120,24 +125,127 @@ const CheckoutPage = () => {
     // Set delivery charges based on total amount
     setDeliveryCharges(amount > 500 ? 0 : 59);
     
-    // Check for active card discount requests
-    checkActiveCardRequests();
-  }, [productData, session, userInfo, router, status]);
+    // Generate a unique order ID when checkout page loads
+    if (!currentOrderId) {
+      const orderId = `AMZ-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+      setCurrentOrderId(orderId);
+    }
+  }, [productData, session, userInfo, router, status, currentOrderId]);
 
-  const checkActiveCardRequests = async () => {
-    if (!session?.user?.email) return;
+  // Poll for card request acceptance - now based on waitingForPaymentRequest
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (waitingForPaymentRequest && currentOrderId && !checkingCardStatus) {
+      setCheckingCardStatus(true);
+      console.log('Starting to poll for order:', currentOrderId);
+      
+      interval = setInterval(async () => {
+        try {
+          console.log('Polling for order:', currentOrderId);
+          const response = await fetch(`/api/payment-request/check-status?orderId=${currentOrderId}`);
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Poll response:', data);
+            
+            if (data.acceptedRequest) {
+              console.log('Card request accepted!', data.acceptedRequest);
+              // Card request accepted - proceed with order
+              setActiveCardRequest(data.acceptedRequest.requestId);
+              setCardDiscount(data.acceptedRequest.discountAmount);
+              setWaitingForPaymentRequest(false); // Stop polling
+              setShowCardDiscountModal(false); // Close modal if still open
+              
+              // Create order immediately
+              handleAutoPlaceOrder(data.acceptedRequest);
+            }
+          }
+        } catch (error) {
+          console.error('Error checking card requests:', error);
+        }
+      }, 2000); // Check every 2 seconds
+    }
+    
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+        setCheckingCardStatus(false);
+      }
+    };
+  }, [waitingForPaymentRequest, currentOrderId]);
 
+  // Timeout for payment request
+  useEffect(() => {
+    if (waitingForPaymentRequest) {
+      // Stop polling after 5 minutes (or whatever the request expiry time is)
+      const timeout = setTimeout(() => {
+        setWaitingForPaymentRequest(false);
+        setActiveRequestId(null);
+        alert('Payment request expired. Please try again.');
+      }, 5 * 60 * 1000); // 5 minutes
+
+      return () => clearTimeout(timeout);
+    }
+  }, [waitingForPaymentRequest]);
+
+  const handleAutoPlaceOrder = async (acceptedRequest: any) => {
+    setIsProcessing(true);
+    
     try {
-      const response = await fetch(`/api/payment-request/check-status?userEmail=${session.user.email}`);
+      // Use default payment method for card discount orders
+      const defaultPaymentMethod = {
+        id: 'card_discount',
+        type: 'card' as const,
+        name: 'Card Discount Payment',
+        details: `Payment via ${acceptedRequest.cardDetails || 'Cardholder'}`
+      };
+      
+      const orderData = {
+        items: productData,
+        deliveryAddress: deliveryAddress.addressLine1 ? deliveryAddress : {
+          ...deliveryAddress,
+          name: userInfo?.name || "Customer",
+          addressLine1: "Default Address",
+          city: "New Delhi",
+          state: "Delhi",
+          pincode: "110001",
+          country: "India"
+        },
+        paymentMethod: defaultPaymentMethod,
+        totalAmount,
+        deliveryCharges,
+        promotionDiscount,
+        cardDiscount: acceptedRequest.discountAmount,
+        cardDiscountRequestId: acceptedRequest.requestId,
+        orderId: currentOrderId
+      };
+      
+      const response = await fetch('/api/order/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+      });
+
       if (response.ok) {
         const data = await response.json();
-        if (data.acceptedRequest) {
-          setActiveCardRequest(data.acceptedRequest.requestId);
-          setCardDiscount(data.acceptedRequest.discountAmount);
-        }
+        setHasPlacedOrder(true); // ✅ Block any further redirect
+
+        // Clear cart
+        dispatch(resetCart());
+        
+        // Redirect to success page
+        router.push(`/order-success?orderId=${data.order.orderId}`);
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
+        setIsProcessing(false);
       }
     } catch (error) {
-      console.error('Error checking card requests:', error);
+      console.error('Error placing order:', error);
+      alert('Error placing order. Please try again.');
+      setIsProcessing(false);
     }
   };
 
@@ -166,7 +274,8 @@ const CheckoutPage = () => {
         deliveryCharges,
         promotionDiscount,
         cardDiscount,
-        cardDiscountRequestId: activeCardRequest
+        cardDiscountRequestId: activeCardRequest,
+        orderId: currentOrderId
       };
       
       const response = await fetch('/api/order/create', {
@@ -209,9 +318,9 @@ const CheckoutPage = () => {
   };
 
   const handleCardDiscountRequest = (requestId: string) => {
-    setActiveCardRequest(requestId);
-    // Re-check for accepted requests after a short delay
-    setTimeout(checkActiveCardRequests, 2000);
+    if (hasPlacedOrder) return; // ✅ Prevent further action after success
+    setActiveRequestId(requestId);
+    setWaitingForPaymentRequest(true);
   };
 
   if (status === "loading") {
@@ -224,6 +333,18 @@ const CheckoutPage = () => {
 
   if (productData.length === 0) {
     return <div>Redirecting to cart...</div>;
+  }
+
+  if (isProcessing) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amazon_blue mx-auto"></div>
+          <p className="mt-4 text-lg font-semibold">Processing your order...</p>
+          <p className="text-gray-600">Please wait while we complete your purchase</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -257,7 +378,7 @@ const CheckoutPage = () => {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Card Discount Banner */}
-            {!activeCardRequest && (
+            {!activeCardRequest && !waitingForPaymentRequest && (
               <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4 border border-blue-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -274,6 +395,22 @@ const CheckoutPage = () => {
                     <FaPercent />
                     <span>Check Offers</span>
                   </button>
+                </div>
+              </div>
+            )}
+
+            {/* Waiting for Payment Request */}
+            {waitingForPaymentRequest && !showCardDiscountModal && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <svg className="animate-spin h-5 w-5 text-blue-600" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  <div>
+                    <p className="font-semibold text-blue-800">Waiting for cardholder to accept your payment request...</p>
+                    <p className="text-sm text-blue-600">This may take a few moments. Please don't close this page.</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -506,7 +643,7 @@ const CheckoutPage = () => {
 
                 <div className="space-y-4">
                   {productData.map((item: StoreProduct) => (
-                    <div key={item.id} className="flex space-x-4 border-b pb-4">
+                    <div key={item._id} className="flex space-x-4 border-b pb-4">
                       <img 
                         src={item.image} 
                         alt={item.title}
@@ -593,21 +730,28 @@ const CheckoutPage = () => {
                   </p>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-      </div>
+              
+              {currentOrderId && (
+                <div className="mt-4 p-2 bg-gray-50 rounded-md">
+                  <p className="text-xs text-gray-600">Order ID: {currentOrderId}</p>
+               </div>
+             )}
+           </div>
+         </div>
+       </div>
+     </div>
 
-      {/* Card Discount Modal */}
-      <CardDiscountModal
-        isOpen={showCardDiscountModal}
-        onClose={() => setShowCardDiscountModal(false)}
-        products={productData}
-        totalAmount={totalAmount}
-        onRequestSent={handleCardDiscountRequest}
-      />
-    </div>
-  );
+     {/* Card Discount Modal */}
+     <CardDiscountModal
+       isOpen={showCardDiscountModal}
+       onClose={() => setShowCardDiscountModal(false)}
+       products={productData}
+       totalAmount={totalAmount}
+       onRequestSent={handleCardDiscountRequest}
+       orderId={currentOrderId}
+     />
+   </div>
+ );
 };
 
 export default CheckoutPage;

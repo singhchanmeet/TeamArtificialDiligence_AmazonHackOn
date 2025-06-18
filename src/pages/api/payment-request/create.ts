@@ -29,15 +29,18 @@ export default async function handler(
       totalAmount,
       discountAmount,
       commissionAmount,
-      requestType
+      requestType,
+      orderId // Get orderId from request body
     } = req.body;
     
     const requestId = `REQ_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const orderId = `ORD_${Date.now()}`;
+    
+    // Use the orderId passed from the frontend, or generate one if not provided
+    const finalOrderId = orderId || `AMZ-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
     
     const paymentRequest = new PaymentRequest({
       requestId,
-      orderId,
+      orderId: finalOrderId,
       userId: session.user?.email,
       userName: session.user?.name || 'User',
       userEmail: session.user?.email,
@@ -61,6 +64,7 @@ export default async function handler(
     // TODO: Send email notification to cardholder
     // For now, we'll just log it
     console.log('Email notification would be sent to:', selectedCard.cardholderEmail);
+    console.log('Order ID:', finalOrderId);
     
     res.status(200).json({ success: true, paymentRequest });
   } catch (error) {

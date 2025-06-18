@@ -23,10 +23,12 @@ const OrderSchema = new mongoose.Schema({
     phone: String
   },
   paymentMethod: {
-    id: String,
-    type: String,
-    name: String,
-    details: String
+    type: {
+      id: String,
+      type: String,
+      name: String,
+      details: String
+    },
   },
   totalAmount: { type: Number, required: true },
   deliveryCharges: { type: Number, default: 0 },

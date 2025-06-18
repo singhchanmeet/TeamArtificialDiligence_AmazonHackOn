@@ -11,6 +11,7 @@ interface CardDiscountModalProps {
   products: StoreProduct[];
   totalAmount: number;
   onRequestSent: (requestId: string) => void;
+  orderId?: string | null; // Add orderId prop
 }
 
 interface AvailableCard {
@@ -31,7 +32,8 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
   onClose,
   products,
   totalAmount,
-  onRequestSent
+  onRequestSent,
+  orderId // Accept orderId prop
 }) => {
   const { data: session } = useSession();
   const [step, setStep] = useState<'choose' | 'immediate' | 'scheduled' | 'confirm'>('choose');
@@ -114,7 +116,8 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
           totalAmount,
           discountAmount,
           commissionAmount,
-          requestType
+          requestType,
+          orderId // Include orderId in the request
         })
       });
 
@@ -336,7 +339,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                   <span>-<FormattedPrice amount={calculateDiscountAmount(selectedCard)} /></span>
                 </div>
                 <div className="flex justify-between text-sm text-gray-600">
-                  <span>Service Fee (2%):</span>
+                  <span>Service Fee (5%):</span>
                   <span><FormattedPrice amount={calculateDiscountAmount(selectedCard) * COMMISSION_RATE} /></span>
                 </div>
                 <hr />

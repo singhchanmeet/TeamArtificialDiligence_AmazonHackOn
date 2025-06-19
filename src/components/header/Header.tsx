@@ -107,6 +107,15 @@ const Header = () => {
                     </div>
                 </Link>
             )}
+
+            {/* Admin Dashboard Link */}
+            {session?.user?.isAdmin && (
+                <Link href="/admin/dashboard">
+                    <li className="text-sm text-gray-600 hover:text-amazon_blue cursor-pointer duration-300 border-b-[1px] border-b-transparent hover:border-b-amazon_blue">
+                    Admin Dashboard
+                    </li>
+                </Link>
+            )}
             
             {/* favorite */}
             <div className="text-xs text-gray-100 flex flex-col justify-center px-2 border

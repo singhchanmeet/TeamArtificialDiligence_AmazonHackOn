@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import PaymentRequest from '../../../models/PaymentRequest';
+import { expireOldRequests } from '../../../utils/expireOldRequests';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,6 +12,9 @@ export default async function handler(
     res.setHeader('Allow', ['GET']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
+  // Expire old requests before processing
+  await expireOldRequests();
 
   await dbConnect();
 

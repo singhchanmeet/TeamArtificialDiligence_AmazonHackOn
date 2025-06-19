@@ -5,6 +5,7 @@ import PaymentRequest from '../../../models/PaymentRequest';
 import Cardholder from '../../../models/Cardholder';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { expireOldRequests } from '../../../utils/expireOldRequests';
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,6 +16,9 @@ export default async function handler(
   if (!session) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
+
+  // Expire old requests before processing
+  await expireOldRequests();
 
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);

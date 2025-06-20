@@ -37,7 +37,7 @@ const CardholderToast = () => {
   };
 
   // Don't show toast while loading or if user is already a cardholder
-  if (isCardholder || isCardholder === null) return null;
+  if (isCardholder || isCardholder === null || (session && session.user.isAdmin)) return null;
 
   return (
     <div className="w-full bg-gradient-to-r from-yellow-400 via-yellow-600 to-red-500 shadow-xl animate-fadein sticky top-20 z-50">

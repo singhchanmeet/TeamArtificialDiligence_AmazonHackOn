@@ -1,6 +1,7 @@
 import React from "react";
 import {ProductProps} from "../../type";
 import Image from "next/image";
+import Link from "next/link";
 import { HiShoppingCart } from "react-icons/hi";
 import { FaHeart, FaCheckCircle } from "react-icons/fa";
 import { SiPrime } from "react-icons/si";
@@ -69,22 +70,27 @@ const Products = ({productData} : any) =>{
                             </button>
                         </div>
 
-                        {/* Image Section */}
-                        <div className="w-full h-[200px] relative">
-                            <Image 
-                                className="w-full h-full object-contain mix-blend-multiply" 
-                                width={300} 
-                                height={300} 
-                                src={product.image} 
-                                alt="productImg"
-                            />
-                        </div>
+                        {/* Image Section - Clickable to product details */}
+                        <Link href={`/product/${product.id}`}>
+                            <div className="w-full h-[200px] relative cursor-pointer">
+                                <Image 
+                                    className="w-full h-full object-contain mix-blend-multiply hover:scale-105 transition-transform duration-300" 
+                                    width={300} 
+                                    height={300} 
+                                    src={product.image} 
+                                    alt="productImg"
+                                />
+                            </div>
+                        </Link>
 
                         {/* Content Section */}
                         <div className="pt-4 px-2 flex flex-col gap-3">
-                            <h2 className="text-sm font-medium line-clamp-2 text-[#0F1111] hover:text-[#C7511F] cursor-pointer">
-                                {product.title}
-                            </h2>
+                            {/* Title - Clickable to product details */}
+                            <Link href={`/product/${product.id}`}>
+                                <h2 className="text-sm font-medium line-clamp-2 text-[#0F1111] hover:text-[#C7511F] cursor-pointer">
+                                    {product.title}
+                                </h2>
+                            </Link>
                             
                             {/* Ratings */}
                             <div className="flex items-center gap-2">

@@ -1,5 +1,7 @@
+// Updated CardDiscountModal.tsx with decline handling
+
 import React, { useState, useEffect } from "react";
-import { FaCreditCard, FaClock, FaPercent, FaCheckCircle, FaArrowLeft } from "react-icons/fa";
+import { FaCreditCard, FaClock, FaPercent, FaCheckCircle, FaArrowLeft, FaTimesCircle, FaExclamationTriangle } from "react-icons/fa";
 import { BsLightningChargeFill } from "react-icons/bs";
 import FormattedPrice from "./FormattedPrice";
 import { StoreProduct } from "../../type";
@@ -11,7 +13,7 @@ interface CardDiscountModalProps {
   products: StoreProduct[];
   totalAmount: number;
   onRequestSent: (requestId: string) => void;
-  orderId?: string | null; // Add orderId prop
+  orderId?: string | null;
 }
 
 interface AvailableCard {
@@ -25,6 +27,15 @@ interface AvailableCard {
   lastFourDigits: string;
 }
 
+interface PaymentRequestStatus {
+  _id: string;
+  requestId: string;
+  status: 'pending' | 'accepted' | 'declined' | 'expired' | 'completed' | 'cancelled';
+  discountAmount: number;
+  declineReason?: string;
+  declinedAt?: Date;
+}
+
 const COMMISSION_RATE = 0.05; // 5% commission for cardholders
 
 const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
@@ -33,22 +44,52 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
   products,
   totalAmount,
   onRequestSent,
-  orderId // Accept orderId prop
+  orderId
 }) => {
   const { data: session } = useSession();
-  const [step, setStep] = useState<'choose' | 'immediate' | 'scheduled' | 'confirm'>('choose');
+  const [step, setStep] = useState<'choose' | 'immediate' | 'scheduled' | 'confirm' | 'declined'>('choose');
   const [availableCards, setAvailableCards] = useState<AvailableCard[]>([]);
   const [selectedCard, setSelectedCard] = useState<AvailableCard | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
   const [previousStep, setPreviousStep] = useState<'choose' | 'immediate' | 'scheduled' | null>(null);
   const [loadingReload, setLoadingReload] = useState(false);
+  const [declinedRequest, setDeclinedRequest] = useState<PaymentRequestStatus | null>(null);
+  const [checkingStatus, setCheckingStatus] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       loadAvailableCards(step === 'immediate' ? 'immediate' : 'scheduled');
     }
   }, [isOpen, step, products]);
+
+  // Check for declined requests when modal opens
+  useEffect(() => {
+    if (isOpen && orderId && !requestSent && !checkingStatus) {
+      checkForDeclinedRequests();
+    }
+  }, [isOpen, orderId]);
+
+  const checkForDeclinedRequests = async () => {
+    if (!orderId) return;
+    
+    setCheckingStatus(true);
+    try {
+      const response = await fetch(`/api/payment-request/check-status?orderId=${orderId}`);
+      if (response.ok) {
+        const data = await response.json();
+        // Check for declined requests using the updated API response
+        if (data.declinedRequests?.length > 0) {
+          setDeclinedRequest(data.declinedRequests[0]);
+          setStep('declined');
+        }
+      }
+    } catch (error) {
+      console.error('Error checking for declined requests:', error);
+    } finally {
+      setCheckingStatus(false);
+    }
+  };
 
   const loadAvailableCards = async (requestType: 'immediate' | 'scheduled', isManualReload = false) => {
     if (isManualReload) setLoadingReload(true);
@@ -93,7 +134,15 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
       setSelectedCard(null);
     } else if (step === 'immediate' || step === 'scheduled') {
       setStep('choose');
+    } else if (step === 'declined') {
+      setStep('choose');
+      setDeclinedRequest(null);
     }
+  };
+
+  const handleTryAgain = () => {
+    setStep('choose');
+    setDeclinedRequest(null);
   };
 
   const sendPaymentRequest = async (requestType: 'immediate' | 'scheduled') => {
@@ -117,7 +166,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
           discountAmount,
           commissionAmount,
           requestType,
-          orderId // Include orderId in the request
+          orderId
         })
       });
 
@@ -133,6 +182,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
           setSelectedCard(null);
           setRequestSent(false);
           setPreviousStep(null);
+          setDeclinedRequest(null);
         }, 10000);
       } else {
         const error = await response.json();
@@ -152,10 +202,10 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-amazon_blue text-white p-4 rounded-t-lg">
+        <div className={`${step === 'declined' ? 'bg-red-600' : 'bg-amazon_blue'} text-white p-4 rounded-t-lg`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              {(step === 'immediate' || step === 'scheduled' || step === 'confirm') && !requestSent && (
+              {(step === 'immediate' || step === 'scheduled' || step === 'confirm' || step === 'declined') && !requestSent && (
                 <button
                   onClick={handleBack}
                   className="text-white hover:text-gray-200 p-1 rounded hover:bg-white/20 transition-colors"
@@ -164,8 +214,10 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                 </button>
               )}
               <h2 className="text-xl font-semibold flex items-center space-x-2">
-                <FaCreditCard />
-                <span>Card Discounts Available!</span>
+                {step === 'declined' ? <FaTimesCircle /> : <FaCreditCard />}
+                <span>
+                  {step === 'declined' ? 'Payment Request Declined' : 'Card Discounts Available!'}
+                </span>
               </h2>
             </div>
             <button
@@ -176,13 +228,69 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
             </button>
           </div>
           <p className="text-sm mt-2 text-gray-200 ml-10">
-            Save money by using card-specific discounts through our peer-to-peer matching
+            {step === 'declined' 
+              ? 'Your previous payment request was declined by the cardholder'
+              : 'Save money by using card-specific discounts through our peer-to-peer matching'
+            }
           </p>
         </div>
 
         {/* Content */}
         <div className="p-6">
-          {step === 'choose' && (
+          {checkingStatus && (
+            <div className="text-center py-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amazon_blue mx-auto"></div>
+              <p className="mt-2 text-sm text-gray-600">Checking previous requests...</p>
+            </div>
+          )}
+
+          {step === 'declined' && declinedRequest && !checkingStatus && (
+            <div>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                <div className="flex items-start space-x-3">
+                  <FaExclamationTriangle className="text-xl text-red-500 mt-1 flex-shrink-0" />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-red-800 mb-2">Request Declined</h3>
+                    <p className="text-sm text-red-700 mb-3">
+                      The cardholder was unable to process your payment request. You can try with a different card or continue with regular payment methods.
+                    </p>
+                    
+                    {declinedRequest.declineReason && (
+                      <div className="bg-red-100 rounded p-3 mb-3">
+                        <p className="text-sm text-red-800">
+                          <strong>Reason provided:</strong> {declinedRequest.declineReason}
+                        </p>
+                      </div>
+                    )}
+                    
+                    <div className="text-sm text-gray-600">
+                      <p><strong>Declined Amount:</strong> <FormattedPrice amount={declinedRequest.discountAmount} /></p>
+                      {declinedRequest.declinedAt && (
+                        <p><strong>Declined At:</strong> {new Date(declinedRequest.declinedAt).toLocaleString()}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex space-x-3">
+                <button
+                  onClick={handleTryAgain}
+                  className="flex-1 bg-amazon_blue text-white py-3 rounded-md hover:bg-blue-700 font-semibold"
+                >
+                  Try Another Card
+                </button>
+                <button
+                  onClick={onClose}
+                  className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-md hover:bg-gray-300 font-semibold"
+                >
+                  Continue Without Discount
+                </button>
+              </div>
+            </div>
+          )}
+
+          {step === 'choose' && !checkingStatus && (
             <div>
               <h3 className="text-lg font-semibold mb-4">How would you like to proceed?</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -221,34 +329,34 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
             </div>
           )}
 
-          {(step === 'immediate' || step === 'scheduled') && !requestSent && (
+          {(step === 'immediate' || step === 'scheduled') && !requestSent && !checkingStatus && (
             <div>
               <h3 className="text-lg font-semibold mb-4">
                 {step === 'immediate' ? 'Available Cards (Online Now)' : 'All Available Cards'}
               </h3>
 
               <button
-                  onClick={() => loadAvailableCards(step, true)}
-                  className="text-sm text-amazon_blue hover:underline flex items-center space-x-1"
-                  disabled={loadingReload}
-                >
-                  {loadingReload ? (
-                    <>
-                      <svg className="animate-spin h-4 w-4 text-amazon_blue" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
-                      <span>Reloading...</span>
-                    </>
-                  ) : (
-                    <>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5 9a9 9 0 0114.5-5.5M19 15a9 9 0 01-14.5 5.5" />
-                      </svg>
-                      <span>Reload</span>
-                    </>
-                  )}
-                </button>
+                onClick={() => loadAvailableCards(step, true)}
+                className="text-sm text-amazon_blue hover:underline flex items-center space-x-1 mb-4"
+                disabled={loadingReload}
+              >
+                {loadingReload ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-amazon_blue" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    <span>Reloading...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5 9a9 9 0 0114.5-5.5M19 15a9 9 0 01-14.5 5.5" />
+                    </svg>
+                    <span>Reload</span>
+                  </>
+                )}
+              </button>
               
               {availableCards.length > 0 ? (
                 <div className="space-y-3">
@@ -312,7 +420,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
             </div>
           )}
 
-          {step === 'confirm' && selectedCard && !requestSent && (
+          {step === 'confirm' && selectedCard && !requestSent && !checkingStatus && (
             <div>
               <h3 className="text-lg font-semibold mb-4">Confirm Payment Request</h3>
               
@@ -366,10 +474,14 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
               >
                 {isLoading ? 'Sending Request...' : 'Confirm & Send Request'}
               </button>
+
+              <p className="text-xs text-gray-500 text-center mt-2">
+                The total amount will be automatically debited from your Amazon Pay balance upon confirmation.
+              </p>
             </div>
           )}
 
-          {requestSent && (
+          {requestSent && !checkingStatus && (
             <div className="text-center py-8">
               <FaCheckCircle className="text-6xl text-green-500 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Request Sent Successfully!</h3>

@@ -32,26 +32,26 @@ export default async function handler(
     let query: any = {};
     
     if (role === 'cardholder') {
-      // Get expired requests for this cardholder
+      // Get expired and declined requests for this cardholder
       query = {
         cardholderEmail: session.user?.email,
-        status: 'expired'
+        status: { $in: ['expired', 'declined'] }
       };
     } else {
-      // Get expired requests created by this user
+      // Get expired and declined requests created by this user
       query = {
         userEmail: session.user?.email,
-        status: 'expired'
+        status: { $in: ['expired', 'declined'] }
       };
     }
     
     const requests = await PaymentRequest.find(query)
-      .sort({ expiryTime: -1 })
-      .limit(50); // Limit to last 50 expired requests
+      .sort({ expiryTime: -1, declinedAt: -1 })
+      .limit(50); // Limit to last 50 expired/declined requests
     
     res.status(200).json(requests);
   } catch (error) {
-    console.error('Error fetching expired requests:', error);
-    res.status(500).json({ error: 'Failed to fetch expired requests' });
+    console.error('Error fetching expired/declined requests:', error);
+    res.status(500).json({ error: 'Failed to fetch expired/declined requests' });
   }
 }

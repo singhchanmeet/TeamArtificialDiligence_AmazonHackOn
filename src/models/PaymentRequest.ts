@@ -21,7 +21,7 @@ const PaymentRequestSchema = new mongoose.Schema({
   expiryTime: { type: Date, required: true },
   status: { 
     type: String, 
-    enum: ['pending', 'accepted', 'expired', 'completed', 'cancelled'],
+    enum: ['pending', 'accepted', 'declined', 'expired', 'completed', 'cancelled'],
     default: 'pending'
   },
   requestType: {
@@ -29,6 +29,8 @@ const PaymentRequestSchema = new mongoose.Schema({
     enum: ['immediate', 'scheduled'],
     required: true
   },
+  declineReason: { type: String },
+  declinedAt: { type: Date },
   createdAt: { type: Date, default: Date.now },
   acceptedAt: { type: Date },
   completedAt: { type: Date }

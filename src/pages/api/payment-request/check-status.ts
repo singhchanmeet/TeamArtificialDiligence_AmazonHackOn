@@ -1,4 +1,4 @@
-// /api/payment-request/check-status - Check for accepted requests by order ID
+// /api/payment-request/check-status - Check for accepted/declined requests by order ID
 import type { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../lib/mongodb';
 import PaymentRequest from '../../../models/PaymentRequest';
@@ -31,7 +31,25 @@ export default async function handler(
       status: 'accepted'
     }).sort({ acceptedAt: -1 });
     
-    res.status(200).json({ acceptedRequest });
+    // Find declined payment requests for this order ID
+    const declinedRequests = await PaymentRequest.find({
+      orderId,
+      status: 'declined'
+    }).sort({ declinedAt: -1 });
+    
+    // Find all pending requests for this order ID (for debugging/monitoring)
+    const pendingRequests = await PaymentRequest.find({
+      orderId,
+      status: 'pending'
+    }).sort({ createdAt: -1 });
+    
+    res.status(200).json({ 
+      acceptedRequest,
+      declinedRequests,
+      pendingRequests,
+      hasDeclined: declinedRequests.length > 0,
+      hasPending: pendingRequests.length > 0
+    });
   } catch (error) {
     console.error('Error checking payment request status:', error);
     res.status(500).json({ error: 'Failed to check status' });

@@ -35,8 +35,10 @@ interface PaymentRequest {
   totalPayable: number;
   expiryTime: Date;
   status: string;
+  declineReason?: string;
   createdAt: Date;
   acceptedAt?: Date;
+  declinedAt?: Date;
   completedAt?: Date;
 }
 
@@ -70,6 +72,9 @@ const CardholderDashboard = () => {
   const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
   const [expiredRequests, setExpiredRequests] = useState<PaymentRequest[]>([]);
   const [earningsHistory, setEarningsHistory] = useState<PaymentRequest[]>([]);
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [selectedRequestForDecline, setSelectedRequestForDecline] = useState<PaymentRequest | null>(null);
+  const [declineReason, setDeclineReason] = useState('');
   const [isOnline, setIsOnline] = useState(true);
   const [loading, setLoading] = useState(true);
 
@@ -299,6 +304,42 @@ const CardholderDashboard = () => {
     }
   };
 
+  const handleDeclineRequest = async (request: PaymentRequest) => {
+    setSelectedRequestForDecline(request);
+    setShowDeclineModal(true);
+  };
+
+  const confirmDeclineRequest = async () => {
+    if (!selectedRequestForDecline) return;
+    
+    try {
+      const response = await fetch('/api/payment-request/decline', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          requestId: selectedRequestForDecline.requestId,
+          reason: declineReason 
+        })
+      });
+
+      if (response.ok) {
+        alert('Payment request declined successfully.');
+        fetchAllRequests();
+        setShowDeclineModal(false);
+        setSelectedRequestForDecline(null);
+        setDeclineReason('');
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error declining request:', error);
+      alert('Failed to decline request. Please try again.');
+    }
+  };
+
   const getTimeRemaining = (expiryTime: Date) => {
     const now = new Date();
     const expiry = new Date(expiryTime);
@@ -326,6 +367,7 @@ const CardholderDashboard = () => {
     const statusStyles = {
       pending: 'bg-yellow-100 text-yellow-800',
       accepted: 'bg-blue-100 text-blue-800',
+      declined: 'bg-red-100 text-red-800',
       completed: 'bg-green-100 text-green-800',
       expired: 'bg-red-100 text-red-800',
       cancelled: 'bg-gray-100 text-gray-800'
@@ -561,7 +603,7 @@ const CardholderDashboard = () => {
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 >
-                  Expired ({expiredRequests.length})
+                  Expired & Declined ({expiredRequests.length})
                 </button>
               </div>
 
@@ -626,12 +668,23 @@ const CardholderDashboard = () => {
                               </div>
                             </div>
                             
-                            <button
-                              onClick={() => handleAcceptRequest(request)}
-                              className="w-full bg-amazon_yellow text-black py-2 rounded-md hover:bg-yellow-500 font-semibold transition-colors"
-                            >
-                              Accept & Pay
-                            </button>
+                            <div className="flex space-x-3">
+                              <button
+                                onClick={() => handleDeclineRequest(request)}
+                                className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-md hover:bg-gray-300 font-medium transition-colors"
+                              >
+                                Decline
+                              </button>
+                              <button
+                                onClick={() => handleAcceptRequest(request)}
+                                className="flex-1 bg-amazon_yellow text-black py-2 rounded-md hover:bg-yellow-500 font-semibold transition-colors"
+                              >
+                                Accept & Pay
+                              </button>
+                            </div>
+                            <p className="text-xs text-gray-500 text-center mt-2">
+                              The total amount will be automatically debited from your registered card upon confirmation.
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -650,7 +703,7 @@ const CardholderDashboard = () => {
 
               {requestsSubTab === 'expired' && (
                 <div>
-                  <h2 className="text-lg font-semibold mb-4">Expired Requests</h2>
+                  <h2 className="text-lg font-semibold mb-4">Expired & Declined Requests</h2>
                   
                   {expiredRequests.length > 0 ? (
                     <div className="space-y-4">
@@ -659,7 +712,11 @@ const CardholderDashboard = () => {
                           <div className="flex justify-between items-start mb-3">
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-2">
-                                <FaTimesCircle className="text-red-500" />
+                                {request.status === 'declined' ? (
+                                  <FaTimesCircle className="text-red-500" />
+                                ) : (
+                                  <FaTimesCircle className="text-gray-500" />
+                                )}
                                 <span className="font-semibold">Order #{request.orderId}</span>
                                 <span className="text-sm text-gray-600">by {request.userName}</span>
                                 {getStatusBadge(request.status)}
@@ -672,11 +729,24 @@ const CardholderDashboard = () => {
                                   </p>
                                 ))}
                               </div>
+                              
+                              {/* Show decline reason if available */}
+                              {request.status === 'declined' && request.declineReason && (
+                                <div className="mt-2 p-2 bg-red-50 rounded text-sm">
+                                  <p className="text-red-700">
+                                    <strong>Decline reason:</strong> {request.declineReason}
+                                  </p>
+                                </div>
+                              )}
                             </div>
                             
                             <div className="text-right">
-                              <p className="text-sm text-gray-600">Expired on</p>
-                              <p className="text-sm font-medium">{formatDate(request.expiryTime)}</p>
+                              <p className="text-sm text-gray-600">
+                                {request.status === 'declined' ? 'Declined on' : 'Expired on'}
+                              </p>
+                              <p className="text-sm font-medium">
+                                {formatDate(request.declinedAt || request.expiryTime)}
+                              </p>
                             </div>
                           </div>
                           
@@ -695,7 +765,9 @@ const CardholderDashboard = () => {
                                 </p>
                               </div>
                               <div>
-                                <p className="text-gray-600">Lost Commission</p>
+                                <p className="text-gray-600">
+                                  {request.status === 'declined' ? 'Declined Commission' : 'Lost Commission'}
+                                </p>
                                 <p className="font-medium text-red-600">
                                   <FormattedPrice amount={request.commissionAmount} />
                                 </p>
@@ -714,7 +786,7 @@ const CardholderDashboard = () => {
                   ) : (
                     <div className="text-center py-12">
                       <FaTimesCircle className="text-6xl text-gray-300 mx-auto mb-4" />
-                      <p className="text-gray-600">No expired requests</p>
+                      <p className="text-gray-600">No expired or declined requests</p>
                       <p className="text-sm text-gray-500 mt-2">Great job responding to requests on time!</p>
                     </div>
                   )}
@@ -935,6 +1007,58 @@ const CardholderDashboard = () => {
            </div>
          </div>
        )}
+
+       {/* Decline Modal */}
+        {showDeclineModal && selectedRequestForDecline && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-xl font-semibold mb-4">Decline Payment Request</h3>
+              
+              <div className="mb-4">
+                <p className="text-sm text-gray-600 mb-2">
+                  Order #{selectedRequestForDecline.orderId} by {selectedRequestForDecline.userName}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Amount: <FormattedPrice amount={selectedRequestForDecline.totalPayable} />
+                </p>
+              </div>
+              
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Reason for declining (optional)
+                </label>
+                <textarea
+                  value={declineReason}
+                  onChange={(e) => setDeclineReason(e.target.value)}
+                  placeholder="e.g., Insufficient funds, Card limit exceeded, etc."
+                  className="w-full px-3 py-2 border rounded-md resize-none"
+                  rows={3}
+                  maxLength={200}
+                />
+                <p className="text-xs text-gray-500 mt-1">{declineReason.length}/200 characters</p>
+              </div>
+              
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => {
+                    setShowDeclineModal(false);
+                    setSelectedRequestForDecline(null);
+                    setDeclineReason('');
+                  }}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDeclineRequest}
+                  className="flex-1 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                >
+                  Decline Request
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
      </div>
    </div>
  );

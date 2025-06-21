@@ -5,7 +5,7 @@ import FormattedPrice from "@/components/FormattedPrice";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { FaLock, FaChevronDown, FaEdit, FaCreditCard, FaPercent } from "react-icons/fa";
+import { FaLock, FaChevronDown, FaEdit, FaCreditCard, FaPercent, FaTimesCircle, FaExclamationTriangle } from "react-icons/fa";
 import { BsCheckCircleFill } from "react-icons/bs";
 import CardDiscountModal from "@/components/CardDiscountModal";
 import { resetCart } from "@/store/nextSlice";
@@ -27,6 +27,16 @@ interface PaymentMethod {
   name: string;
   details?: string;
   logo?: string;
+}
+
+interface PaymentRequestStatus {
+  _id: string;
+  requestId: string;
+  orderId: string;
+  status: 'pending' | 'accepted' | 'declined' | 'expired' | 'completed' | 'cancelled';
+  discountAmount: number;
+  declineReason?: string;
+  declinedAt?: Date;
 }
 
 const CheckoutPage = () => {
@@ -51,6 +61,10 @@ const CheckoutPage = () => {
   const [waitingForPaymentRequest, setWaitingForPaymentRequest] = useState(false);
   const [activeRequestId, setActiveRequestId] = useState<string | null>(null);
   const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
+  
+  // New state for handling declined requests
+  const [declinedRequest, setDeclinedRequest] = useState<PaymentRequestStatus | null>(null);
+  const [showDeclineMessage, setShowDeclineMessage] = useState(false);
   
   const [deliveryAddress, setDeliveryAddress] = useState<DeliveryAddress>({
     name: userInfo?.name || "",
@@ -132,7 +146,7 @@ const CheckoutPage = () => {
     }
   }, [productData, session, userInfo, router, status, currentOrderId]);
 
-  // Poll for card request acceptance - now based on waitingForPaymentRequest
+  // Poll for card request acceptance/decline - now based on waitingForPaymentRequest
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -148,6 +162,7 @@ const CheckoutPage = () => {
             const data = await response.json();
             console.log('Poll response:', data);
             
+            // Check for accepted requests
             if (data.acceptedRequest) {
               console.log('Card request accepted!', data.acceptedRequest);
               // Card request accepted - proceed with order
@@ -158,6 +173,15 @@ const CheckoutPage = () => {
               
               // Create order immediately
               handleAutoPlaceOrder(data.acceptedRequest);
+            }
+            // Check for declined requests using updated API response
+            else if (data.declinedRequests?.length > 0) {
+              console.log('Card request declined!', data.declinedRequests[0]);
+              // Card request declined - show decline message
+              setDeclinedRequest(data.declinedRequests[0]);
+              setShowDeclineMessage(true);
+              setWaitingForPaymentRequest(false); // Stop polling
+              setShowCardDiscountModal(false); // Close modal if still open
             }
           }
         } catch (error) {
@@ -323,16 +347,23 @@ const CheckoutPage = () => {
     setWaitingForPaymentRequest(true);
   };
 
+  const handleDismissDeclineMessage = () => {
+    setShowDeclineMessage(false);
+    setDeclinedRequest(null);
+  };
+
+  const handleTryAnotherCard = () => {
+    setShowDeclineMessage(false);
+    setDeclinedRequest(null);
+    setShowCardDiscountModal(true);
+  };
+
   if (status === "loading") {
     return <div>Loading...</div>;
   }
 
   if (!session || !userInfo) {
     return null;
-  }
-
-  if (productData.length === 0) {
-    return <div>Redirecting to cart...</div>;
   }
 
   if (isProcessing) {
@@ -378,7 +409,7 @@ const CheckoutPage = () => {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Card Discount Banner */}
-            {!activeCardRequest && !waitingForPaymentRequest && (
+            {!activeCardRequest && !waitingForPaymentRequest && !showDeclineMessage && (
               <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4 border border-blue-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -400,7 +431,7 @@ const CheckoutPage = () => {
             )}
 
             {/* Waiting for Payment Request */}
-            {waitingForPaymentRequest && !showCardDiscountModal && (
+            {waitingForPaymentRequest && !showCardDiscountModal && !showDeclineMessage && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="flex items-center space-x-3">
                   <svg className="animate-spin h-5 w-5 text-blue-600" viewBox="0 0 24 24">
@@ -410,6 +441,56 @@ const CheckoutPage = () => {
                   <div>
                     <p className="font-semibold text-blue-800">Waiting for cardholder to accept your payment request...</p>
                     <p className="text-sm text-blue-600">This may take a few moments. Please don't close this page.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Payment Request Declined */}
+            {showDeclineMessage && declinedRequest && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="flex items-start space-x-3">
+                  <FaTimesCircle className="text-2xl text-red-500 mt-1 flex-shrink-0" />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold text-red-800">Payment Request Declined</h3>
+                      <button
+                        onClick={handleDismissDeclineMessage}
+                        className="text-red-600 hover:text-red-800 text-xl"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    <p className="text-sm text-red-700 mb-2">
+                      The cardholder was unable to process your payment request at this time.
+                    </p>
+                    
+                    {declinedRequest.declineReason && (
+                      <div className="bg-red-100 rounded p-3 mb-3">
+                        <p className="text-sm text-red-800">
+                          <strong>Reason:</strong> {declinedRequest.declineReason}
+                        </p>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center space-x-3">
+                      <button
+                        onClick={handleTryAnotherCard}
+                        className="bg-amazon_blue text-white px-4 py-2 rounded-md hover:bg-amazon_yellow hover:text-black transition-colors text-sm"
+                      >
+                        Try Another Card
+                      </button>
+                      <button
+                        onClick={handleDismissDeclineMessage}
+                        className="text-gray-600 hover:text-gray-800 text-sm underline"
+                      >
+                        Continue without discount
+                      </button>
+                    </div>
+                    
+                    <p className="text-xs text-gray-600 mt-2">
+                      You can still complete your order using regular payment methods below.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -734,24 +815,24 @@ const CheckoutPage = () => {
               {currentOrderId && (
                 <div className="mt-4 p-2 bg-gray-50 rounded-md">
                   <p className="text-xs text-gray-600">Order ID: {currentOrderId}</p>
-               </div>
-             )}
-           </div>
-         </div>
-       </div>
-     </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
 
-     {/* Card Discount Modal */}
-     <CardDiscountModal
-       isOpen={showCardDiscountModal}
-       onClose={() => setShowCardDiscountModal(false)}
-       products={productData}
-       totalAmount={totalAmount}
-       onRequestSent={handleCardDiscountRequest}
-       orderId={currentOrderId}
-     />
-   </div>
- );
+      {/* Card Discount Modal */}
+      <CardDiscountModal
+        isOpen={showCardDiscountModal}
+        onClose={() => setShowCardDiscountModal(false)}
+        products={productData}
+        totalAmount={totalAmount}
+        onRequestSent={handleCardDiscountRequest}
+        orderId={currentOrderId}
+      />
+    </div>
+  );
 };
 
 export default CheckoutPage;

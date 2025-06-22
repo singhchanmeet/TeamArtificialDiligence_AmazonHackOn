@@ -125,7 +125,15 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
     // Calculate discount based on matching categories
     const matchingProducts = products.filter(p => card.categories.includes(p.category));
     const matchingAmount = matchingProducts.reduce((sum, p) => sum + (p.price * p.quantity), 0);
-    return (matchingAmount * card.discountPercentage) / 100;
+    
+    // Handle both decimal (0.10) and whole number (10) formats
+    const discountPercentage = card.discountPercentage > 1 ? card.discountPercentage : card.discountPercentage * 100;
+    return (matchingAmount * discountPercentage) / 100;
+  };
+
+  const formatDiscountPercentage = (percentage: number) => {
+    // Convert decimal to whole number if needed (0.10 -> 10)
+    return percentage > 1 ? percentage : percentage * 100;
   };
 
   const handleCardSelection = (card: AvailableCard) => {
@@ -398,9 +406,8 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                             </div>
                             
                             <div className="text-right">
-                              <div className="flex items-center space-x-1 text-green-600 font-semibold">
-                                <FaPercent className="text-sm" />
-                                <span>{card.discountPercentage}% OFF</span>
+                              <div className="flex items-center justify-end space-x-1 text-green-600 font-semibold">
+                                <span>{formatDiscountPercentage(card.discountPercentage)}% OFF</span>
                               </div>
                               <p className="text-sm text-gray-600">
                                 Save <FormattedPrice amount={savings} />
@@ -441,7 +448,7 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
                   <div>
                     <p className="font-medium">{selectedCard.bankName}</p>
                     <p className="text-sm text-gray-600">
-                      •••• {selectedCard.lastFourDigits} • {selectedCard.discountPercentage}% discount
+                      •••• {selectedCard.lastFourDigits} • {formatDiscountPercentage(selectedCard.discountPercentage)}% discount
                     </p>
                   </div>
                 </div>

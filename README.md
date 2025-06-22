@@ -185,28 +185,6 @@ TeamArtificialDiligence_AmazonHackOn/
    python -m uvicorn api.ranking_api:app --reload
    
 
-## Key Features
-
-### 1. Smart Card Matching Algorithm
-Our platform features a smart algorithm that connects users with the most suitable cardholder in real-time. It analyzes the user's cart and transaction details to filter and rank available cards, ensuring an optimal match that maximizes discount potential for the shopper.
-
-### 2. Seamless Peer-to-Peer Transactions
-Once a match is found, our system facilitates a secure, automated transaction. The user gets their discount instantly, and the cardholder's card is used for the payment, all within a seamless checkout experience.
-
-### 3. Automated & Transparent Commissions
-We've built a transparent reward distribution system where cardholders receive 90% of the discount amount as commission, while the platform retains 10% for operational costs. This creates a win-win scenario for all parties involved.
-
-### 4. Advanced Fraud Detection System
-Our platform is protected by a sophisticated fraud detection system that combines machine learning with rule-based logic. It analyzes over 18 features including transaction amount, time-of-day, user history, and device type to detect anomalies with high accuracy.
-
-### 5. Comprehensive Admin Dashboard
-The platform includes a powerful admin dashboard built with Next.js and Recharts. It allows platform administrators to:
-- Monitor real-time transaction activity
-- View detailed analytics and performance metrics
-- Manage cardholder registrations and verifications
-- Track commission distributions and platform revenue
-- Generate comprehensive reports for business insights
-
 ## Team
 
 *Team Artificial Diligence*

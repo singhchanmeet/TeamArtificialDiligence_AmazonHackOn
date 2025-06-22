@@ -14,6 +14,9 @@ interface CardDiscountModalProps {
   totalAmount: number;
   onRequestSent: (requestId: string) => void;
   orderId?: string | null;
+  city: string;
+  device_type: string;
+  merchant_category: string;
 }
 
 interface AvailableCard {
@@ -44,7 +47,10 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
   products,
   totalAmount,
   onRequestSent,
-  orderId
+  orderId,
+  city,
+  device_type,
+  merchant_category
 }) => {
   const { data: session } = useSession();
   const [step, setStep] = useState<'choose' | 'immediate' | 'scheduled' | 'confirm' | 'declined'>('choose');
@@ -174,7 +180,11 @@ const CardDiscountModal: React.FC<CardDiscountModalProps> = ({
           discountAmount,
           commissionAmount,
           requestType,
-          orderId
+          orderId,
+          city,
+          device_type,
+          merchant_category,
+          payment_method: 'card' // hardcoded as per requirements
         })
       });
 

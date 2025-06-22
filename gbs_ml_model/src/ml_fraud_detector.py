@@ -331,7 +331,7 @@ class MLFraudDetector:
     def _save_models(self):
         """Save trained models and preprocessing objects"""
         import os
-        from config import PATHS
+        from gbs_ml_model.src.config import PATHS
         
         # Create directory if not exists
         os.makedirs(PATHS['saved_models_dir'], exist_ok=True)
@@ -365,7 +365,7 @@ class MLFraudDetector:
     def load_models(self):
         """Load trained models"""
         import os
-        from config import PATHS
+        from gbs_ml_model.src.config import PATHS
         
         try:
             # Load best model

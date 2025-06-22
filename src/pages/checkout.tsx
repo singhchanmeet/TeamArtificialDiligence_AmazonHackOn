@@ -358,6 +358,16 @@ const CheckoutPage = () => {
     setShowCardDiscountModal(true);
   };
 
+  // Device type detection
+  const getDeviceType = () => {
+    if (typeof window === 'undefined') return 'unknown';
+    const ua = navigator.userAgent;
+    if (/Mobi|Android/i.test(ua)) return 'mobile';
+    if (/iPad|Tablet/i.test(ua)) return 'tablet';
+    return 'desktop';
+  };
+  const deviceType = getDeviceType();
+
   if (status === "loading") {
     return <div>Loading...</div>;
   }
@@ -830,6 +840,9 @@ const CheckoutPage = () => {
         totalAmount={totalAmount}
         onRequestSent={handleCardDiscountRequest}
         orderId={currentOrderId}
+        city={deliveryAddress.city}
+        device_type={deviceType}
+        merchant_category={productData[0]?.category || 'unknown'}
       />
     </div>
   );

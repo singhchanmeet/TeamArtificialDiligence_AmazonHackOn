@@ -50,10 +50,10 @@ class TrueHybridFraudDetector:
         """Load trained ML models and preprocessing components"""
         try:
             # Try to load improved model first
-            improved_model_path = 'models/saved_models/improved_ml_model.pkl'
-            improved_feature_path = 'models/saved_models/improved_feature_names.json'
-            improved_encoder_path = 'models/saved_models/improved_label_encoders.pkl'
-            improved_scaler_path = 'models/saved_models/improved_scaler.pkl'
+            improved_model_path = '../models/saved_models/improved_ml_model.pkl'
+            improved_feature_path = '../models/saved_models/improved_feature_names.json'
+            improved_encoder_path = '../models/saved_models/improved_label_encoders.pkl'
+            improved_scaler_path = '../models/saved_models/improved_scaler.pkl'
             if os.path.exists(improved_model_path):
                 with open(improved_model_path, 'rb') as f:
                     self.ml_model = pickle.load(f)
@@ -370,7 +370,7 @@ def test_true_hybrid():
     
     # Test with sample data
     try:
-        df = pd.read_csv('data/test/test_data.csv')
+        df = pd.read_csv('../data/test/test_data.csv')
         sample = df.sample(n=5, random_state=42)
         
         print(f"\n🧪 Testing with 5 sample transactions...")

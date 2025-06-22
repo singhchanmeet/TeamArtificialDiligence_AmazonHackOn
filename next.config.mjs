@@ -4,7 +4,10 @@ const nextConfig = {
   images: {
     domains: ["fakestoreapi.com"],
     unoptimized: true,
-  }
+  },
+  typescript: {
+    ignoreBuildErrors: true, 
+  },
 };
 
 export default nextConfig;

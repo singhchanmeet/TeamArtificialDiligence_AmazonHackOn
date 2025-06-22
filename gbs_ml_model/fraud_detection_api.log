@@ -1,0 +1,170 @@
+2025-06-22 19:26:49,691 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:26:49,692 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:26:49,694 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:26:52,740 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:26:52,757 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:27:56,180 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:27:56,181 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:27:56,182 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:27:57,527 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:27:57,530 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:28:35,117 - werkzeug - INFO -  * Detected change in 'C:\\Users\\chanm\\Desktop\\amazon hacjon\\clone\\amazon_clone_MERN_Stack\\gbs_ml_model\\server.py', reloading
+2025-06-22 19:28:35,309 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:28:36,675 - __main__ - INFO - True Hybrid Fraud Detector initialized successfully
+2025-06-22 19:28:36,684 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:28:36,689 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:28:41,566 - __main__ - INFO - True Hybrid Fraud Detector initialized successfully
+2025-06-22 19:28:41,580 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:28:41,585 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:28:41,587 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:28:42,787 - __main__ - INFO - True Hybrid Fraud Detector initialized successfully
+2025-06-22 19:28:42,792 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:28:42,795 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:28:51,108 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:28:51] "[33mGET / HTTP/1.1[0m" 404 -
+2025-06-22 19:28:51,629 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:28:51] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-22 19:28:58,355 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:28:58] "GET /health HTTP/1.1" 200 -
+2025-06-22 19:29:02,935 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:29:02] "GET /info HTTP/1.1" 200 -
+2025-06-22 19:29:06,120 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:29:06] "[33mGET /atats HTTP/1.1[0m" 404 -
+2025-06-22 19:29:12,572 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:29:12] "GET /stats HTTP/1.1" 200 -
+2025-06-22 19:33:38,563 - werkzeug - INFO -  * Detected change in 'C:\\Users\\chanm\\Desktop\\amazon hacjon\\clone\\amazon_clone_MERN_Stack\\gbs_ml_model\\server.py', reloading
+2025-06-22 19:33:45,487 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:33:45,487 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:33:45,489 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:33:47,456 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:33:47,527 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:34:08,487 - werkzeug - INFO -  * Detected change in 'C:\\Users\\chanm\\Desktop\\amazon hacjon\\clone\\amazon_clone_MERN_Stack\\gbs_ml_model\\server.py', reloading
+2025-06-22 19:34:08,770 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:34:15,450 - __main__ - INFO -  True Hybrid Fraud Detector initialized successfully
+2025-06-22 19:34:15,466 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:34:15,467 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:34:15,470 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:34:16,795 - __main__ - INFO -  True Hybrid Fraud Detector initialized successfully
+2025-06-22 19:34:16,802 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:34:16,806 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:43:44,369 - werkzeug - INFO -  * Detected change in 'C:\\Users\\chanm\\Desktop\\amazon hacjon\\clone\\amazon_clone_MERN_Stack\\gbs_ml_model\\server.py', reloading
+2025-06-22 19:43:45,275 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:43:48,264 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:43:48,272 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:45:15,801 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:45:15,802 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:45:15,805 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:45:18,116 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:45:18,121 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:45:48,898 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:45:48] "[31m[1mPOST /analyze/user HTTP/1.1[0m" 400 -
+2025-06-22 19:47:41,807 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:47:41] "[31m[1mGET /analyze/user HTTP/1.1[0m" 405 -
+2025-06-22 19:47:46,606 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:47:46] "[31m[1mPOST /analyze/user HTTP/1.1[0m" 400 -
+2025-06-22 19:48:22,616 - werkzeug - INFO -  * Detected change in 'C:\\Users\\chanm\\Desktop\\amazon hacjon\\clone\\amazon_clone_MERN_Stack\\gbs_ml_model\\server.py', reloading
+2025-06-22 19:48:28,722 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:48:28,722 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:48:28,725 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:48:31,092 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:48:31,104 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:48:33,749 - __main__ - ERROR - User behavior analysis error: name 'np' is not defined
+2025-06-22 19:48:33,754 - __main__ - ERROR - Traceback (most recent call last):
+  File "C:\Users\chanm\Desktop\amazon hacjon\clone\amazon_clone_MERN_Stack\gbs_ml_model\server.py", line 424, in analyze_user_behavior
+    "min": float(np.min(risk_scores)),
+                 ^^
+NameError: name 'np' is not defined
+
+2025-06-22 19:48:33,774 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:48:33] "[35m[1mPOST /analyze/user HTTP/1.1[0m" 500 -
+2025-06-22 19:49:29,398 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 19:49:29,398 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 19:49:29,400 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 19:49:31,053 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 19:49:31,060 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 19:49:37,666 - __main__ - INFO - User behavior analysis for user_normal_001: 2 transactions, 2 blocked, risk trend: stable
+2025-06-22 19:49:37,668 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:49:37] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 19:50:56,337 - __main__ - INFO - User behavior analysis for user_highrisk_008: 2 transactions, 2 blocked, risk trend: stable
+2025-06-22 19:50:56,337 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:50:56] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 19:53:29,942 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:53:29] "GET /stats HTTP/1.1" 200 -
+2025-06-22 19:54:25,032 - __main__ - ERROR - User behavior analysis error: 400 Bad Request: Failed to decode JSON object: Extra data: line 27 column 4 (char 719)
+2025-06-22 19:54:25,059 - __main__ - ERROR - Traceback (most recent call last):
+  File "C:\Users\chanm\Desktop\amazon hacjon\clone\amazon_clone_MERN_Stack\gbs_ml_model\gbs_env\Lib\site-packages\werkzeug\wrappers\request.py", line 611, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanm\Desktop\amazon hacjon\clone\amazon_clone_MERN_Stack\gbs_ml_model\gbs_env\Lib\site-packages\flask\json\provider.py", line 187, in loads
+    return json.loads(s, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanm\AppData\Local\Programs\Python\Python311\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanm\AppData\Local\Programs\Python\Python311\Lib\json\decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 27 column 4 (char 719)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\chanm\Desktop\amazon hacjon\clone\amazon_clone_MERN_Stack\gbs_ml_model\server.py", line 332, in analyze_user_behavior
+    data = request.get_json()
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanm\Desktop\amazon hacjon\clone\amazon_clone_MERN_Stack\gbs_ml_model\gbs_env\Lib\site-packages\werkzeug\wrappers\request.py", line 620, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanm\Desktop\amazon hacjon\clone\amazon_clone_MERN_Stack\gbs_ml_model\gbs_env\Lib\site-packages\flask\wrappers.py", line 214, in on_json_loading_failed
+    return super().on_json_loading_failed(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanm\Desktop\amazon hacjon\clone\amazon_clone_MERN_Stack\gbs_ml_model\gbs_env\Lib\site-packages\werkzeug\wrappers\request.py", line 645, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Extra data: line 27 column 4 (char 719)
+
+2025-06-22 19:54:25,061 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:54:25] "[35m[1mPOST /analyze/user HTTP/1.1[0m" 500 -
+2025-06-22 19:54:48,454 - __main__ - INFO - User behavior analysis for user_normal_001: 2 transactions, 2 blocked, risk trend: stable
+2025-06-22 19:54:48,455 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 19:54:48] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 20:57:42,283 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 20:57:42,284 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 20:57:42,287 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 20:57:44,268 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 20:57:44,278 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 20:59:21,802 - __main__ - INFO - User behavior analysis for sahnichanmeetsingh@gmail.com: 22 transactions, 22 blocked, risk trend: stable
+2025-06-22 20:59:21,814 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 20:59:21] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 21:01:57,130 - __main__ - INFO - User behavior analysis for sahnichanmeetsingh@gmail.com: 23 transactions, 23 blocked, risk trend: stable
+2025-06-22 21:01:57,148 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 21:01:57] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 21:03:25,833 - __main__ - INFO - User behavior analysis for backup.chanmeet@gmail.com: 2 transactions, 2 blocked, risk trend: stable
+2025-06-22 21:03:25,836 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 21:03:25] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 21:09:22,146 - __main__ - INFO - User behavior analysis for sahnichanmeetsingh@gmail.com: 24 transactions, 24 blocked, risk trend: stable
+2025-06-22 21:09:22,176 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 21:09:22] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 21:12:58,404 - __main__ - INFO - User behavior analysis for singh.chanmeet05@gmail.com: 2 transactions, 2 blocked, risk trend: stable
+2025-06-22 21:12:58,409 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 21:12:58] "POST /analyze/user HTTP/1.1" 200 -
+2025-06-22 21:16:44,132 - werkzeug - INFO -  * Detected change in 'C:\\Users\\chanm\\Desktop\\amazon hacjon\\clone\\amazon_clone_MERN_Stack\\gbs_ml_model\\server.py', reloading
+2025-06-22 21:16:53,412 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-22 21:16:53,413 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 21:16:53,416 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 21:16:56,866 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 21:16:56,896 - werkzeug - INFO -  * Debugger PIN: 224-775-897
+2025-06-22 21:17:01,959 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 21:17:01] "[33mGET /debug/system HTTP/1.1[0m" 404 -
+2025-06-22 21:17:02,394 - werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 21:17:02] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-22 21:17:47,919 - werkzeug - INFO -  * Detected change in 'C:\\Users\\chanm\\Desktop\\amazon hacjon\\clone\\amazon_clone_MERN_Stack\\gbs_ml_model\\server.py', reloading
+2025-06-22 21:17:48,272 - werkzeug - INFO -  * Restarting with stat
+2025-06-22 21:17:50,324 - werkzeug - WARNING -  * Debugger is active!
+2025-06-22 21:17:50,330 - werkzeug - INFO -  * Debugger PIN: 224-775-897

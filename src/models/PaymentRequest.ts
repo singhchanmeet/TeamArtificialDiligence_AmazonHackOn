@@ -33,7 +33,12 @@ const PaymentRequestSchema = new mongoose.Schema({
   declinedAt: { type: Date },
   createdAt: { type: Date, default: Date.now },
   acceptedAt: { type: Date },
-  completedAt: { type: Date }
+  completedAt: { type: Date, default: Date.now },
+  trustReport: { type: Object, default: null },
+  city: { type: String },
+  device_type: { type: String },
+  merchant_category: { type: String },
+  payment_method: { type: String }
 });
 
 // Index for efficient queries

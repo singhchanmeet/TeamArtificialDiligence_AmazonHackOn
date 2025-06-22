@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FaCreditCard, FaPlus, FaTrash, FaClock, FaCheckCircle, FaTimesCircle, FaHistory, FaChartLine } from "react-icons/fa";
 import { BsLightningChargeFill } from "react-icons/bs";
 import FormattedPrice from "@/components/FormattedPrice";
+import TrustScoreDisplay from '@/components/TrustScoreDisplay';
 
 interface RegisteredCard {
   id: string;
@@ -40,6 +41,7 @@ interface PaymentRequest {
   acceptedAt?: Date;
   declinedAt?: Date;
   completedAt?: Date;
+  trustReport?: any;
 }
 
 interface CardholderData {
@@ -686,6 +688,13 @@ const CardholderDashboard = () => {
                               The total amount will be automatically debited from your registered card upon confirmation.
                             </p>
                           </div>
+                          {/* Trust Report UI */}
+                          {request.trustReport && (
+                            <TrustScoreDisplay 
+                              trustReport={request.trustReport} 
+                              isCompact={false} 
+                            />
+                          )}
                         </div>
                       ))}
                     </div>

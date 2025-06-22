@@ -5,7 +5,7 @@ Designed specifically for real transaction data patterns
 """
 
 import pandas as pd
-from datetime import datetime
+# from datetime import datetimes
 import numpy as np
 from config import FRAUD_THRESHOLDS
 

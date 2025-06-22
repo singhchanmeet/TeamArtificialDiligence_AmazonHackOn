@@ -141,7 +141,7 @@ const TrustScoreDisplay: React.FC<TrustScoreDisplayProps> = ({ trustReport, isCo
         <div className="mb-3">
           <p className="text-sm font-semibold text-red-700 mb-1">⚠️ Risk Factors:</p>
           <ul className="text-xs text-red-600 space-y-1">
-            {riskFactors.slice(0, isExpanded ? riskFactors.length : 3).map((factor, index) => (
+            {riskFactors.slice(0, isExpanded ? riskFactors.length : 3).map((factor: string, index) => (
               <li key={index}>• {factor}</li>
             ))}
           </ul>
@@ -153,7 +153,7 @@ const TrustScoreDisplay: React.FC<TrustScoreDisplayProps> = ({ trustReport, isCo
         <div className="mb-3">
           <p className="text-sm font-semibold text-green-700 mb-1">✅ Positive Factors:</p>
           <ul className="text-xs text-green-600 space-y-1">
-            {positiveFactors.slice(0, isExpanded ? positiveFactors.length : 2).map((factor, index) => (
+            {positiveFactors.slice(0, isExpanded ? positiveFactors.length : 2).map((factor: string, index) => (
               <li key={index}>• {factor}</li>
             ))}
           </ul>

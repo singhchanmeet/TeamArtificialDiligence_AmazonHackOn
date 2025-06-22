@@ -1,0 +1,22 @@
+{
+  "feature_names": [
+    "amount",
+    "hour_of_day",
+    "day_of_week",
+    "merchant_category",
+    "city",
+    "payment_method",
+    "amount_log",
+    "amount_sqrt",
+    "amount_bin",
+    "is_night",
+    "is_weekend",
+    "is_business_hours",
+    "is_high_risk_category",
+    "is_high_risk_city",
+    "is_high_amount",
+    "is_very_high_amount",
+    "high_amount_high_risk",
+    "night_high_amount"
+  ]
+} 

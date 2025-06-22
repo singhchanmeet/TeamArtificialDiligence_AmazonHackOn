@@ -78,7 +78,7 @@ These models work in tandem to ensure a secure and efficient marketplace.
 
 ## Project Structure
 
-
+```
 TeamArtificialDiligence_AmazonHackOn/
 ├── card_ranking_model/
 │   ├── api/
@@ -129,7 +129,7 @@ TeamArtificialDiligence_AmazonHackOn/
 ├── package.json
 ├── README.md
 └── tailwind.config.ts
-
+```
 
 ## Getting Started
 

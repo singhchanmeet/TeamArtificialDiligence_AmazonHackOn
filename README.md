@@ -170,7 +170,6 @@ TeamArtificialDiligence_AmazonHackOn/
 5. *Start the development server*
    bash
    npm run dev
-```
 
 ### Running the ML Models
 
@@ -184,14 +183,7 @@ TeamArtificialDiligence_AmazonHackOn/
    bash
    cd card_ranking_model
    python -m uvicorn api.ranking_api:app --reload
+```
    
-
-## Team
-
-*Team Artificial Diligence*
-- Building innovative solutions for the future of e-commerce
-- Amazon HackOn Season 5 Participants
-
----
 
 This project was developed as part of Amazon HackOn Season 5, demonstrating the potential of AI-powered peer-to-peer payment solutions in modern e-commerce.

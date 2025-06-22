@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { FaLock, FaChevronDown, FaEdit, FaCreditCard, FaPercent, FaTimesCircle, FaExclamationTriangle } from "react-icons/fa";
 import { BsCheckCircleFill } from "react-icons/bs";
-import CardDiscountModal from "@/components/CardDiscountModal";
+import EnhancedCardDiscountModal from "@/components/EnhancedCardDiscountModal";
 import { resetCart } from "@/store/nextSlice";
 
 interface DeliveryAddress {
@@ -833,7 +833,7 @@ const CheckoutPage = () => {
       </div>
 
       {/* Card Discount Modal */}
-      <CardDiscountModal
+      <EnhancedCardDiscountModal
         isOpen={showCardDiscountModal}
         onClose={() => setShowCardDiscountModal(false)}
         products={productData}

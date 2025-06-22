@@ -111,6 +111,8 @@ class HealthResponse(BaseModel):
     model_loaded: bool = Field(..., description="Whether model is loaded")
     feature_pipeline_loaded: bool = Field(..., description="Whether feature pipeline is loaded")
     timestamp: str = Field(..., description="Current timestamp")
+    class Config:
+        protected_namespaces = ()
 
 def prepare_cardholder_data(cardholder: CardholderRequest) -> Dict[str, Any]:
     """Prepare single cardholder data for processing"""

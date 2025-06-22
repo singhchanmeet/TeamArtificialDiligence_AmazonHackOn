@@ -96,6 +96,8 @@ class RankingResponse(BaseModel):
     total_candidates: int = Field(..., description="Total number of available cardholders")
     processing_time_ms: float = Field(..., description="Time taken to process request")
     model_version: str = Field(..., description="Version of the ranking model used")
+    class Config:
+        protected_namespaces = ()
 
 class HealthScore(BaseModel):
     """Health score calculation result"""
@@ -114,4 +116,6 @@ class ModelMetrics(BaseModel):
     ndcg: float = Field(..., ge=0, le=1)
     map_score: float = Field(..., ge=0, le=1)
     training_date: datetime = Field(..., description="When model was last trained")
-    model_version: str = Field(..., description="Model version identifier") 
+    model_version: str = Field(..., description="Model version identifier")
+    class Config:
+        protected_namespaces = () 

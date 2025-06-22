@@ -1,0 +1,14 @@
+{
+  "merchant_categories": [
+    "Grocery", "Restaurant", "Gas", "Retail", "Entertainment",
+    "Healthcare", "Travel", "Online", "ATM", "Bills",
+    "Education", "Fitness", "Beauty", "Electronics", "Books",
+    "Pharmacy", "Insurance", "Investment", "Charity", "Other"
+  ],
+  "device_types": [
+    "Mobile", "Desktop", "Tablet"
+  ],
+  "payment_methods": [
+    "Credit Card", "Debit Card", "UPI", "Net Banking"
+  ]
+}

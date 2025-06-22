@@ -1,0 +1,527 @@
+user_id,amount,timestamp,merchant_category,city,device_type,payment_method,is_fraud,hour_of_day,day_of_week,transaction_date,device_code,payment_code,city_code,merchant_code
+IND50000,6718.19,2025-01-02 12:33:07,ATM,Hyderabad,Tablet,UPI,0,12,3,2025-01-02,2,0,4,6
+IND50000,27887.06,2025-02-11 16:40:00,Department Store,Hyderabad,Tablet,UPI,0,16,1,2025-02-11,2,0,4,7
+IND50000,2007.03,2025-02-19 12:50:38,Insurance,Hyderabad,Tablet,UPI,0,12,2,2025-02-19,2,0,4,11
+IND50000,188216.45,2025-02-26 04:05:38,Travel Agency,Hyderabad,Tablet,Debit Card,1,4,2,2025-02-26,2,2,4,9
+IND50000,2949.15,2025-03-01 17:18:38,ATM,Hyderabad,Tablet,UPI,0,17,5,2025-03-01,2,0,4,6
+IND50000,1966.81,2025-03-03 07:00:10,Pharmacy,Hyderabad,Tablet,UPI,0,7,0,2025-03-03,2,0,4,4
+IND50000,27725.36,2025-03-05 15:22:09,Electronics,Hyderabad,Tablet,UPI,0,15,2,2025-03-05,2,0,4,1
+IND50000,15840.32,2025-03-08 07:26:32,Electronics,Hyderabad,Tablet,UPI,0,7,5,2025-03-08,2,0,4,1
+IND50000,3481.49,2025-03-08 15:24:40,Clothing,Hyderabad,Tablet,UPI,0,15,5,2025-03-08,2,0,4,3
+IND50000,6937.88,2025-03-20 14:22:49,Utilities,Hyderabad,Tablet,UPI,0,14,3,2025-03-20,2,0,4,13
+IND50000,1961.63,2025-03-29 09:35:59,Petrol Pump,Jaipur,Tablet,UPI,0,9,5,2025-03-29,2,0,8,5
+IND50000,680.78,2025-04-01 14:34:00,Pharmacy,Hyderabad,Tablet,UPI,0,14,1,2025-04-01,2,0,4,4
+IND50000,4381.62,2025-04-03 09:09:27,Utilities,Hyderabad,Tablet,UPI,0,9,3,2025-04-03,2,0,4,13
+IND50000,20925.45,2025-05-04 20:48:21,Department Store,Mumbai,Tablet,UPI,0,20,6,2025-05-04,2,0,0,7
+IND50000,14756.65,2025-05-12 16:56:34,Travel Agency,Hyderabad,Tablet,UPI,0,16,0,2025-05-12,2,0,4,9
+IND50000,23160.94,2025-05-14 05:23:55,Jewelry,Visakhapatnam,Desktop,Debit Card,0,5,2,2025-05-14,1,2,15,8
+IND50000,627.64,2025-05-24 20:22:22,Pharmacy,Bhopal,Tablet,UPI,0,20,5,2025-05-24,2,0,14,4
+IND50000,1316.94,2025-05-28 22:31:11,Coffee Shop,Hyderabad,Mobile,UPI,0,22,2,2025-05-28,0,0,4,14
+IND50000,27696.56,2025-05-31 14:33:00,Electronics,Hyderabad,Tablet,UPI,0,14,5,2025-05-31,2,0,4,1
+IND50000,7592.69,2025-05-31 16:58:48,Travel Agency,Hyderabad,Tablet,UPI,0,16,5,2025-05-31,2,0,4,9
+IND50000,104625.25,2025-06-02 04:49:52,Jewelry,Hyderabad,Tablet,Debit Card,1,4,0,2025-06-02,2,2,4,8
+IND50000,2132.19,2025-06-07 12:48:54,Grocery Store,Hyderabad,Tablet,UPI,0,12,5,2025-06-07,2,0,4,0
+IND50000,2088.04,2025-06-24 09:31:47,Insurance,Hyderabad,Tablet,UPI,0,9,1,2025-06-24,2,0,4,11
+IND50000,6593.51,2025-06-24 15:48:13,Department Store,Hyderabad,Tablet,UPI,0,15,1,2025-06-24,2,0,4,7
+IND50000,4494.49,2025-06-29 15:06:13,Education,Hyderabad,Tablet,UPI,0,15,6,2025-06-29,2,0,4,12
+IND50001,2135.52,2025-01-03 08:26:31,Coffee Shop,Vadodara,Desktop,Net Banking,0,8,4,2025-01-03,1,3,16,14
+IND50001,1563.44,2025-01-09 17:22:25,Education,Vadodara,Desktop,Net Banking,0,17,3,2025-01-09,1,3,16,12
+IND50001,28198.62,2025-01-21 07:10:25,Electronics,Vadodara,Desktop,Net Banking,0,7,1,2025-01-21,1,3,16,1
+IND50001,2644.22,2025-03-02 10:30:39,Restaurant,Vadodara,Desktop,Net Banking,0,10,6,2025-03-02,1,3,16,2
+IND50001,4060.18,2025-03-02 11:27:54,Restaurant,Vadodara,Desktop,Net Banking,0,11,6,2025-03-02,1,3,16,2
+IND50001,2775.69,2025-03-05 13:18:28,Restaurant,Vadodara,Desktop,Net Banking,0,13,2,2025-03-05,1,3,16,2
+IND50001,2810.32,2025-03-07 07:53:40,Insurance,Vadodara,Desktop,Net Banking,0,7,4,2025-03-07,1,3,16,11
+IND50001,5500.77,2025-03-07 08:01:26,Utilities,Vadodara,Desktop,Net Banking,0,8,4,2025-03-07,1,3,16,13
+IND50001,1186.28,2025-03-16 00:14:50,Petrol Pump,Indore,Desktop,Net Banking,0,0,6,2025-03-16,1,3,13,5
+IND50001,2228.21,2025-03-16 13:17:38,Pharmacy,Vadodara,Tablet,Net Banking,0,13,6,2025-03-16,2,3,16,4
+IND50001,4416.56,2025-04-02 12:55:30,Utilities,Vadodara,Desktop,Net Banking,0,12,2,2025-04-02,1,3,16,13
+IND50001,2985.63,2025-04-06 10:54:25,Restaurant,Ahmedabad,Tablet,Debit Card,0,10,6,2025-04-06,2,2,7,2
+IND50001,10297.9,2025-04-12 07:48:05,Travel Agency,Vadodara,Desktop,Credit Card,0,7,5,2025-04-12,1,1,16,9
+IND50001,41322.85,2025-04-16 01:09:19,Jewelry,Vadodara,Desktop,Net Banking,0,1,2,2025-04-16,1,3,16,8
+IND50001,2030.09,2025-04-16 03:11:54,Insurance,Vadodara,Desktop,Net Banking,0,3,2,2025-04-16,1,3,16,11
+IND50001,47959.94,2025-04-25 10:24:39,Hotel,Lucknow,Desktop,Net Banking,0,10,4,2025-04-25,1,3,10,10
+IND50001,3921.12,2025-05-01 18:00:44,Education,Vadodara,Desktop,Net Banking,0,18,3,2025-05-01,1,3,16,12
+IND50001,1044.13,2025-05-05 17:16:35,Grocery Store,Vadodara,Desktop,Net Banking,0,17,0,2025-05-05,1,3,16,0
+IND50001,6116.99,2025-06-06 18:25:54,Electronics,Vadodara,Desktop,Net Banking,0,18,4,2025-06-06,1,3,16,1
+IND50001,13675.04,2025-06-13 10:19:58,Jewelry,Vadodara,Desktop,Net Banking,0,10,4,2025-06-13,1,3,16,8
+IND50001,939.36,2025-06-16 22:34:11,Pharmacy,Vadodara,Desktop,Net Banking,0,22,0,2025-06-16,1,3,16,4
+IND50001,7735.15,2025-06-26 09:00:43,Travel Agency,Vadodara,Mobile,Debit Card,0,9,3,2025-06-26,0,2,16,9
+IND50001,38198.85,2025-06-28 13:11:37,Hotel,Indore,Desktop,Net Banking,0,13,5,2025-06-28,1,3,13,10
+IND50002,125.3,2025-01-01 14:32:24,Coffee Shop,Nashik,Desktop,Net Banking,0,14,2,2025-01-01,1,3,19,14
+IND50002,7996.87,2025-01-04 13:50:17,ATM,Pune,Desktop,Net Banking,0,13,5,2025-01-04,1,3,5,6
+IND50002,2254.76,2025-01-06 14:24:22,Pharmacy,Pune,Desktop,Net Banking,0,14,0,2025-01-06,1,3,5,4
+IND50002,731.45,2025-01-13 21:01:11,Pharmacy,Pune,Desktop,Net Banking,0,21,0,2025-01-13,1,3,5,4
+IND50002,7297.64,2025-01-21 12:40:15,Education,Pune,Desktop,Net Banking,0,12,1,2025-01-21,1,3,5,12
+IND50002,40062.41,2025-01-28 10:31:14,Jewelry,Pune,Desktop,Credit Card,0,10,1,2025-01-28,1,1,5,8
+IND50002,5057.48,2025-01-29 11:29:39,Insurance,Pune,Desktop,Net Banking,0,11,2,2025-01-29,1,3,5,11
+IND50002,170802.85,2025-02-16 04:57:53,Electronics,Pune,Tablet,Credit Card,1,4,6,2025-02-16,2,1,5,1
+IND50002,4874.39,2025-02-20 17:56:03,Clothing,Pune,Desktop,Net Banking,0,17,3,2025-02-20,1,3,5,3
+IND50002,1981.46,2025-03-01 10:09:00,Pharmacy,Pune,Desktop,Net Banking,0,10,5,2025-03-01,1,3,5,4
+IND50002,2286.01,2025-03-14 16:47:34,ATM,Pune,Desktop,Net Banking,0,16,4,2025-03-14,1,3,5,6
+IND50002,2855.02,2025-03-17 09:44:31,Restaurant,Pune,Desktop,Net Banking,0,9,0,2025-03-17,1,3,5,2
+IND50002,6213.77,2025-04-09 09:15:47,Insurance,Pune,Desktop,Net Banking,0,9,2,2025-04-09,1,3,5,11
+IND50002,9926.67,2025-06-03 12:10:04,Department Store,Pune,Desktop,Net Banking,0,12,1,2025-06-03,1,3,5,7
+IND50002,940.35,2025-06-08 13:59:48,Grocery Store,Pune,Desktop,Net Banking,0,13,6,2025-06-08,1,3,5,0
+IND50002,156603.18,2025-06-24 01:59:20,Insurance,Surat,Desktop,Debit Card,1,1,1,2025-06-24,1,2,9,11
+IND50002,897.94,2025-06-26 08:44:38,Education,Pune,Desktop,Net Banking,0,8,3,2025-06-26,1,3,5,12
+IND50002,724.94,2025-06-28 20:21:05,Grocery Store,Pune,Desktop,Net Banking,0,20,5,2025-06-28,1,3,5,0
+IND50003,9349.03,2025-01-01 13:02:18,Jewelry,Mumbai,Mobile,Net Banking,0,13,2,2025-01-01,0,3,0,8
+IND50003,23421.08,2025-01-13 07:25:16,Jewelry,Bengaluru,Desktop,Credit Card,0,7,0,2025-01-13,1,1,2,8
+IND50003,9337.34,2025-01-15 16:22:56,ATM,Bengaluru,Tablet,UPI,0,16,2,2025-01-15,2,0,2,6
+IND50003,921.29,2025-01-24 15:27:18,Restaurant,Bengaluru,Mobile,Net Banking,0,15,4,2025-01-24,0,3,2,2
+IND50003,968.34,2025-01-25 08:29:22,Pharmacy,Bengaluru,Mobile,Net Banking,0,8,5,2025-01-25,0,3,2,4
+IND50003,18863.1,2025-01-27 12:50:11,Jewelry,Bengaluru,Desktop,Debit Card,0,12,0,2025-01-27,1,2,2,8
+IND50003,6750.25,2025-02-19 13:02:36,ATM,Bengaluru,Mobile,Net Banking,0,13,2,2025-02-19,0,3,2,6
+IND50003,7558.11,2025-02-26 03:54:20,Utilities,Bengaluru,Tablet,Credit Card,0,3,2,2025-02-26,2,1,2,13
+IND50003,14691.86,2025-03-01 09:24:12,Hotel,Bengaluru,Mobile,Net Banking,0,9,5,2025-03-01,0,3,2,10
+IND50003,46528.91,2025-03-03 11:34:13,Jewelry,Bengaluru,Desktop,Net Banking,0,11,0,2025-03-03,1,3,2,8
+IND50003,1872.95,2025-03-07 13:23:14,Electronics,Visakhapatnam,Mobile,Net Banking,0,13,4,2025-03-07,0,3,15,1
+IND50003,4707.1,2025-03-10 18:20:43,Electronics,Bengaluru,Mobile,Net Banking,0,18,0,2025-03-10,0,3,2,1
+IND50003,3751.05,2025-03-18 13:36:25,Clothing,Bengaluru,Mobile,Net Banking,0,13,1,2025-03-18,0,3,2,3
+IND50003,5139.28,2025-03-22 11:20:54,Education,Bengaluru,Mobile,Net Banking,0,11,5,2025-03-22,0,3,2,12
+IND50003,49862.7,2025-05-05 09:41:36,Travel Agency,Bengaluru,Mobile,Net Banking,0,9,0,2025-05-05,0,3,2,9
+IND50003,1139.6,2025-05-14 16:04:02,Restaurant,Bengaluru,Mobile,Net Banking,0,16,2,2025-05-14,0,3,2,2
+IND50003,19824.28,2025-05-23 15:47:06,Travel Agency,Bengaluru,Mobile,Net Banking,0,15,4,2025-05-23,0,3,2,9
+IND50003,2570.46,2025-06-07 14:33:02,Utilities,Vadodara,Mobile,Net Banking,0,14,5,2025-06-07,0,3,16,13
+IND50003,852.75,2025-06-12 10:24:03,Grocery Store,Bengaluru,Mobile,Net Banking,0,10,3,2025-06-12,0,3,2,0
+IND50003,1086.61,2025-06-13 15:23:35,Coffee Shop,Bengaluru,Mobile,Net Banking,0,15,4,2025-06-13,0,3,2,14
+IND50003,860.69,2025-06-24 08:49:35,Pharmacy,Bengaluru,Mobile,Net Banking,0,8,1,2025-06-24,0,3,2,4
+IND50003,33185.97,2025-06-26 18:36:52,Travel Agency,Bengaluru,Desktop,UPI,0,18,3,2025-06-26,1,0,2,9
+IND50003,9724.88,2025-06-28 14:09:03,ATM,Bengaluru,Mobile,Net Banking,0,14,5,2025-06-28,0,3,2,6
+IND50004,70154.81,2025-01-05 03:43:22,Insurance,Delhi,Tablet,Debit Card,1,3,6,2025-01-05,2,2,1,11
+IND50004,3649.24,2025-01-07 13:10:22,Education,Kolkata,Desktop,Debit Card,0,13,1,2025-01-07,1,2,6,12
+IND50004,4245.76,2025-01-18 08:34:46,Petrol Pump,Kolkata,Desktop,Debit Card,0,8,5,2025-01-18,1,2,6,5
+IND50004,7890.45,2025-02-08 09:06:08,Education,Kolkata,Desktop,Debit Card,0,9,5,2025-02-08,1,2,6,12
+IND50004,1205.21,2025-02-13 13:18:12,Grocery Store,Bengaluru,Desktop,Debit Card,0,13,3,2025-02-13,1,2,2,0
+IND50004,2319.55,2025-02-19 15:02:26,Grocery Store,Ahmedabad,Desktop,Debit Card,0,15,2,2025-02-19,1,2,7,0
+IND50004,26213.18,2025-02-21 19:04:11,Department Store,Kolkata,Desktop,Debit Card,0,19,4,2025-02-21,1,2,6,7
+IND50004,1778.02,2025-02-22 12:08:37,Education,Kolkata,Desktop,Debit Card,0,12,5,2025-02-22,1,2,6,12
+IND50004,6851.56,2025-03-01 08:43:23,Insurance,Kolkata,Desktop,Debit Card,0,8,5,2025-03-01,1,2,6,11
+IND50004,787.84,2025-03-11 17:54:58,Grocery Store,Nagpur,Desktop,Debit Card,0,17,1,2025-03-11,1,2,12,0
+IND50004,2068.51,2025-03-23 11:26:19,Coffee Shop,Kolkata,Desktop,Debit Card,0,11,6,2025-03-23,1,2,6,14
+IND50004,27983.35,2025-04-08 12:45:06,Travel Agency,Kolkata,Desktop,Debit Card,0,12,1,2025-04-08,1,2,6,9
+IND50004,182519.8,2025-04-10 03:35:17,Jewelry,Indore,Tablet,Credit Card,1,3,3,2025-04-10,2,1,13,8
+IND50004,2281.56,2025-04-17 11:36:09,Pharmacy,Kolkata,Desktop,Debit Card,0,11,3,2025-04-17,1,2,6,4
+IND50004,2737.9,2025-04-26 05:52:56,Clothing,Kolkata,Desktop,Debit Card,0,5,5,2025-04-26,1,2,6,3
+IND50004,186785.92,2025-04-28 02:59:45,ATM,Indore,Tablet,Credit Card,1,2,0,2025-04-28,2,1,13,6
+IND50004,37560.59,2025-04-28 15:27:25,Travel Agency,Kolkata,Desktop,Debit Card,0,15,0,2025-04-28,1,2,6,9
+IND50004,1257.87,2025-05-01 15:21:13,Clothing,Kolkata,Desktop,Debit Card,0,15,3,2025-05-01,1,2,6,3
+IND50004,6038.55,2025-05-04 14:46:09,ATM,Kolkata,Desktop,Debit Card,0,14,6,2025-05-04,1,2,6,6
+IND50004,4305.01,2025-05-09 13:30:45,Restaurant,Kolkata,Desktop,Debit Card,0,13,4,2025-05-09,1,2,6,2
+IND50004,3384.29,2025-05-15 21:27:58,Restaurant,Kolkata,Desktop,Debit Card,0,21,3,2025-05-15,1,2,6,2
+IND50004,949.41,2025-06-06 09:38:14,Grocery Store,Kolkata,Desktop,Debit Card,0,9,4,2025-06-06,1,2,6,0
+IND50004,44161.8,2025-06-06 12:36:38,Hotel,Kolkata,Desktop,Debit Card,0,12,4,2025-06-06,1,2,6,10
+IND50004,910.72,2025-06-08 16:55:53,Grocery Store,Kolkata,Desktop,Debit Card,0,16,6,2025-06-08,1,2,6,0
+IND50005,997.03,2025-01-10 10:49:19,Coffee Shop,Ludhiana,Tablet,Net Banking,0,10,4,2025-01-10,2,3,17,14
+IND50005,43545.61,2025-01-12 12:58:21,Hotel,Ludhiana,Tablet,Net Banking,0,12,6,2025-01-12,2,3,17,10
+IND50005,353.1,2025-01-12 16:22:35,Clothing,Ludhiana,Tablet,Net Banking,0,16,6,2025-01-12,2,3,17,3
+IND50005,1952.3,2025-01-13 11:18:28,Pharmacy,Ludhiana,Tablet,Net Banking,0,11,0,2025-01-13,2,3,17,4
+IND50005,431.81,2025-01-13 13:09:03,Grocery Store,Ludhiana,Tablet,Net Banking,0,13,0,2025-01-13,2,3,17,0
+IND50005,9730.25,2025-01-14 14:19:19,Department Store,Ludhiana,Mobile,UPI,0,14,1,2025-01-14,0,0,17,7
+IND50005,247.82,2025-01-18 12:19:32,Education,Ludhiana,Tablet,Net Banking,0,12,5,2025-01-18,2,3,17,12
+IND50005,1119.82,2025-02-19 12:07:01,Education,Ludhiana,Desktop,Net Banking,0,12,2,2025-02-19,1,3,17,12
+IND50005,37297.24,2025-02-23 06:13:39,Travel Agency,Ludhiana,Desktop,Debit Card,0,6,6,2025-02-23,1,2,17,9
+IND50005,424.22,2025-03-17 14:58:03,Coffee Shop,Ludhiana,Tablet,Net Banking,0,14,0,2025-03-17,2,3,17,14
+IND50005,4923.01,2025-04-01 16:09:17,Petrol Pump,Ludhiana,Tablet,Net Banking,0,16,1,2025-04-01,2,3,17,5
+IND50005,49766.14,2025-04-20 10:54:20,Travel Agency,Ludhiana,Tablet,Net Banking,0,10,6,2025-04-20,2,3,17,9
+IND50005,7187.2,2025-04-26 13:11:29,Insurance,Bengaluru,Tablet,Net Banking,0,13,5,2025-04-26,2,3,2,11
+IND50005,45108.64,2025-05-04 17:40:29,Jewelry,Ludhiana,Tablet,UPI,0,17,6,2025-05-04,2,0,17,8
+IND50005,1764.6,2025-05-09 13:11:49,Coffee Shop,Ludhiana,Tablet,Net Banking,0,13,4,2025-05-09,2,3,17,14
+IND50005,28186.62,2025-05-14 14:36:46,Jewelry,Ludhiana,Tablet,Net Banking,0,14,2,2025-05-14,2,3,17,8
+IND50005,6903.38,2025-05-21 08:18:30,Insurance,Ludhiana,Tablet,Net Banking,0,8,2,2025-05-21,2,3,17,11
+IND50005,24527.44,2025-05-25 13:33:46,Department Store,Ahmedabad,Tablet,Net Banking,0,13,6,2025-05-25,2,3,7,7
+IND50005,4218.98,2025-05-26 08:01:53,Petrol Pump,Visakhapatnam,Mobile,Credit Card,0,8,0,2025-05-26,0,1,15,5
+IND50005,18634.67,2025-05-31 11:30:29,Electronics,Ludhiana,Desktop,Credit Card,0,11,5,2025-05-31,1,1,17,1
+IND50005,13383.27,2025-06-04 07:21:58,Electronics,Ludhiana,Tablet,Net Banking,0,7,2,2025-06-04,2,3,17,1
+IND50005,4584.98,2025-06-06 13:44:44,Education,Agra,Tablet,Net Banking,0,13,4,2025-06-06,2,3,18,12
+IND50005,16989.78,2025-06-09 12:00:29,Department Store,Ludhiana,Mobile,Credit Card,0,12,0,2025-06-09,0,1,17,7
+IND50005,6370.32,2025-06-12 14:05:33,Insurance,Ludhiana,Desktop,Net Banking,0,14,3,2025-06-12,1,3,17,11
+IND50005,5919.45,2025-06-27 15:58:45,Insurance,Ludhiana,Tablet,Net Banking,0,15,4,2025-06-27,2,3,17,11
+IND50006,2046.44,2025-01-09 12:26:05,Clothing,Pune,Desktop,UPI,0,12,3,2025-01-09,1,0,5,3
+IND50006,191.66,2025-01-12 10:54:38,Coffee Shop,Pune,Desktop,UPI,0,10,6,2025-01-12,1,0,5,14
+IND50006,33287.67,2025-01-24 12:29:06,Hotel,Pune,Desktop,UPI,0,12,4,2025-01-24,1,0,5,10
+IND50006,5613.67,2025-02-10 10:24:04,Utilities,Pune,Tablet,Debit Card,0,10,0,2025-02-10,2,2,5,13
+IND50006,959.55,2025-02-27 13:55:57,Coffee Shop,Pune,Desktop,Debit Card,0,13,3,2025-02-27,1,2,5,14
+IND50006,84549.66,2025-03-21 02:36:48,Jewelry,Agra,Desktop,Net Banking,1,2,4,2025-03-21,1,3,18,8
+IND50006,41037.09,2025-03-21 14:52:12,Hotel,Pune,Desktop,Credit Card,0,14,4,2025-03-21,1,1,5,10
+IND50006,2393.24,2025-03-25 11:06:52,Pharmacy,Pune,Desktop,UPI,0,11,1,2025-03-25,1,0,5,4
+IND50006,183559.71,2025-03-28 04:28:03,Electronics,Delhi,Mobile,Net Banking,1,4,4,2025-03-28,0,3,1,1
+IND50006,8266.75,2025-03-31 12:36:08,ATM,Pune,Desktop,UPI,0,12,0,2025-03-31,1,0,5,6
+IND50006,42300.2,2025-04-11 17:45:38,Hotel,Pune,Desktop,UPI,0,17,4,2025-04-11,1,0,5,10
+IND50006,2549.66,2025-04-27 12:01:04,Petrol Pump,Pune,Desktop,UPI,0,12,6,2025-04-27,1,0,5,5
+IND50006,22374.57,2025-05-04 10:09:12,Department Store,Pune,Mobile,UPI,0,10,6,2025-05-04,0,0,5,7
+IND50006,12546.26,2025-05-13 14:08:13,Department Store,Chennai,Desktop,UPI,0,14,1,2025-05-13,1,0,3,7
+IND50006,1962.25,2025-05-15 11:11:07,Grocery Store,Bhopal,Desktop,UPI,0,11,3,2025-05-15,1,0,14,0
+IND50006,22571.96,2025-05-20 14:15:11,Electronics,Pune,Mobile,Net Banking,0,14,1,2025-05-20,0,3,5,1
+IND50006,14506.78,2025-05-21 16:17:09,Travel Agency,Pune,Desktop,UPI,0,16,2,2025-05-21,1,0,5,9
+IND50006,299.09,2025-06-02 13:20:31,Grocery Store,Pune,Tablet,UPI,0,13,0,2025-06-02,2,0,5,0
+IND50006,6110.09,2025-06-16 12:50:19,ATM,Pune,Desktop,UPI,0,12,0,2025-06-16,1,0,5,6
+IND50006,32593.64,2025-06-21 01:17:09,Insurance,Chennai,Mobile,Debit Card,1,1,5,2025-06-21,0,2,3,11
+IND50007,4113.48,2025-01-02 14:31:54,Insurance,Hyderabad,Desktop,Credit Card,0,14,3,2025-01-02,1,1,4,11
+IND50007,774.09,2025-01-14 14:18:51,Grocery Store,Hyderabad,Desktop,Credit Card,0,14,1,2025-01-14,1,1,4,0
+IND50007,7102.13,2025-02-04 02:04:41,Insurance,Hyderabad,Mobile,UPI,0,2,1,2025-02-04,0,0,4,11
+IND50007,4247.82,2025-02-05 16:35:24,Petrol Pump,Hyderabad,Tablet,Credit Card,0,16,2,2025-02-05,2,1,4,5
+IND50007,1989.21,2025-02-05 17:51:26,Coffee Shop,Hyderabad,Desktop,Credit Card,0,17,2,2025-02-05,1,1,4,14
+IND50007,6275.18,2025-02-06 22:46:33,Education,Hyderabad,Desktop,Credit Card,0,22,3,2025-02-06,1,1,4,12
+IND50007,29069.35,2025-02-16 10:55:02,Electronics,Hyderabad,Desktop,Net Banking,0,10,6,2025-02-16,1,3,4,1
+IND50007,12464.37,2025-02-16 12:32:27,Department Store,Hyderabad,Desktop,Credit Card,0,12,6,2025-02-16,1,1,4,7
+IND50007,2204.25,2025-03-13 10:08:39,Utilities,Hyderabad,Desktop,Credit Card,0,10,3,2025-03-13,1,1,4,13
+IND50007,3503.13,2025-03-16 11:39:36,Clothing,Hyderabad,Desktop,Credit Card,0,11,6,2025-03-16,1,1,4,3
+IND50007,831.87,2025-04-04 12:02:36,Petrol Pump,Hyderabad,Desktop,Credit Card,0,12,4,2025-04-04,1,1,4,5
+IND50007,1291.03,2025-04-09 14:42:28,Restaurant,Hyderabad,Desktop,Credit Card,0,14,2,2025-04-09,1,1,4,2
+IND50007,4634.31,2025-04-11 11:20:45,ATM,Hyderabad,Desktop,Credit Card,0,11,4,2025-04-11,1,1,4,6
+IND50007,2498.02,2025-05-01 11:46:21,Education,Hyderabad,Desktop,Credit Card,0,11,3,2025-05-01,1,1,4,12
+IND50007,973.52,2025-05-11 16:54:08,Grocery Store,Hyderabad,Desktop,Credit Card,0,16,6,2025-05-11,1,1,4,0
+IND50007,8984.82,2025-05-17 14:24:43,Department Store,Hyderabad,Desktop,Credit Card,0,14,5,2025-05-17,1,1,4,7
+IND50007,39590.78,2025-05-29 18:39:03,Jewelry,Hyderabad,Desktop,Credit Card,0,18,3,2025-05-29,1,1,4,8
+IND50007,1568.12,2025-06-01 11:09:42,Education,Hyderabad,Desktop,Credit Card,0,11,6,2025-06-01,1,1,4,12
+IND50007,228.63,2025-06-02 15:19:46,Pharmacy,Hyderabad,Desktop,Credit Card,0,15,0,2025-06-02,1,1,4,4
+IND50007,48139.32,2025-06-06 13:15:30,Hotel,Hyderabad,Desktop,Credit Card,0,13,4,2025-06-06,1,1,4,10
+IND50007,2480.87,2025-06-14 08:48:52,Restaurant,Hyderabad,Desktop,Credit Card,0,8,5,2025-06-14,1,1,4,2
+IND50007,913.12,2025-06-23 11:58:59,Coffee Shop,Hyderabad,Desktop,Credit Card,0,11,0,2025-06-23,1,1,4,14
+IND50007,2174.94,2025-06-30 07:52:22,Pharmacy,Hyderabad,Desktop,Credit Card,0,7,0,2025-06-30,1,1,4,4
+IND50008,2772.68,2025-01-01 10:42:24,Insurance,Surat,Desktop,Net Banking,0,10,2,2025-01-01,1,3,9,11
+IND50008,3596.1,2025-01-05 13:58:58,Clothing,Surat,Desktop,Net Banking,0,13,6,2025-01-05,1,3,9,3
+IND50008,3677.88,2025-01-09 14:04:36,Education,Hyderabad,Desktop,Net Banking,0,14,3,2025-01-09,1,3,4,12
+IND50008,11022.4,2025-01-13 07:52:50,Travel Agency,Surat,Mobile,UPI,0,7,0,2025-01-13,0,0,9,9
+IND50008,7532.83,2025-01-15 05:50:46,Electronics,Surat,Desktop,Net Banking,0,5,2,2025-01-15,1,3,9,1
+IND50008,6531.87,2025-01-17 12:41:19,Utilities,Mumbai,Desktop,Net Banking,0,12,4,2025-01-17,1,3,0,13
+IND50008,138592.69,2025-01-29 01:11:16,ATM,Surat,Tablet,Debit Card,1,1,2,2025-01-29,2,2,9,6
+IND50008,7993.74,2025-02-06 09:49:27,Hotel,Surat,Desktop,Net Banking,0,9,3,2025-02-06,1,3,9,10
+IND50008,1764.04,2025-02-15 13:02:24,Pharmacy,Kanpur,Desktop,Net Banking,0,13,5,2025-02-15,1,3,11,4
+IND50008,3168.42,2025-02-15 22:04:31,Clothing,Surat,Desktop,Net Banking,0,22,5,2025-02-15,1,3,9,3
+IND50008,730.03,2025-02-16 14:35:00,Utilities,Surat,Desktop,Net Banking,0,14,6,2025-02-16,1,3,9,13
+IND50008,95075.83,2025-03-07 01:49:04,ATM,Surat,Desktop,Debit Card,1,1,4,2025-03-07,1,2,9,6
+IND50008,4231.21,2025-03-25 12:43:36,Petrol Pump,Surat,Tablet,Credit Card,0,12,1,2025-03-25,2,1,9,5
+IND50008,2096.48,2025-03-27 08:07:17,ATM,Surat,Desktop,Net Banking,0,8,3,2025-03-27,1,3,9,6
+IND50008,28159.29,2025-04-09 12:52:49,Travel Agency,Lucknow,Desktop,Net Banking,0,12,2,2025-04-09,1,3,10,9
+IND50008,43107.08,2025-04-13 07:40:41,Jewelry,Surat,Desktop,Credit Card,0,7,6,2025-04-13,1,1,9,8
+IND50008,6535.75,2025-05-06 16:27:25,Education,Surat,Desktop,Net Banking,0,16,1,2025-05-06,1,3,9,12
+IND50008,1780.6,2025-05-08 09:51:39,Education,Surat,Tablet,Net Banking,0,9,3,2025-05-08,2,3,9,12
+IND50008,19629.92,2025-05-16 18:02:06,Hotel,Surat,Desktop,Net Banking,0,18,4,2025-05-16,1,3,9,10
+IND50008,9105.64,2025-06-03 07:07:45,Travel Agency,Surat,Tablet,Credit Card,0,7,1,2025-06-03,2,1,9,9
+IND50008,419.21,2025-06-11 08:47:12,Clothing,Ahmedabad,Desktop,Net Banking,0,8,2,2025-06-11,1,3,7,3
+IND50008,8777.3,2025-06-16 10:21:17,Electronics,Surat,Desktop,Net Banking,0,10,0,2025-06-16,1,3,9,1
+IND50008,1720.42,2025-06-22 14:15:46,Education,Surat,Desktop,Net Banking,0,14,6,2025-06-22,1,3,9,12
+IND50008,254.32,2025-06-23 13:09:47,Coffee Shop,Surat,Desktop,Net Banking,0,13,0,2025-06-23,1,3,9,14
+IND50008,137.36,2025-06-25 09:22:14,Grocery Store,Surat,Tablet,Credit Card,0,9,2,2025-06-25,2,1,9,0
+IND50009,48909.2,2025-01-02 08:15:12,Jewelry,Ahmedabad,Tablet,Credit Card,0,8,3,2025-01-02,2,1,7,8
+IND50009,1876.94,2025-01-19 06:37:31,ATM,Bhopal,Mobile,UPI,0,6,6,2025-01-19,0,0,14,6
+IND50009,7088.28,2025-01-23 17:41:37,ATM,Ahmedabad,Mobile,UPI,0,17,3,2025-01-23,0,0,7,6
+IND50009,13242.89,2025-02-02 10:09:40,Department Store,Nashik,Mobile,UPI,0,10,6,2025-02-02,0,0,19,7
+IND50009,20117.07,2025-02-15 05:42:59,Hotel,Ahmedabad,Mobile,UPI,0,5,5,2025-02-15,0,0,7,10
+IND50009,7966.18,2025-02-28 12:26:54,Utilities,Ahmedabad,Desktop,UPI,0,12,4,2025-02-28,1,0,7,13
+IND50009,4885.11,2025-04-06 09:29:46,Petrol Pump,Ahmedabad,Mobile,UPI,0,9,6,2025-04-06,0,0,7,5
+IND50009,6004.94,2025-04-20 09:55:15,ATM,Agra,Tablet,UPI,0,9,6,2025-04-20,2,0,18,6
+IND50009,829.59,2025-04-29 10:42:13,Clothing,Ahmedabad,Desktop,Net Banking,0,10,1,2025-04-29,1,3,7,3
+IND50009,18392.14,2025-05-12 09:04:57,Department Store,Ahmedabad,Mobile,UPI,0,9,0,2025-05-12,0,0,7,7
+IND50009,19374.96,2025-06-02 13:45:31,Electronics,Ahmedabad,Mobile,UPI,0,13,0,2025-06-02,0,0,7,1
+IND50009,45562.17,2025-06-04 13:50:50,Travel Agency,Ahmedabad,Mobile,UPI,0,13,2,2025-06-04,0,0,7,9
+IND50009,1380.41,2025-06-07 15:02:06,Coffee Shop,Ahmedabad,Mobile,UPI,0,15,5,2025-06-07,0,0,7,14
+IND50009,1258.46,2025-06-11 08:24:49,Coffee Shop,Ahmedabad,Mobile,UPI,0,8,2,2025-06-11,0,0,7,14
+IND50009,760.9,2025-06-23 07:14:49,Clothing,Ahmedabad,Desktop,Credit Card,0,7,0,2025-06-23,1,1,7,3
+IND50009,3831.17,2025-06-27 08:03:17,Utilities,Ahmedabad,Mobile,Debit Card,0,8,4,2025-06-27,0,2,7,13
+IND50010,33299.59,2025-01-17 09:55:51,Jewelry,Indore,Mobile,UPI,0,9,4,2025-01-17,0,0,13,8
+IND50010,2747.23,2025-01-29 08:09:31,Clothing,Indore,Mobile,UPI,0,8,2,2025-01-29,0,0,13,3
+IND50010,12099.22,2025-02-03 10:10:50,Department Store,Indore,Mobile,Debit Card,0,10,0,2025-02-03,0,2,13,7
+IND50010,1655.35,2025-02-18 11:05:05,Restaurant,Chennai,Mobile,UPI,0,11,1,2025-02-18,0,0,3,2
+IND50010,77114.71,2025-02-27 04:22:57,Electronics,Visakhapatnam,Desktop,UPI,1,4,3,2025-02-27,1,0,15,1
+IND50010,3371.62,2025-03-03 01:35:48,Insurance,Indore,Mobile,UPI,0,1,0,2025-03-03,0,0,13,11
+IND50010,471.56,2025-03-03 12:05:01,Pharmacy,Indore,Mobile,UPI,0,12,0,2025-03-03,0,0,13,4
+IND50010,1690.64,2025-03-08 12:11:13,Grocery Store,Hyderabad,Mobile,UPI,0,12,5,2025-03-08,0,0,4,0
+IND50010,6805.07,2025-03-11 09:39:34,Hotel,Delhi,Mobile,UPI,0,9,1,2025-03-11,0,0,1,10
+IND50010,4375.47,2025-03-14 18:10:39,Insurance,Indore,Mobile,UPI,0,18,4,2025-03-14,0,0,13,11
+IND50010,48853.25,2025-04-28 21:09:00,Jewelry,Indore,Mobile,UPI,0,21,0,2025-04-28,0,0,13,8
+IND50010,787.28,2025-05-01 16:34:43,Coffee Shop,Indore,Tablet,UPI,0,16,3,2025-05-01,2,0,13,14
+IND50010,4608.81,2025-05-02 14:48:36,Education,Bhopal,Mobile,UPI,0,14,4,2025-05-02,0,0,14,12
+IND50010,6424.54,2025-05-10 11:27:33,Education,Indore,Mobile,UPI,0,11,5,2025-05-10,0,0,13,12
+IND50010,1059.04,2025-05-19 08:34:19,Grocery Store,Indore,Mobile,UPI,0,8,0,2025-05-19,0,0,13,0
+IND50010,70567.56,2025-05-24 03:49:13,Electronics,Indore,Tablet,Credit Card,1,3,5,2025-05-24,2,1,13,1
+IND50010,5684.45,2025-05-30 15:29:29,Utilities,Indore,Tablet,Net Banking,0,15,4,2025-05-30,2,3,13,13
+IND50010,42569.67,2025-06-15 14:31:37,Jewelry,Indore,Mobile,UPI,0,14,6,2025-06-15,0,0,13,8
+IND50010,109109.99,2025-06-22 03:56:03,Electronics,Pune,Tablet,UPI,1,3,6,2025-06-22,2,0,5,1
+IND50010,4716.67,2025-06-24 12:59:08,ATM,Indore,Mobile,UPI,0,12,1,2025-06-24,0,0,13,6
+IND50010,2672.82,2025-06-27 08:50:09,Electronics,Indore,Mobile,UPI,0,8,4,2025-06-27,0,0,13,1
+IND50010,2796.67,2025-06-30 11:00:55,Insurance,Indore,Mobile,UPI,0,11,0,2025-06-30,0,0,13,11
+IND50011,3972.03,2025-01-15 13:41:12,Clothing,Chennai,Mobile,Net Banking,0,13,2,2025-01-15,0,3,3,3
+IND50011,29311.43,2025-01-22 14:54:28,Electronics,Chennai,Mobile,Net Banking,0,14,2,2025-01-22,0,3,3,1
+IND50011,2666.44,2025-01-25 12:48:10,Utilities,Chennai,Desktop,Debit Card,0,12,5,2025-01-25,1,2,3,13
+IND50011,411.42,2025-01-25 16:37:22,Grocery Store,Chennai,Desktop,Debit Card,0,16,5,2025-01-25,1,2,3,0
+IND50011,3031.01,2025-01-31 13:31:04,Petrol Pump,Chennai,Tablet,Net Banking,0,13,4,2025-01-31,2,3,3,5
+IND50011,2611.87,2025-02-01 10:42:57,Restaurant,Chennai,Mobile,Net Banking,0,10,5,2025-02-01,0,3,3,2
+IND50011,548.58,2025-03-23 08:56:44,Restaurant,Chennai,Mobile,Net Banking,0,8,6,2025-03-23,0,3,3,2
+IND50011,265.92,2025-04-02 12:18:18,Coffee Shop,Chennai,Mobile,Net Banking,0,12,2,2025-04-02,0,3,3,14
+IND50011,2445.61,2025-04-09 10:00:18,Pharmacy,Bengaluru,Mobile,Net Banking,0,10,2,2025-04-09,0,3,2,4
+IND50011,1276.58,2025-04-17 13:53:37,Restaurant,Chennai,Desktop,UPI,0,13,3,2025-04-17,1,0,3,2
+IND50011,4086.66,2025-04-24 11:26:51,Restaurant,Indore,Mobile,Net Banking,0,11,3,2025-04-24,0,3,13,2
+IND50011,219.08,2025-05-07 09:47:29,Education,Chennai,Tablet,Net Banking,0,9,2,2025-05-07,2,3,3,12
+IND50011,1420.36,2025-05-26 16:12:11,Pharmacy,Chennai,Tablet,Debit Card,0,16,0,2025-05-26,2,2,3,4
+IND50011,741.46,2025-06-01 11:05:00,Coffee Shop,Chennai,Mobile,Net Banking,0,11,6,2025-06-01,0,3,3,14
+IND50011,2168.52,2025-06-04 18:32:03,Petrol Pump,Chennai,Mobile,Net Banking,0,18,2,2025-06-04,0,3,3,5
+IND50011,42521.22,2025-06-23 03:07:19,Travel Agency,Chennai,Mobile,Net Banking,0,3,0,2025-06-23,0,3,3,9
+IND50011,2125.58,2025-06-27 14:23:32,Grocery Store,Chennai,Mobile,Net Banking,0,14,4,2025-06-27,0,3,3,0
+IND50012,4140.08,2025-01-05 14:22:19,Restaurant,Nashik,Mobile,UPI,0,14,6,2025-01-05,0,0,19,2
+IND50012,19348.32,2025-01-08 10:09:54,Travel Agency,Pune,Mobile,UPI,0,10,2,2025-01-08,0,0,5,9
+IND50012,20269.75,2025-02-18 16:57:53,Hotel,Pune,Mobile,UPI,0,16,1,2025-02-18,0,0,5,10
+IND50012,4889.28,2025-02-20 13:02:50,Department Store,Pune,Mobile,UPI,0,13,3,2025-02-20,0,0,5,7
+IND50012,6685.05,2025-02-26 12:50:57,Insurance,Pune,Mobile,UPI,0,12,2,2025-02-26,0,0,5,11
+IND50012,3612.24,2025-03-22 12:29:07,Petrol Pump,Pune,Mobile,UPI,0,12,5,2025-03-22,0,0,5,5
+IND50012,155149.65,2025-03-25 05:07:24,Travel Agency,Bhopal,Desktop,Net Banking,1,5,1,2025-03-25,1,3,14,9
+IND50012,1125.06,2025-03-29 04:45:19,Utilities,Pune,Mobile,UPI,0,4,5,2025-03-29,0,0,5,13
+IND50012,9437.77,2025-04-14 11:14:53,Department Store,Pune,Mobile,UPI,0,11,0,2025-04-14,0,0,5,7
+IND50012,2535.6,2025-04-23 22:06:11,ATM,Pune,Mobile,UPI,0,22,2,2025-04-23,0,0,5,6
+IND50012,5720.5,2025-05-18 18:46:06,Utilities,Pune,Mobile,UPI,0,18,6,2025-05-18,0,0,5,13
+IND50012,27606.89,2025-05-22 07:48:51,Department Store,Pune,Mobile,UPI,0,7,3,2025-05-22,0,0,5,7
+IND50012,604.14,2025-06-01 17:47:59,Restaurant,Lucknow,Mobile,UPI,0,17,6,2025-06-01,0,0,10,2
+IND50012,159751.49,2025-06-06 05:32:36,Insurance,Ahmedabad,Desktop,Credit Card,1,5,4,2025-06-06,1,1,7,11
+IND50012,3061.73,2025-06-20 18:48:06,Clothing,Pune,Mobile,UPI,0,18,4,2025-06-20,0,0,5,3
+IND50012,6995.28,2025-06-22 12:25:28,Hotel,Pune,Mobile,UPI,0,12,6,2025-06-22,0,0,5,10
+IND50012,102216.86,2025-06-26 01:19:08,Electronics,Vadodara,Desktop,UPI,1,1,3,2025-06-26,1,0,16,1
+IND50013,2438.95,2025-01-17 11:13:54,Utilities,Jaipur,Desktop,Net Banking,0,11,4,2025-01-17,1,3,8,13
+IND50013,1585.16,2025-02-15 10:38:43,Pharmacy,Jaipur,Desktop,Net Banking,0,10,5,2025-02-15,1,3,8,4
+IND50013,8143.73,2025-03-15 23:03:19,ATM,Jaipur,Tablet,UPI,0,23,5,2025-03-15,2,0,8,6
+IND50013,5465.87,2025-03-24 12:06:51,Insurance,Jaipur,Desktop,Net Banking,0,12,0,2025-03-24,1,3,8,11
+IND50013,1463.79,2025-03-30 06:26:22,Clothing,Jaipur,Desktop,Net Banking,0,6,6,2025-03-30,1,3,8,3
+IND50013,7152.47,2025-04-04 13:51:47,Education,Jaipur,Desktop,Net Banking,0,13,4,2025-04-04,1,3,8,12
+IND50013,33992.32,2025-04-07 05:29:02,Jewelry,Jaipur,Mobile,Net Banking,0,5,0,2025-04-07,0,3,8,8
+IND50013,1764.22,2025-04-19 11:32:57,Grocery Store,Jaipur,Desktop,Net Banking,0,11,5,2025-04-19,1,3,8,0
+IND50013,1053.18,2025-04-21 11:19:45,Education,Jaipur,Desktop,Net Banking,0,11,0,2025-04-21,1,3,8,12
+IND50013,612.25,2025-05-08 04:40:08,Insurance,Jaipur,Desktop,Net Banking,0,4,3,2025-05-08,1,3,8,11
+IND50013,2247.28,2025-05-10 12:27:42,Clothing,Jaipur,Desktop,Net Banking,0,12,5,2025-05-10,1,3,8,3
+IND50013,3808.24,2025-05-14 08:23:29,Restaurant,Jaipur,Desktop,Debit Card,0,8,2,2025-05-14,1,2,8,2
+IND50013,26401.26,2025-05-14 09:50:29,Hotel,Jaipur,Desktop,Net Banking,0,9,2,2025-05-14,1,3,8,10
+IND50013,8861.19,2025-05-19 05:01:48,ATM,Jaipur,Desktop,Net Banking,0,5,0,2025-05-19,1,3,8,6
+IND50013,855.57,2025-06-01 11:39:43,Pharmacy,Jaipur,Desktop,Net Banking,0,11,6,2025-06-01,1,3,8,4
+IND50013,25337.61,2025-06-01 12:17:04,Jewelry,Jaipur,Tablet,Debit Card,0,12,6,2025-06-01,2,2,8,8
+IND50013,41019.87,2025-06-19 19:29:17,Jewelry,Indore,Tablet,UPI,0,19,3,2025-06-19,2,0,13,8
+IND50013,2416.71,2025-06-20 10:10:39,ATM,Jaipur,Mobile,Credit Card,0,10,4,2025-06-20,0,1,8,6
+IND50013,3909.6,2025-06-20 12:25:31,Restaurant,Jaipur,Desktop,Net Banking,0,12,4,2025-06-20,1,3,8,2
+IND50013,4226.55,2025-06-21 02:11:56,Insurance,Jaipur,Desktop,Net Banking,0,2,5,2025-06-21,1,3,8,11
+IND50013,1419.23,2025-06-25 12:36:30,Utilities,Jaipur,Desktop,Net Banking,0,12,2,2025-06-25,1,3,8,13
+IND50013,392.65,2025-06-26 07:55:19,Restaurant,Jaipur,Desktop,Net Banking,0,7,3,2025-06-26,1,3,8,2
+IND50014,14926.1,2025-01-09 16:55:05,Department Store,Ahmedabad,Tablet,Net Banking,0,16,3,2025-01-09,2,3,7,7
+IND50014,1991.0,2025-01-10 08:10:17,Pharmacy,Ahmedabad,Mobile,Net Banking,0,8,4,2025-01-10,0,3,7,4
+IND50014,298.54,2025-01-17 14:57:23,Coffee Shop,Hyderabad,Mobile,Net Banking,0,14,4,2025-01-17,0,3,4,14
+IND50014,2278.09,2025-01-26 12:44:16,Petrol Pump,Ahmedabad,Mobile,Net Banking,0,12,6,2025-01-26,0,3,7,5
+IND50014,13138.7,2025-02-06 21:11:13,Department Store,Delhi,Mobile,Net Banking,0,21,3,2025-02-06,0,3,1,7
+IND50014,15333.4,2025-02-19 16:15:51,Department Store,Indore,Mobile,Net Banking,0,16,2,2025-02-19,0,3,13,7
+IND50014,1142.01,2025-03-02 17:13:55,Coffee Shop,Ahmedabad,Tablet,Net Banking,0,17,6,2025-03-02,2,3,7,14
+IND50014,9311.32,2025-03-02 18:24:00,ATM,Surat,Mobile,Net Banking,0,18,6,2025-03-02,0,3,9,6
+IND50014,3030.27,2025-03-06 13:24:19,Insurance,Ahmedabad,Mobile,Net Banking,0,13,3,2025-03-06,0,3,7,11
+IND50014,6037.32,2025-03-22 14:53:37,Education,Ahmedabad,Mobile,Net Banking,0,14,5,2025-03-22,0,3,7,12
+IND50014,33154.85,2025-03-25 15:44:01,Hotel,Ahmedabad,Mobile,UPI,0,15,1,2025-03-25,0,0,7,10
+IND50014,4636.04,2025-04-05 21:01:41,Travel Agency,Ahmedabad,Mobile,Credit Card,0,21,5,2025-04-05,0,1,7,9
+IND50014,20958.05,2025-04-06 12:07:20,Department Store,Hyderabad,Mobile,Net Banking,0,12,6,2025-04-06,0,3,4,7
+IND50014,4658.6,2025-04-13 10:40:19,Electronics,Ahmedabad,Mobile,Net Banking,0,10,6,2025-04-13,0,3,7,1
+IND50014,191444.67,2025-05-27 05:32:59,Insurance,Bengaluru,Mobile,UPI,1,5,1,2025-05-27,0,0,2,11
+IND50014,2160.19,2025-06-14 15:46:31,Grocery Store,Ahmedabad,Mobile,Net Banking,0,15,5,2025-06-14,0,3,7,0
+IND50015,2445.61,2025-01-12 13:16:32,Pharmacy,Hyderabad,Desktop,Net Banking,0,13,6,2025-01-12,1,3,4,4
+IND50015,1218.0,2025-01-14 09:09:03,Grocery Store,Hyderabad,Desktop,Net Banking,0,9,1,2025-01-14,1,3,4,0
+IND50015,875.35,2025-01-20 14:49:31,Coffee Shop,Hyderabad,Mobile,Net Banking,0,14,0,2025-01-20,0,3,4,14
+IND50015,362.76,2025-01-23 11:45:33,Pharmacy,Hyderabad,Desktop,Net Banking,0,11,3,2025-01-23,1,3,4,4
+IND50015,533.98,2025-01-23 14:12:16,Restaurant,Hyderabad,Desktop,Net Banking,0,14,3,2025-01-23,1,3,4,2
+IND50015,4574.67,2025-01-30 11:02:28,Insurance,Hyderabad,Desktop,Net Banking,0,11,3,2025-01-30,1,3,4,11
+IND50015,6544.62,2025-01-31 09:45:13,Utilities,Hyderabad,Desktop,Net Banking,0,9,4,2025-01-31,1,3,4,13
+IND50015,517.19,2025-02-07 09:22:05,Pharmacy,Hyderabad,Desktop,Net Banking,0,9,4,2025-02-07,1,3,4,4
+IND50015,1902.27,2025-02-08 19:23:10,Electronics,Hyderabad,Desktop,Net Banking,0,19,5,2025-02-08,1,3,4,1
+IND50015,1794.13,2025-03-05 13:37:43,Electronics,Hyderabad,Desktop,Net Banking,0,13,2,2025-03-05,1,3,4,1
+IND50015,49906.21,2025-03-11 13:57:42,Travel Agency,Hyderabad,Mobile,Net Banking,0,13,1,2025-03-11,0,3,4,9
+IND50015,2202.19,2025-03-13 11:23:59,Coffee Shop,Hyderabad,Desktop,Debit Card,0,11,3,2025-03-13,1,2,4,14
+IND50015,435.71,2025-04-06 16:59:06,Restaurant,Hyderabad,Desktop,Net Banking,0,16,6,2025-04-06,1,3,4,2
+IND50015,4977.48,2025-04-08 09:27:54,Clothing,Hyderabad,Desktop,Net Banking,0,9,1,2025-04-08,1,3,4,3
+IND50015,7097.86,2025-04-17 17:11:25,Utilities,Hyderabad,Tablet,Credit Card,0,17,3,2025-04-17,2,1,4,13
+IND50015,2442.23,2025-04-18 08:26:50,Pharmacy,Hyderabad,Desktop,Net Banking,0,8,4,2025-04-18,1,3,4,4
+IND50015,7610.4,2025-04-22 23:20:47,Education,Hyderabad,Tablet,Net Banking,0,23,1,2025-04-22,2,3,4,12
+IND50015,41858.12,2025-05-03 08:08:16,Travel Agency,Hyderabad,Desktop,Net Banking,0,8,5,2025-05-03,1,3,4,9
+IND50015,877.21,2025-05-03 13:40:17,Grocery Store,Hyderabad,Desktop,Net Banking,0,13,5,2025-05-03,1,3,4,0
+IND50015,27384.46,2025-05-23 19:03:21,Department Store,Nashik,Desktop,Net Banking,0,19,4,2025-05-23,1,3,19,7
+IND50015,26163.47,2025-05-24 10:37:11,Jewelry,Hyderabad,Desktop,Net Banking,0,10,5,2025-05-24,1,3,4,8
+IND50015,3501.67,2025-06-27 14:43:13,Insurance,Hyderabad,Desktop,Net Banking,0,14,4,2025-06-27,1,3,4,11
+IND50016,8561.85,2025-01-03 14:40:54,ATM,Bhopal,Tablet,Debit Card,0,14,4,2025-01-03,2,2,14,6
+IND50016,25424.63,2025-01-05 01:25:07,Hotel,Bhopal,Tablet,Net Banking,0,1,6,2025-01-05,2,3,14,10
+IND50016,2359.12,2025-01-06 09:18:46,Petrol Pump,Bhopal,Tablet,Debit Card,0,9,0,2025-01-06,2,2,14,5
+IND50016,4261.68,2025-01-30 09:42:29,Restaurant,Bhopal,Tablet,Debit Card,0,9,3,2025-01-30,2,2,14,2
+IND50016,7770.06,2025-02-04 16:12:07,Insurance,Kolkata,Tablet,Debit Card,0,16,1,2025-02-04,2,2,6,11
+IND50016,6362.09,2025-02-07 16:15:27,Utilities,Bhopal,Tablet,Debit Card,0,16,4,2025-02-07,2,2,14,13
+IND50016,15187.93,2025-02-17 15:11:05,Travel Agency,Bhopal,Tablet,Debit Card,0,15,0,2025-02-17,2,2,14,9
+IND50016,633.17,2025-02-24 10:51:41,Education,Bhopal,Desktop,UPI,0,10,0,2025-02-24,1,0,14,12
+IND50016,10061.21,2025-03-16 18:27:05,Department Store,Surat,Tablet,Net Banking,0,18,6,2025-03-16,2,3,9,7
+IND50016,1322.46,2025-03-17 07:03:35,Grocery Store,Bhopal,Tablet,Debit Card,0,7,0,2025-03-17,2,2,14,0
+IND50016,48267.66,2025-03-19 11:52:39,Hotel,Bhopal,Mobile,Credit Card,0,11,2,2025-03-19,0,1,14,10
+IND50016,8204.45,2025-04-10 07:17:36,ATM,Bhopal,Tablet,Debit Card,0,7,3,2025-04-10,2,2,14,6
+IND50016,10244.33,2025-04-10 15:18:41,Hotel,Bhopal,Tablet,Debit Card,0,15,3,2025-04-10,2,2,14,10
+IND50016,3311.55,2025-04-13 21:11:15,Utilities,Bhopal,Tablet,Debit Card,0,21,6,2025-04-13,2,2,14,13
+IND50016,144994.81,2025-04-20 04:02:32,Jewelry,Bhopal,Tablet,UPI,1,4,6,2025-04-20,2,0,14,8
+IND50016,4541.35,2025-04-29 03:30:27,Restaurant,Bhopal,Tablet,Debit Card,0,3,1,2025-04-29,2,2,14,2
+IND50016,1497.84,2025-04-29 16:46:36,Petrol Pump,Bhopal,Tablet,Debit Card,0,16,1,2025-04-29,2,2,14,5
+IND50016,1246.29,2025-05-05 11:01:55,Clothing,Bhopal,Mobile,Debit Card,0,11,0,2025-05-05,0,2,14,3
+IND50016,5975.83,2025-05-05 12:45:03,ATM,Bhopal,Tablet,Debit Card,0,12,0,2025-05-05,2,2,14,6
+IND50016,30778.85,2025-05-22 11:02:31,Jewelry,Bhopal,Tablet,Debit Card,0,11,3,2025-05-22,2,2,14,8
+IND50016,47131.33,2025-06-15 08:56:30,Travel Agency,Bhopal,Tablet,Debit Card,0,8,6,2025-06-15,2,2,14,9
+IND50016,3066.16,2025-06-25 14:08:22,Utilities,Bhopal,Tablet,Debit Card,0,14,2,2025-06-25,2,2,14,13
+IND50016,5324.27,2025-06-25 16:58:38,Insurance,Bhopal,Tablet,Debit Card,0,16,2,2025-06-25,2,2,14,11
+IND50016,5428.03,2025-06-30 14:20:37,Education,Bhopal,Tablet,Debit Card,0,14,0,2025-06-30,2,2,14,12
+IND50017,2570.75,2025-01-08 09:37:16,Education,Nagpur,Tablet,Net Banking,0,9,2,2025-01-08,2,3,12,12
+IND50017,2860.39,2025-01-16 12:16:40,Electronics,Nagpur,Tablet,Net Banking,0,12,3,2025-01-16,2,3,12,1
+IND50017,17516.47,2025-01-17 13:27:07,Electronics,Nagpur,Desktop,UPI,0,13,4,2025-01-17,1,0,12,1
+IND50017,4129.09,2025-01-26 16:45:27,Electronics,Nagpur,Tablet,Net Banking,0,16,6,2025-01-26,2,3,12,1
+IND50017,28933.94,2025-02-02 09:34:18,Jewelry,Nagpur,Mobile,UPI,0,9,6,2025-02-02,0,0,12,8
+IND50017,24114.25,2025-02-03 13:12:10,Electronics,Visakhapatnam,Tablet,Net Banking,0,13,0,2025-02-03,2,3,15,1
+IND50017,3926.11,2025-02-13 14:17:23,ATM,Nagpur,Tablet,Net Banking,0,14,3,2025-02-13,2,3,12,6
+IND50017,4223.62,2025-02-21 15:26:49,Clothing,Nagpur,Tablet,Net Banking,0,15,4,2025-02-21,2,3,12,3
+IND50017,944.05,2025-02-23 11:03:01,Pharmacy,Nagpur,Tablet,UPI,0,11,6,2025-02-23,2,0,12,4
+IND50017,6088.27,2025-02-24 14:04:23,ATM,Nagpur,Tablet,Net Banking,0,14,0,2025-02-24,2,3,12,6
+IND50017,4085.32,2025-03-18 12:47:00,Clothing,Agra,Tablet,Net Banking,0,12,1,2025-03-18,2,3,18,3
+IND50017,7712.33,2025-03-22 11:49:10,ATM,Nagpur,Tablet,Net Banking,0,11,5,2025-03-22,2,3,12,6
+IND50017,283.96,2025-03-30 09:25:49,Pharmacy,Nagpur,Tablet,Net Banking,0,9,6,2025-03-30,2,3,12,4
+IND50017,1627.55,2025-04-03 08:51:54,Clothing,Nagpur,Tablet,Net Banking,0,8,3,2025-04-03,2,3,12,3
+IND50017,30371.35,2025-04-07 07:47:15,Jewelry,Nagpur,Tablet,Net Banking,0,7,0,2025-04-07,2,3,12,8
+IND50017,23777.09,2025-04-23 07:53:48,Electronics,Nagpur,Mobile,UPI,0,7,2,2025-04-23,0,0,12,1
+IND50017,3341.34,2025-04-24 17:31:46,Restaurant,Nagpur,Tablet,Net Banking,0,17,3,2025-04-24,2,3,12,2
+IND50017,4581.63,2025-05-10 08:10:40,Clothing,Nagpur,Tablet,Net Banking,0,8,5,2025-05-10,2,3,12,3
+IND50017,277.6,2025-05-13 11:23:01,Education,Nagpur,Mobile,Debit Card,0,11,1,2025-05-13,0,2,12,12
+IND50017,4427.39,2025-05-16 08:50:14,ATM,Nagpur,Tablet,Net Banking,0,8,4,2025-05-16,2,3,12,6
+IND50017,4220.02,2025-05-23 16:57:09,Utilities,Nagpur,Tablet,Net Banking,0,16,4,2025-05-23,2,3,12,13
+IND50017,1337.86,2025-05-28 15:40:45,Coffee Shop,Nagpur,Tablet,Net Banking,0,15,2,2025-05-28,2,3,12,14
+IND50017,1706.25,2025-06-10 13:34:54,Petrol Pump,Nagpur,Tablet,Credit Card,0,13,1,2025-06-10,2,1,12,5
+IND50017,2646.82,2025-06-24 10:35:55,Insurance,Nagpur,Tablet,Credit Card,0,10,1,2025-06-24,2,1,12,11
+IND50017,32344.9,2025-06-29 09:28:41,Jewelry,Nagpur,Tablet,Net Banking,0,9,6,2025-06-29,2,3,12,8
+IND50018,3886.0,2025-01-05 14:35:37,Clothing,Jaipur,Tablet,Net Banking,0,14,6,2025-01-05,2,3,8,3
+IND50018,30354.58,2025-01-13 04:56:18,Insurance,Delhi,Desktop,Net Banking,1,4,0,2025-01-13,1,3,1,11
+IND50018,1269.36,2025-01-22 11:38:20,Grocery Store,Lucknow,Tablet,Net Banking,0,11,2,2025-01-22,2,3,10,0
+IND50018,1121.85,2025-01-30 12:03:20,ATM,Jaipur,Tablet,Net Banking,0,12,3,2025-01-30,2,3,8,6
+IND50018,14115.08,2025-01-31 15:12:15,Travel Agency,Jaipur,Tablet,Net Banking,0,15,4,2025-01-31,2,3,8,9
+IND50018,4371.82,2025-02-05 14:40:29,Restaurant,Jaipur,Tablet,Net Banking,0,14,2,2025-02-05,2,3,8,2
+IND50018,2384.24,2025-02-06 07:16:49,Pharmacy,Jaipur,Tablet,Net Banking,0,7,3,2025-02-06,2,3,8,4
+IND50018,5717.71,2025-02-12 13:01:36,Education,Jaipur,Tablet,Net Banking,0,13,2,2025-02-12,2,3,8,12
+IND50018,24231.87,2025-02-13 20:34:27,Jewelry,Jaipur,Tablet,Net Banking,0,20,3,2025-02-13,2,3,8,8
+IND50018,1438.07,2025-03-25 06:01:45,ATM,Jaipur,Desktop,Net Banking,0,6,1,2025-03-25,1,3,8,6
+IND50018,192873.51,2025-04-10 01:57:25,Travel Agency,Jaipur,Tablet,UPI,1,1,3,2025-04-10,2,0,8,9
+IND50018,300.28,2025-04-17 10:55:33,Pharmacy,Ludhiana,Tablet,Net Banking,0,10,3,2025-04-17,2,3,17,4
+IND50018,1367.1,2025-05-02 08:57:01,Coffee Shop,Jaipur,Mobile,Net Banking,0,8,4,2025-05-02,0,3,8,14
+IND50018,1725.32,2025-05-14 10:07:23,Petrol Pump,Jaipur,Mobile,Net Banking,0,10,2,2025-05-14,0,3,8,5
+IND50018,612.42,2025-05-24 12:12:39,Education,Jaipur,Tablet,Net Banking,0,12,5,2025-05-24,2,3,8,12
+IND50018,1548.19,2025-05-24 13:58:07,ATM,Jaipur,Tablet,Net Banking,0,13,5,2025-05-24,2,3,8,6
+IND50018,12562.47,2025-05-26 16:28:05,Jewelry,Kanpur,Tablet,Net Banking,0,16,0,2025-05-26,2,3,11,8
+IND50018,25282.11,2025-05-27 15:36:28,Department Store,Jaipur,Tablet,Net Banking,0,15,1,2025-05-27,2,3,8,7
+IND50018,2310.78,2025-06-08 00:41:10,Coffee Shop,Jaipur,Tablet,Net Banking,0,0,6,2025-06-08,2,3,8,14
+IND50018,2677.19,2025-06-26 16:46:26,Restaurant,Jaipur,Tablet,Net Banking,0,16,3,2025-06-26,2,3,8,2
+IND50018,2440.53,2025-06-30 08:55:33,Clothing,Jaipur,Tablet,Net Banking,0,8,0,2025-06-30,2,3,8,3
+IND50019,5685.74,2025-01-03 12:11:26,Insurance,Nagpur,Tablet,Debit Card,0,12,4,2025-01-03,2,2,12,11
+IND50019,2153.19,2025-01-07 19:51:40,Utilities,Nagpur,Tablet,Debit Card,0,19,1,2025-01-07,2,2,12,13
+IND50019,2339.22,2025-01-17 06:08:47,Pharmacy,Vadodara,Tablet,Debit Card,0,6,4,2025-01-17,2,2,16,4
+IND50019,19340.85,2025-01-20 10:12:10,Electronics,Nagpur,Tablet,Debit Card,0,10,0,2025-01-20,2,2,12,1
+IND50019,38674.02,2025-02-01 12:33:29,Jewelry,Ahmedabad,Tablet,Debit Card,0,12,5,2025-02-01,2,2,7,8
+IND50019,1125.35,2025-02-01 23:46:35,Coffee Shop,Nagpur,Desktop,Debit Card,0,23,5,2025-02-01,1,2,12,14
+IND50019,2392.85,2025-02-19 15:00:14,Education,Kanpur,Tablet,Debit Card,0,15,2,2025-02-19,2,2,11,12
+IND50019,5486.33,2025-03-12 03:54:43,Insurance,Nagpur,Tablet,Debit Card,0,3,2,2025-03-12,2,2,12,11
+IND50019,6532.58,2025-04-07 09:22:24,Education,Chennai,Tablet,Debit Card,0,9,0,2025-04-07,2,2,3,12
+IND50019,1873.12,2025-04-18 00:28:20,Clothing,Mumbai,Mobile,Net Banking,0,0,4,2025-04-18,0,3,0,3
+IND50019,5437.55,2025-04-27 14:27:41,Hotel,Indore,Desktop,Debit Card,0,14,6,2025-04-27,1,2,13,10
+IND50019,4612.51,2025-05-09 09:10:35,Insurance,Nagpur,Tablet,Debit Card,0,9,4,2025-05-09,2,2,12,11
+IND50019,29464.83,2025-05-30 08:18:02,Jewelry,Nagpur,Tablet,Debit Card,0,8,4,2025-05-30,2,2,12,8
+IND50019,46346.12,2025-06-03 14:01:58,Hotel,Nagpur,Tablet,Debit Card,0,14,1,2025-06-03,2,2,12,10
+IND50019,4906.56,2025-06-07 14:19:51,Clothing,Delhi,Tablet,Debit Card,0,14,5,2025-06-07,2,2,1,3
+IND50019,3412.7,2025-06-12 11:48:45,Clothing,Nagpur,Tablet,Debit Card,0,11,3,2025-06-12,2,2,12,3
+IND50019,6565.24,2025-06-16 04:04:34,Utilities,Nagpur,Tablet,Debit Card,0,4,0,2025-06-16,2,2,12,13
+IND50019,5179.8,2025-06-30 00:38:13,Utilities,Nagpur,Tablet,Debit Card,0,0,0,2025-06-30,2,2,12,13
+IND50020,23983.44,2025-01-19 15:39:28,Hotel,Lucknow,Mobile,Net Banking,0,15,6,2025-01-19,0,3,10,10
+IND50020,2037.31,2025-01-29 10:59:13,Clothing,Lucknow,Desktop,UPI,0,10,2,2025-01-29,1,0,10,3
+IND50020,1932.59,2025-02-06 13:28:12,Coffee Shop,Lucknow,Desktop,UPI,0,13,3,2025-02-06,1,0,10,14
+IND50020,550.32,2025-02-18 08:18:50,Clothing,Lucknow,Tablet,Net Banking,0,8,1,2025-02-18,2,3,10,3
+IND50020,2098.32,2025-02-20 10:11:53,Electronics,Lucknow,Desktop,UPI,0,10,3,2025-02-20,1,0,10,1
+IND50020,1559.42,2025-02-20 17:11:14,Insurance,Lucknow,Desktop,UPI,0,17,3,2025-02-20,1,0,10,11
+IND50020,346.49,2025-02-22 23:11:52,Petrol Pump,Lucknow,Desktop,UPI,0,23,5,2025-02-22,1,0,10,5
+IND50020,31899.66,2025-02-23 12:05:50,Hotel,Lucknow,Desktop,UPI,0,12,6,2025-02-23,1,0,10,10
+IND50020,2559.51,2025-02-27 13:14:29,Clothing,Lucknow,Tablet,Net Banking,0,13,3,2025-02-27,2,3,10,3
+IND50020,9796.22,2025-03-16 13:00:33,Hotel,Lucknow,Tablet,UPI,0,13,6,2025-03-16,2,0,10,10
+IND50020,2021.78,2025-03-22 08:04:50,Coffee Shop,Lucknow,Desktop,UPI,0,8,5,2025-03-22,1,0,10,14
+IND50020,182.11,2025-03-26 17:06:29,Coffee Shop,Lucknow,Desktop,UPI,0,17,2,2025-03-26,1,0,10,14
+IND50020,85792.92,2025-03-28 05:43:50,Jewelry,Mumbai,Tablet,UPI,1,5,4,2025-03-28,2,0,0,8
+IND50020,3498.51,2025-04-16 15:55:38,Travel Agency,Lucknow,Tablet,UPI,0,15,2,2025-04-16,2,0,10,9
+IND50020,3990.74,2025-04-19 13:12:12,Clothing,Lucknow,Desktop,UPI,0,13,5,2025-04-19,1,0,10,3
+IND50020,793.7,2025-04-21 06:06:43,Grocery Store,Lucknow,Desktop,UPI,0,6,0,2025-04-21,1,0,10,0
+IND50020,388.99,2025-04-24 15:15:08,Grocery Store,Lucknow,Desktop,UPI,0,15,3,2025-04-24,1,0,10,0
+IND50020,4877.06,2025-05-15 17:56:27,Electronics,Hyderabad,Mobile,Net Banking,0,17,3,2025-05-15,0,3,4,1
+IND50020,15045.45,2025-06-01 08:57:36,Jewelry,Lucknow,Desktop,UPI,0,8,6,2025-06-01,1,0,10,8
+IND50020,1812.57,2025-06-15 12:23:31,Restaurant,Lucknow,Desktop,UPI,0,12,6,2025-06-15,1,0,10,2
+IND50020,1335.87,2025-06-16 17:19:37,Education,Lucknow,Desktop,UPI,0,17,0,2025-06-16,1,0,10,12
+IND50020,14493.83,2025-06-27 11:20:38,Hotel,Lucknow,Desktop,UPI,0,11,4,2025-06-27,1,0,10,10
+IND50020,4711.6,2025-06-27 14:29:38,Utilities,Nashik,Desktop,UPI,0,14,4,2025-06-27,1,0,19,13
+IND50021,11766.75,2025-01-21 07:59:14,Electronics,Visakhapatnam,Desktop,Net Banking,0,7,1,2025-01-21,1,3,15,1
+IND50021,4933.72,2025-01-22 11:28:33,Travel Agency,Visakhapatnam,Desktop,Net Banking,0,11,2,2025-01-22,1,3,15,9
+IND50021,2080.07,2025-01-24 12:06:43,Grocery Store,Visakhapatnam,Desktop,Net Banking,0,12,4,2025-01-24,1,3,15,0
+IND50021,1943.58,2025-02-05 18:47:34,Grocery Store,Visakhapatnam,Desktop,Net Banking,0,18,2,2025-02-05,1,3,15,0
+IND50021,3570.2,2025-02-14 18:15:11,Insurance,Visakhapatnam,Desktop,Net Banking,0,18,4,2025-02-14,1,3,15,11
+IND50021,1668.2,2025-02-20 10:58:24,Clothing,Visakhapatnam,Desktop,Net Banking,0,10,3,2025-02-20,1,3,15,3
+IND50021,2724.38,2025-02-28 09:46:47,Clothing,Visakhapatnam,Tablet,Net Banking,0,9,4,2025-02-28,2,3,15,3
+IND50021,9893.76,2025-03-01 11:41:04,Electronics,Visakhapatnam,Desktop,Net Banking,0,11,5,2025-03-01,1,3,15,1
+IND50021,14615.83,2025-03-05 13:21:58,Department Store,Visakhapatnam,Desktop,Net Banking,0,13,2,2025-03-05,1,3,15,7
+IND50021,6772.59,2025-03-15 12:56:58,Insurance,Visakhapatnam,Desktop,Net Banking,0,12,5,2025-03-15,1,3,15,11
+IND50021,2311.59,2025-03-18 12:37:01,Grocery Store,Visakhapatnam,Desktop,Net Banking,0,12,1,2025-03-18,1,3,15,0
+IND50021,2118.68,2025-03-20 13:56:24,Coffee Shop,Visakhapatnam,Desktop,Net Banking,0,13,3,2025-03-20,1,3,15,14
+IND50021,7547.05,2025-03-29 09:20:54,Education,Visakhapatnam,Desktop,Net Banking,0,9,5,2025-03-29,1,3,15,12
+IND50021,1074.28,2025-04-05 10:00:10,Coffee Shop,Visakhapatnam,Desktop,Net Banking,0,10,5,2025-04-05,1,3,15,14
+IND50021,2531.45,2025-04-08 12:25:04,Clothing,Visakhapatnam,Tablet,Debit Card,0,12,1,2025-04-08,2,2,15,3
+IND50021,581.42,2025-04-13 13:58:50,Grocery Store,Bhopal,Desktop,Credit Card,0,13,6,2025-04-13,1,1,14,0
+IND50021,1222.25,2025-04-14 15:52:37,Grocery Store,Visakhapatnam,Mobile,Net Banking,0,15,0,2025-04-14,0,3,15,0
+IND50021,47140.25,2025-04-21 08:42:30,Travel Agency,Visakhapatnam,Desktop,Net Banking,0,8,0,2025-04-21,1,3,15,9
+IND50021,10535.08,2025-04-26 11:27:26,Department Store,Visakhapatnam,Desktop,Net Banking,0,11,5,2025-04-26,1,3,15,7
+IND50021,2174.99,2025-05-18 06:30:47,Coffee Shop,Visakhapatnam,Desktop,Net Banking,0,6,6,2025-05-18,1,3,15,14
+IND50021,1736.19,2025-05-23 13:23:08,Restaurant,Visakhapatnam,Desktop,Net Banking,0,13,4,2025-05-23,1,3,15,2
+IND50021,38373.43,2025-06-18 11:21:14,Hotel,Visakhapatnam,Desktop,Net Banking,0,11,2,2025-06-18,1,3,15,10
+IND50021,5531.61,2025-06-22 15:16:19,Education,Visakhapatnam,Desktop,Net Banking,0,15,6,2025-06-22,1,3,15,12
+IND50021,2394.94,2025-06-25 00:17:12,Restaurant,Visakhapatnam,Desktop,Net Banking,0,0,2,2025-06-25,1,3,15,2
+IND50022,3495.81,2025-01-05 10:01:00,Clothing,Agra,Mobile,Credit Card,0,10,6,2025-01-05,0,1,18,3
+IND50022,4871.18,2025-01-12 11:56:13,Education,Chennai,Desktop,UPI,0,11,6,2025-01-12,1,0,3,12
+IND50022,17130.21,2025-02-04 12:42:47,Electronics,Agra,Mobile,Net Banking,0,12,1,2025-02-04,0,3,18,1
+IND50022,46065.93,2025-02-10 12:56:40,Hotel,Agra,Desktop,UPI,0,12,0,2025-02-10,1,0,18,10
+IND50022,1816.59,2025-02-12 07:26:32,Petrol Pump,Agra,Desktop,UPI,0,7,2,2025-02-12,1,0,18,5
+IND50022,659.71,2025-02-25 12:26:48,Petrol Pump,Agra,Desktop,Net Banking,0,12,1,2025-02-25,1,3,18,5
+IND50022,60130.22,2025-03-13 01:10:53,Electronics,Nagpur,Mobile,UPI,1,1,3,2025-03-13,0,0,12,1
+IND50022,20251.91,2025-03-22 12:24:13,Electronics,Agra,Desktop,UPI,0,12,5,2025-03-22,1,0,18,1
+IND50022,7787.59,2025-04-24 06:38:00,ATM,Kanpur,Mobile,UPI,0,6,3,2025-04-24,0,0,11,6
+IND50022,33127.57,2025-04-24 13:03:53,Jewelry,Agra,Desktop,Debit Card,0,13,3,2025-04-24,1,2,18,8
+IND50022,2261.46,2025-04-26 12:16:13,Department Store,Agra,Desktop,UPI,0,12,5,2025-04-26,1,0,18,7
+IND50022,2164.37,2025-04-29 11:21:47,Clothing,Agra,Desktop,UPI,0,11,1,2025-04-29,1,0,18,3
+IND50022,11662.43,2025-05-19 09:27:07,Electronics,Agra,Desktop,UPI,0,9,0,2025-05-19,1,0,18,1
+IND50022,35726.82,2025-05-26 13:16:06,Hotel,Agra,Tablet,Credit Card,0,13,0,2025-05-26,2,1,18,10
+IND50022,1136.32,2025-06-21 08:43:17,Petrol Pump,Agra,Tablet,Credit Card,0,8,5,2025-06-21,2,1,18,5
+IND50023,4709.89,2025-01-17 06:04:12,Restaurant,Lucknow,Tablet,Credit Card,0,6,4,2025-01-17,2,1,10,2
+IND50023,1835.25,2025-02-08 05:13:41,Coffee Shop,Bhopal,Tablet,Credit Card,0,5,5,2025-02-08,2,1,14,14
+IND50023,10216.65,2025-02-09 10:46:11,Department Store,Lucknow,Tablet,Credit Card,0,10,6,2025-02-09,2,1,10,7
+IND50023,849.22,2025-02-09 11:01:48,Utilities,Surat,Tablet,Credit Card,0,11,6,2025-02-09,2,1,9,13
+IND50023,2918.91,2025-02-19 18:16:49,Insurance,Lucknow,Tablet,Credit Card,0,18,2,2025-02-19,2,1,10,11
+IND50023,399.7,2025-03-01 22:37:45,Clothing,Lucknow,Tablet,Credit Card,0,22,5,2025-03-01,2,1,10,3
+IND50023,3207.81,2025-03-02 09:27:48,Electronics,Lucknow,Tablet,Credit Card,0,9,6,2025-03-02,2,1,10,1
+IND50023,1438.57,2025-03-15 14:14:54,Petrol Pump,Lucknow,Tablet,Credit Card,0,14,5,2025-03-15,2,1,10,5
+IND50023,508.94,2025-03-26 13:17:20,Education,Lucknow,Tablet,Credit Card,0,13,2,2025-03-26,2,1,10,12
+IND50023,33330.68,2025-04-03 04:45:43,Hotel,Lucknow,Tablet,Credit Card,0,4,3,2025-04-03,2,1,10,10
+IND50023,7488.81,2025-04-05 11:03:41,ATM,Lucknow,Tablet,Credit Card,0,11,5,2025-04-05,2,1,10,6
+IND50023,13150.45,2025-04-09 22:19:41,Electronics,Lucknow,Desktop,Credit Card,0,22,2,2025-04-09,1,1,10,1
+IND50023,24068.75,2025-04-19 10:38:15,Travel Agency,Lucknow,Tablet,Credit Card,0,10,5,2025-04-19,2,1,10,9
+IND50023,14079.22,2025-05-04 11:23:25,Department Store,Lucknow,Tablet,Credit Card,0,11,6,2025-05-04,2,1,10,7
+IND50023,1027.2,2025-05-04 14:21:08,Clothing,Lucknow,Tablet,Credit Card,0,14,6,2025-05-04,2,1,10,3
+IND50023,1086.28,2025-05-09 12:46:23,Coffee Shop,Lucknow,Tablet,Credit Card,0,12,4,2025-05-09,2,1,10,14
+IND50023,3843.18,2025-05-21 07:15:32,Insurance,Lucknow,Tablet,Credit Card,0,7,2,2025-05-21,2,1,10,11
+IND50023,1495.79,2025-06-20 02:04:21,Coffee Shop,Lucknow,Tablet,Credit Card,0,2,4,2025-06-20,2,1,10,14
+IND50023,42551.25,2025-06-24 13:16:15,Hotel,Lucknow,Tablet,Net Banking,0,13,1,2025-06-24,2,3,10,10
+IND50023,5453.98,2025-06-25 13:46:14,ATM,Lucknow,Tablet,Credit Card,0,13,2,2025-06-25,2,1,10,6
+IND50024,4405.14,2025-01-01 02:52:20,Petrol Pump,Lucknow,Tablet,UPI,0,2,2,2025-01-01,2,0,10,5
+IND50024,129559.89,2025-01-22 01:07:17,Travel Agency,Chennai,Mobile,UPI,1,1,2,2025-01-22,0,0,3,9
+IND50024,2328.1,2025-01-23 04:27:45,Coffee Shop,Jaipur,Tablet,UPI,0,4,3,2025-01-23,2,0,8,14
+IND50024,49826.32,2025-02-02 10:50:05,Hotel,Bhopal,Tablet,UPI,0,10,6,2025-02-02,2,0,14,10
+IND50024,41275.41,2025-02-04 07:31:11,Travel Agency,Nagpur,Tablet,UPI,0,7,1,2025-02-04,2,0,12,9
+IND50024,33948.84,2025-02-12 10:16:44,Jewelry,Nagpur,Tablet,UPI,0,10,2,2025-02-12,2,0,12,8
+IND50024,1591.1,2025-02-16 11:16:57,Coffee Shop,Pune,Tablet,UPI,0,11,6,2025-02-16,2,0,5,14
+IND50024,4137.03,2025-02-23 10:25:44,Restaurant,Nagpur,Tablet,UPI,0,10,6,2025-02-23,2,0,12,2
+IND50024,834.68,2025-03-01 14:31:25,Education,Nagpur,Desktop,UPI,0,14,5,2025-03-01,1,0,12,12
+IND50024,87213.53,2025-03-10 04:30:48,ATM,Nagpur,Mobile,Debit Card,1,4,0,2025-03-10,0,2,12,6
+IND50024,2754.97,2025-03-10 05:42:37,Clothing,Nagpur,Tablet,UPI,0,5,0,2025-03-10,2,0,12,3
+IND50024,4256.42,2025-04-09 14:38:12,Utilities,Nagpur,Tablet,UPI,0,14,2,2025-04-09,2,0,12,13
+IND50024,39504.48,2025-04-16 07:55:05,Travel Agency,Nagpur,Tablet,UPI,0,7,2,2025-04-16,2,0,12,9
+IND50024,1294.71,2025-04-25 12:30:42,Clothing,Nagpur,Tablet,UPI,0,12,4,2025-04-25,2,0,12,3
+IND50024,4403.46,2025-06-20 06:24:39,Petrol Pump,Nagpur,Tablet,UPI,0,6,4,2025-06-20,2,0,12,5
+IND50024,3561.41,2025-06-28 13:33:26,Insurance,Nagpur,Tablet,UPI,0,13,5,2025-06-28,2,0,12,11
+IND50024,420.7,2025-06-28 17:46:53,Restaurant,Nagpur,Tablet,UPI,0,17,5,2025-06-28,2,0,12,2
+IND50024,43883.09,2025-06-29 13:23:28,Hotel,Nagpur,Tablet,UPI,0,13,6,2025-06-29,2,0,12,10

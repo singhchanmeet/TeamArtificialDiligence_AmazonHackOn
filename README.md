@@ -15,6 +15,30 @@ The current ecosystem lacks a mechanism for collaboration between:
 
 We've built a *peer-to-peer discount sharing platform* that connects shoppers with cardholders in real-time, enabling both parties to benefit from card-specific discounts.
 
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/13.jpeg) 
+
+- The system introduces a new program where existing users can sign up to become "Cardholders." This allows them to monetize their card benefits by earning a 10% commission on transactions made by other shoppers who use their shared discounts.
+
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/12.jpeg)
+
+- During the checkout process, the AI-powered "Smart Card Matching" system is triggered. The shopper is given the choice to either instantly find and connect with a cardholder who is currently online for immediate payment or to submit their request to all active cardholders for more flexible, deferred processing.
+
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/11.jpeg)
+
+- After choosing to find a card now, the system's machine learning model evaluates and ranks all available online cardholders in real-time. It presents the shopper with a sorted list, showing the bank, the discount percentage, the exact amount saved, and a trust score, allowing them to select the best option.
+
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/14.jpeg)
+
+- Once a card is selected, the system presents a final confirmation screen for the payment request. It provides a transparent breakdown of the total savings by subtracting a service fee from the card discount and explains the payment flow: the shopper pays the full amount now and receives the savings back after the cardholder completes the purchase.
+
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/16.jpeg)
+
+- The system sends the live payment request to the selected cardholder's dashboard, showing their potential commission. At the same time, the AI Trust Analysis engine provides a real-time fraud assessment, including a trust score and risk factors, empowering the cardholder to securely accept and pay or decline the transaction.
+
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/9.jpeg)
+
+- Once the cardholder approves the request and completes the payment, the system confirms the successful order to the shopper. This final screen verifies that the card discount has been applied, specifies the total amount saved, and includes a prompt for the shopper to rate the cardholder's service.
+
 ### How It Works
 
 1. *Smart Matching*: Our AI-powered system matches shoppers with the most suitable cardholder based on product categories, availability, and discount percentages.

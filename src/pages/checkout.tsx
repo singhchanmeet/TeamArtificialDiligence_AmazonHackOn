@@ -734,7 +734,7 @@ const CheckoutPage = () => {
 
                 <div className="space-y-4">
                   {productData.map((item: StoreProduct) => (
-                    <div key={item._id} className="flex space-x-4 border-b pb-4">
+                    <div key={item.id} className="flex space-x-4 border-b pb-4">
                       <img 
                         src={item.image} 
                         alt={item.title}

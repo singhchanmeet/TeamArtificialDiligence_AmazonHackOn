@@ -6,6 +6,30 @@ import PaymentRequest from '../../../models/PaymentRequest';
 import { expireOldRequests } from '../../../utils/expireOldRequests';
 import cardRankingService from '../../../utils/cardRankingService';
 
+interface AvailableCard {
+  id: any;
+  cardholderEmail: any;
+  cardholderName: any;
+  bankName: any;
+  cardType: any;
+  categories: any;
+  discountPercentage: any;
+  isOnline: boolean;
+  lastFourDigits: any;
+  monthlyLimit: any;
+  cardholderData: any;
+}
+
+interface RankedCard extends AvailableCard {
+  ranking?: {
+    rank: number;
+    healthScore: number;
+    mlRanked: boolean;
+    processingTime?: number;
+    fallback?: boolean;
+  };
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -44,7 +68,7 @@ export default async function handler(
     }
 
     // Extract available cards before ranking
-    const availableCards = [];
+    const availableCards: AvailableCard[] = [];
     const cardholderMap = new Map();
 
     cardholders.forEach(cardholder => {
@@ -70,7 +94,7 @@ export default async function handler(
       });
     });
 
-    let rankedCards = availableCards;
+    let rankedCards: RankedCard[] = availableCards;
 
     // Apply ML ranking if requested and service is available
     if (useMLRanking && availableCards.length > 1) {
@@ -150,8 +174,8 @@ export default async function handler(
             console.log('Applied ML ranking to cards. Top 3 health scores:', 
               rankedCards.slice(0, 3).map(c => ({
                 email: c.cardholderEmail,
-                rank: c.ranking.rank,
-                score: c.ranking.healthScore
+                rank: c.ranking?.rank,
+                score: c.ranking?.healthScore
               }))
             );
           } else {
@@ -162,7 +186,11 @@ export default async function handler(
           throw new Error('Ranking service not healthy');
         }
       } catch (rankingError) {
-        console.warn('ML ranking failed, using fallback sorting:', rankingError.message);
+        console.warn('ML ranking failed, using fallback sorting:', 
+          typeof rankingError === 'object' && rankingError !== null && 'message' in rankingError
+            ? (rankingError as any).message
+            : rankingError
+        );
         
         // Fallback: sort by heuristic scoring
         rankedCards = availableCards

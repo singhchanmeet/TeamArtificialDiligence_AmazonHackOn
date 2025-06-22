@@ -6,10 +6,9 @@
  * Integrates with the FastAPI ranking service running on port 8000
  */
 class CardRankingService {
-    constructor() {
-      this.baseURL = process.env.RANKING_API_URL || 'http://localhost:8000';
-      this.timeout = 5000; // 5 second timeout
-    }
+    baseURL: string = process.env.RANKING_API_URL || 'http://localhost:8000';
+    timeout: number = 5000; // 5 second timeout
+    constructor() {}
   
     /**
      * Check if the ranking service is healthy
@@ -40,7 +39,7 @@ class CardRankingService {
     /**
      * Convert cardholder data to ranking API format
      */
-    prepareCardholderData(cardholder, requestHistory = []) {
+    prepareCardholderData(cardholder: any, requestHistory: { status: string }[] = []) {
       // Calculate performance metrics from request history
       const completedRequests = requestHistory.filter(req => req.status === 'completed');
       const declinedRequests = requestHistory.filter(req => req.status === 'declined');
@@ -122,7 +121,7 @@ class CardRankingService {
         console.error('Single cardholder ranking failed:', error);
         return {
           success: false,
-          error: error.message,
+          error: typeof error === 'object' && error !== null && 'message' in error ? (error as any).message : undefined,
           ranking: this.getFallbackRanking(cardholder)
         };
       }
@@ -169,7 +168,7 @@ class CardRankingService {
         console.error('Batch cardholder ranking failed:', error);
         return {
           success: false,
-          error: error.message,
+          error: typeof error === 'object' && error !== null && 'message' in error ? (error as any).message : undefined,
           rankings: cardholders.map((cardholder, index) => ({
             ...this.getFallbackRanking(cardholder),
             rank: index + 1
@@ -230,7 +229,7 @@ class CardRankingService {
   
         return {
           success: false,
-          error: error.message,
+          error: typeof error === 'object' && error !== null && 'message' in error ? (error as any).message : undefined,
           topCardholders: fallbackRankings,
           totalEvaluated: cardholders.length,
           topK: Math.min(topK, cardholders.length)

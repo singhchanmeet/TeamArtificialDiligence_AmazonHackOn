@@ -95,7 +95,7 @@ export default async function handler(
       });
 
       // 3. Save trustReport in the payment request
-      if (trustReport && !trustReport.error) {
+      if (trustReport && (!('error' in trustReport) || !trustReport.error)) {
         paymentRequest.trustReport = trustReport;
         await paymentRequest.save();
         console.log('Trust report saved to payment request');
@@ -139,7 +139,7 @@ export default async function handler(
           transactions_analyzed: 0,
           analysis_version: "1.0.0",
           error: true,
-          error_message: trustError.message || 'Trust analysis system error'
+          error_message: (typeof trustError === 'object' && trustError !== null && 'message' in trustError ? (trustError as any).message : 'Trust analysis system error')
         },
         timestamp: new Date().toISOString()
       };

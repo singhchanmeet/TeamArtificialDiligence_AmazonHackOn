@@ -130,7 +130,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error('Error submitting rating:', error);
     res.status(500).json({
       message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: process.env.NODE_ENV === 'development'
+        ? (typeof error === 'object' && error !== null && 'message' in error ? (error as any).message : undefined)
+        : undefined
     });
   }
 } 

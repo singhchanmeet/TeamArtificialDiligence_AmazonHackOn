@@ -38,11 +38,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // If order used card discount, get payment request details
-    let paymentRequest = null;
-    if (order.cardDiscountRequestId) {
+    let paymentRequest: any = null;
+    if (order && !Array.isArray(order) && order.cardDiscountRequestId) {
       paymentRequest = await PaymentRequest.findOne({
         requestId: order.cardDiscountRequestId
       }).lean();
+      if (Array.isArray(paymentRequest)) {
+        paymentRequest = null;
+      }
 
       // If payment request found, get cardholder details
       if (paymentRequest) {
@@ -51,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             userId: paymentRequest.cardholderEmail 
           }).lean();
 
-          if (cardholder) {
+          if (cardholder && !Array.isArray(cardholder)) {
             const card = cardholder.cards?.find(c => c.id === paymentRequest.cardId);
             paymentRequest = {
               ...paymentRequest,
@@ -84,6 +87,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Prepare response
+    if (!order || Array.isArray(order)) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
     const orderDetails = {
       orderId: order.orderId,
       totalAmount: order.totalAmount,
@@ -101,7 +107,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error('Error fetching order details:', error);
     res.status(500).json({ 
       message: 'Internal server error',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: process.env.NODE_ENV === 'development' 
+        ? (typeof error === 'object' && error !== null && 'message' in error ? (error as any).message : undefined)
+        : undefined
     });
   }
 }

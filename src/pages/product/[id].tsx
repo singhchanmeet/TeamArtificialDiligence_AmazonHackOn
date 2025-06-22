@@ -62,7 +62,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (res.ok) {
       product = await res.json();
       // Convert price from USD to INR
-      product.price = Math.floor(product.price * 80);
+      if (product) {
+        (product as ProductProps).price = Math.floor((product as ProductProps).price * 80);
+      }
     }
   } catch (error) {
     console.error("Error fetching product:", error);
@@ -80,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       product = products.find((p: ProductProps) => p.id === parseInt(id as string));
       if (product) {
         // Convert price from USD to INR
-        product.price = Math.floor(product.price * 80);
+        (product as ProductProps).price = Math.floor((product as ProductProps).price * 80);
       }
     } catch (fallbackError) {
       console.error("Error loading fallback data:", fallbackError);

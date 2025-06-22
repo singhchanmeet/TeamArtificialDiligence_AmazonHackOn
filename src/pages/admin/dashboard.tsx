@@ -14,7 +14,8 @@ import {
   FaArrowUp,
   FaArrowDown,
   FaDownload,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaStar
 } from "react-icons/fa";
 import {
   LineChart,
@@ -451,7 +452,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link href="/admin/orders" className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
               <div className="flex items-center justify-between">
                 <div>
@@ -479,6 +480,16 @@ const AdminDashboard = () => {
                   <p className="text-sm text-gray-600">Track payment request flow</p>
                 </div>
                 <FaCreditCard className="text-2xl text-gray-400" />
+              </div>
+          </Link>
+
+          <Link href="/admin/ratings" className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-semibold">Cardholder Ratings</h4>
+                  <p className="text-sm text-gray-600">View customer feedback</p>
+                </div>
+                <FaStar className="text-2xl text-gray-400" />
               </div>
           </Link>
         </div>

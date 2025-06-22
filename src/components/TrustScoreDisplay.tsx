@@ -207,17 +207,20 @@ const TrustScoreDisplay: React.FC<TrustScoreDisplayProps> = ({ trustReport, isCo
             <div>
               <p className="text-xs font-semibold text-gray-700 mb-2">Risk Score Breakdown:</p>
               <div className="grid grid-cols-2 gap-2 text-xs">
-                {Object.entries(trustReport.behavioral_analysis).map(([category, analysis]) => (
-                  <div key={category} className="flex justify-between">
-                    <span className="text-gray-600 capitalize">{category}:</span>
-                    <span className={`font-semibold ${
-                      analysis.risk_score > 70 ? 'text-red-600' :
-                      analysis.risk_score > 40 ? 'text-yellow-600' : 'text-green-600'
-                    }`}>
-                      {Math.round(analysis.risk_score)}/100
-                    </span>
-                  </div>
-                ))}
+                {Object.entries(trustReport.behavioral_analysis as Record<string, { risk_score: number }>).map(
+                  ([category, analysis]) => (
+                    <div key={category} className="flex justify-between">
+                      <span className="text-gray-600 capitalize">{category}:</span>
+                      <span className={`font-semibold ${
+                        (analysis as any).risk_score > 70 ? 'text-red-600' :
+                        (analysis as any).risk_score > 40 ? 'text-yellow-600' : 'text-green-600'
+                      }`}>
+                        {Math.round((analysis as any).risk_score)}/100
+                      </span>
+                    </div>
+                  )
+                )}
+
               </div>
             </div>
           )}

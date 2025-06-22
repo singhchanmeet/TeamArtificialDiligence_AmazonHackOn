@@ -207,14 +207,6 @@ The platform includes a powerful admin dashboard built with Next.js and Recharts
 - Track commission distributions and platform revenue
 - Generate comprehensive reports for business insights
 
-## Contributing
-
-We welcome contributions from the community! Please read our contributing guidelines and submit pull requests for any improvements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Team
 
 *Team Artificial Diligence*

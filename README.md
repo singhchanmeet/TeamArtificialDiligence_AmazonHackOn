@@ -138,7 +138,8 @@ TeamArtificialDiligence_AmazonHackOn/
 - Python 3.8+ and pip
 - MongoDB database (local or Atlas)
 - Google OAuth credentials
-
+  
+```
 ### Installation
 
 1. *Clone the repository*
@@ -169,7 +170,7 @@ TeamArtificialDiligence_AmazonHackOn/
 5. *Start the development server*
    bash
    npm run dev
-   
+```
 
 ### Running the ML Models
 

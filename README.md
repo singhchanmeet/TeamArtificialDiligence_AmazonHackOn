@@ -1,21 +1,24 @@
 # Team Artificial Diligence - Amazon HackOn (Season 5)
 
-###  Smart Payment Optimization
+## Smart Payment Optimization
 
+---
 
-## The Problem 
+### The Problem
 
 In today's e-commerce landscape, valuable card-specific discounts often go unused simply because customers don't own the right credit or debit card. This creates a frustrating experience for shoppers and results in significant lost revenue for businesses—nearly 40% of potential sales are abandoned at checkout due to payment friction.
 
 The current ecosystem lacks a mechanism for collaboration between:
-- *Shoppers* who want to avail card-specific discounts to maximize savings.
-- *Cardholders* who have access to these discounts but may not be actively shopping.
+- **Shoppers** who want to avail card-specific discounts to maximize savings.
+- **Cardholders** who have access to these discounts but may not be actively shopping.
 
-## Our Solution
+---
+
+### Our Solution
 
 We've built a *peer-to-peer discount sharing platform* that connects shoppers with cardholders in real-time, enabling both parties to benefit from card-specific discounts.
 
-![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/13.jpeg) 
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/13.jpeg)
 
 - The system introduces a new program where existing users can sign up to become "Cardholders." This allows them to monetize their card benefits by earning a 10% commission on transactions made by other shoppers who use their shared discounts.
 
@@ -43,69 +46,61 @@ We've built a *peer-to-peer discount sharing platform* that connects shoppers wi
 
 - The system provides a comprehensive admin dashboard for complete platform oversight, allowing administrators to monitor key metrics like total revenue, orders, and active cardholders. Analytical graphs for revenue trends and payment requests enable data-driven insights and performance tracking.
 
-### How It Works
+---
 
-1. *Smart Matching*: Our AI-powered system matches shoppers with the most suitable cardholder based on product categories, availability, and discount percentages.
-2. *Seamless Transaction*: The cardholder's card is used for the purchase, and the shopper receives the discount instantly.
-3. *Automatic Commission*: The platform automatically calculates and distributes commissions—90% to the cardholder and 10% to the platform.
-4. *Secure Processing*: Every transaction is protected by our advanced fraud detection system.
-
-## Core Features
+### Core Features
 
 Our platform is packed with features designed to create a seamless and secure ecosystem for sharing discounts.
 
-| Feature                          | Description                                                                                                                                                             |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| *Smart Card Matching*          | An intelligent algorithm connects users with the best available card in real-time by analyzing product categories, user availability, and ranking for the highest discount.   |
-| *Peer-to-Peer Transactions*    | A fully automated workflow handles the entire transaction, from matching and payment requests to secure order processing, creating a seamless experience.                     |
-| *Automated Commission System*  | Transparent reward distribution where cardholders receive 90% of the discount amount as commission, while the platform retains 10% for operational costs.                   |
-| *Real-time Fraud Detection*    | Advanced ML-powered fraud detection system that analyzes 18+ features to identify and block suspicious transactions in real-time.                                          |
-| *Cardholder Feedback System*   | Users can rate cardholders on multiple criteria including discount quality, response time, and overall experience after each transaction.                                   |
-| *Comprehensive Admin Dashboard*| Powerful analytics dashboard for platform administrators to monitor transactions, user activity, and system performance.                                                   |
+| Feature                      | Description                                                                                                                                                             |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Smart Card Matching** | An intelligent algorithm connects users with the best available card in real-time by analyzing product categories, user availability, and ranking for the highest discount. |
+| **Peer-to-Peer Transactions**| A fully automated workflow handles the entire transaction, from matching and payment requests to secure order processing, creating a seamless experience.              |
+| **Automated Commission System** | Transparent reward distribution where cardholders receive 90% of the discount amount as commission, while the platform retains 10% for operational costs.               |
+| **Real-time Fraud Detection** | Advanced ML-powered fraud detection system that analyzes 18+ features to identify and block suspicious transactions in real-time.                                         |
+| **Cardholder Feedback System** | Users can rate cardholders on multiple criteria including discount quality, response time, and overall experience after each transaction.                                 |
+| **Comprehensive Admin Dashboard**| Powerful analytics dashboard for platform administrators to monitor transactions, user activity, and system performance.                                                    |
 
-
+---
 
 ### The AI Engine
 
 Our platform's intelligence is powered by two distinct machine learning models:
 
-| Model                        | Purpose                                                                                                                                                              | Tech Stack                                                                    |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| *GBS Fraud Detection*      | A real-time system that analyzes over 18 transactional and behavioral features to assign a risk score, blocking suspicious payments before they are processed.         | Python, Scikit-learn, Pandas, Flask                                   |
-| *Cardholder Ranking Model* | A sophisticated model that ranks cardholders based on their historical performance, reliability, and user feedback to ensure shoppers are matched with the best peers. | Python, XGBoost, LightGBM, Scikit-learn, Pandas, NumPy, FastAPI, Uvicorn, Matplotlib, Seaborn, Jupyter |
+| Model                     | Purpose                                                                                                                                                              | Tech Stack                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **GBS Fraud Detection** | A real-time system that analyzes over 18 transactional and behavioral features to assign a risk score, blocking suspicious payments before they are processed.      | Python, Scikit-learn, Pandas, Flask                                           |
+| **Cardholder Ranking Model** | A sophisticated model that ranks cardholders based on their historical performance, reliability, and user feedback to ensure shoppers are matched with the best peers. | Python, XGBoost, LightGBM, Scikit-learn, Pandas, NumPy, FastAPI, Uvicorn, Matplotlib, Seaborn, Jupyter |
 
 These models work in tandem to ensure a secure and efficient marketplace.
 
-## System Architecture & Technology Stack
+---
 
-### Frontend
-- *Framework*: Next.js 15.3.3 with TypeScript
-- *Styling*: Tailwind CSS with custom Amazon-themed design system
-- *State Management*: Redux Toolkit with Redux Persist
-- *Authentication*: NextAuth.js with Google OAuth
-- *UI Components*: Custom React components with responsive design
+### System Architecture & Technology Stack
 
-### Backend
-- *Runtime*: Node.js with TypeScript
-- *Database*: MongoDB with Mongoose ODM
-- *API*: Next.js API routes with RESTful architecture
-- *Authentication*: JWT tokens with NextAuth.js
-- *Real-time Features*: WebSocket connections for live updates
+#### **Frontend**
+- **Framework**: Next.js 15.3.3 with TypeScript
+- **Styling**: Tailwind CSS with custom Amazon-themed design system
+- **State Management**: Redux Toolkit with Redux Persist
+- **Authentication**: NextAuth.js with Google OAuth
+- **UI Components**: Custom React components with responsive design
 
-### Machine Learning
-- *Fraud Detection*: Python-based hybrid ML model with Scikit-learn
-- *Cardholder Ranking*: XGBoost and LightGBM models with FastAPI
-- *Feature Engineering*: Advanced preprocessing with Pandas and NumPy
-- *Model Serving*: Flask and FastAPI for real-time inference
+#### **Backend**
+- **Runtime**: Node.js with TypeScript
+- **Database**: MongoDB with Mongoose ODM
+- **API**: Next.js API routes with RESTful architecture
+- **Authentication**: JWT tokens with NextAuth.js
+- **Real-time Features**: WebSocket connections for live updates
 
-### DevOps & Deployment
-- *Platform*: Vercel for frontend and API deployment
-- *Database*: MongoDB Atlas for cloud database
-- *Version Control*: Git with GitHub
-- *Environment*: Production-ready with environment variables
+#### **Machine Learning**
+- **Fraud Detection**: Python-based hybrid ML model with Scikit-learn
+- **Cardholder Ranking**: XGBoost and LightGBM models with FastAPI
+- **Feature Engineering**: Advanced preprocessing with Pandas and NumPy
+- **Model Serving**: Flask and FastAPI for real-time inference
 
-## Project Structure
+---
 
+### Project Structure
 ```
 TeamArtificialDiligence_AmazonHackOn/
 ├── card_ranking_model/
@@ -158,60 +153,60 @@ TeamArtificialDiligence_AmazonHackOn/
 ├── README.md
 └── tailwind.config.ts
 ```
+### Getting Started
 
-## Getting Started
-
-### Prerequisites
+#### **Prerequisites**
 - Node.js 18+ and npm
 - Python 3.8+ and pip
 - MongoDB database (local or Atlas)
 - Google OAuth credentials
-  
-```
-### Installation
 
-1. *Clone the repository*
-   bash
-   git clone <repository-url>
-   cd TeamArtificialDiligence_AmazonHackOn
-   
+#### **Installation**
 
-2. *Install frontend dependencies*
-   bash
-   npm install
-   
+1.  **Clone the repository**
+    ```bash
+    git clone <repository-url>
+    cd TeamArtificialDiligence_AmazonHackOn
+    ```
 
-3. *Install ML model dependencies*
-   bash
-   cd card_ranking_model
-   pip install -r requirements.txt
-   cd ../gbs_ml_model
-   pip install -r requirements.txt
-   
+2.  **Install frontend dependencies**
+    ```bash
+    npm install
+    ```
 
-4. *Set up environment variables*
-   bash
-   cp .env.example .env.local
-   Add your MongoDB URI, Google OAuth credentials, and other required variables
-   
+3.  **Install ML model dependencies**
+    ```bash
+    cd card_ranking_model
+    pip install -r requirements.txt
+    cd ../gbs_ml_model
+    pip install -r requirements.txt
+    ```
 
-5. *Start the development server*
-   bash
-   npm run dev
+4.  **Set up environment variables**
+    ```bash
+    cp .env.example .env.local
+    # Add your MongoDB URI, Google OAuth credentials, and other required variables
+    ```
 
-### Running the ML Models
+5.  **Start the development server**
+    ```bash
+    npm run dev
+    ```
 
-1. *Start the fraud detection API*
-   bash
-   cd gbs_ml_model
-   python server.py
-   
+#### **Running the ML Models**
 
-2. *Start the cardholder ranking API*
-   bash
-   cd card_ranking_model
-   python -m uvicorn api.ranking_api:app --reload
-```
-   
+1.  **Start the fraud detection API**
+    ```bash
+    cd gbs_ml_model
+    python server.py
+    ```
+
+2.  **Start the cardholder ranking API**
+    ```bash
+    cd card_ranking_model
+    python -m uvicorn api.ranking_api:app --reload
+    ```
+
+---
 
 This project was developed as part of Amazon HackOn Season 5, demonstrating the potential of AI-powered peer-to-peer payment solutions in modern e-commerce.

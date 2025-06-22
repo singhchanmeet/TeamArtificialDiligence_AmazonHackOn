@@ -39,6 +39,10 @@ We've built a *peer-to-peer discount sharing platform* that connects shoppers wi
 
 - Once the cardholder approves the request and completes the payment, the system confirms the successful order to the shopper. This final screen verifies that the card discount has been applied, specifies the total amount saved, and includes a prompt for the shopper to rate the cardholder's service.
 
+![image alt](https://github.com/singhchanmeet/TeamArtificialDiligence_AmazonHackOn/blob/d58c9d77f6436893f26400c464f9c5b081887f20/images/10.jpeg)
+
+- The system provides a comprehensive admin dashboard for complete platform oversight, allowing administrators to monitor key metrics like total revenue, orders, and active cardholders. Analytical graphs for revenue trends and payment requests enable data-driven insights and performance tracking.
+
 ### How It Works
 
 1. *Smart Matching*: Our AI-powered system matches shoppers with the most suitable cardholder based on product categories, availability, and discount percentages.

@@ -163,7 +163,7 @@ TeamArtificialDiligence_AmazonHackOn/
 4. *Set up environment variables*
    bash
    cp .env.example .env.local
-   # Add your MongoDB URI, Google OAuth credentials, and other required variables
+   Add your MongoDB URI, Google OAuth credentials, and other required variables
    
 
 5. *Start the development server*

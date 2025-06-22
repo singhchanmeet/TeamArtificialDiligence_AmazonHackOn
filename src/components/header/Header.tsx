@@ -4,7 +4,7 @@ import cartIcon from "../../images/cart.png";
 import { BiCaretDown } from "react-icons/bi";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SlLocationPin } from "react-icons/sl";
-import { FaCreditCard } from "react-icons/fa";
+import { FaCreditCard, FaCog } from "react-icons/fa";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { stateProps } from "../../../type";
@@ -94,6 +94,15 @@ const Header = () => {
             </div>
             }
             
+            {/* Orders Link */}
+            {userInfo && (
+                <Link href="/orders" className="text-xs text-gray-100 flex flex-col justify-center px-2 border
+                border-transparent hover:border-white cursor-pointer duration-300 h-[70%]">
+                    <p>Returns</p>
+                    <p className="text-white font-bold">& Orders</p>
+                </Link>
+            )}
+            
             {/* Cardholder Dashboard Link */}
             {isCardholder && (
                 <Link href="/cardholder-dashboard" className="text-xs text-gray-100 flex flex-col justify-center px-2 border
@@ -110,10 +119,15 @@ const Header = () => {
 
             {/* Admin Dashboard Link */}
             {session?.user?.isAdmin && (
-                <Link href="/admin/dashboard">
-                    <li className="text-sm text-gray-600 hover:text-amazon_blue cursor-pointer duration-300 border-b-[1px] border-b-transparent hover:border-b-amazon_blue">
-                    Admin Dashboard
-                    </li>
+                <Link href="/admin/dashboard" className="text-xs text-gray-100 flex flex-col justify-center px-2 border
+                border-transparent hover:border-white cursor-pointer duration-300 h-[70%] relative">
+                    <div className="flex items-center gap-1">
+                        <FaCog className="text-yellow-400" />
+                        <div>
+                            <p className="text-yellow-400">Admin</p>
+                            <p className="text-white font-bold">Dashboard</p>
+                        </div>
+                    </div>
                 </Link>
             )}
             
